@@ -1,11 +1,11 @@
 ## CurtMe
 
 ## Endpoints
-  * https://curtme.org/ (POST - with url into body) to create your short link
-  * https://curtme.org/{SHORTURL} (GET) redirect to your long URL
-  * https://curtme.org/{SHORTURL}/stats (GET) get your stats
+  * https://curtme.org/ (POST - with url into body) to create your short link :scissors:	
+  * https://curtme.org/{SHORTURL} (GET) redirect to your long URL :arrow_right:
+  * https://curtme.org/{SHORTURL}/stats (GET) get your stats :bar_chart:
   
-## For create your short link
+## For create your short link :scissors:	
 - Request
   execute POST action to https://curtme.org/ with that body json type.
 ```
@@ -22,11 +22,11 @@
 }
 ```
   
-## Redirect to your long URL
+## Redirect to your long URL :arrow_right:
 - Request
   browse to https://curtme.org/{SHORTURL}
 
-## View your links stats
+## View your links stats :bar_chart:
 - Request
   execute GET action to https://curtme.org/{SHORTURL}/stats
   
