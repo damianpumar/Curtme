@@ -7,7 +7,7 @@
   
 ## For create your short link
 - Request
-  Execute POST action to https://curtme.org/ with that body json type.
+  execute POST action to https://curtme.org/ with that body json type.
 ```
 {
     "URL" : "https://YOUR-LONG-URL"
