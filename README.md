@@ -1,5 +1,10 @@
 ## CurtMe
 
+## Pending requirements
+ * Validate if long URL is a website
+ * Allow user to create custom short URL
+ * Track origin ip, user agent for each shorter link visited
+
 ## Endpoints
   * https://curtme.org/ (POST - with url into body) to create your short link :scissors:	
   * https://curtme.org/{SHORTURL} (GET) redirect to your long URL :arrow_right:
