@@ -1,4 +1,5 @@
 ## CurtMe
+[![CircleCI](https://circleci.com/gh/damianpumar/Curtme.svg?style=svg)](https://circleci.com/gh/damianpumar/Curtme)
 
 ## Pending requirements
  * Validate if long URL is a website :white_check_mark:	
