@@ -16,6 +16,9 @@ namespace Curtme.Controllers
             this.linkService = linkService;
         }
 
+        /// <summary>
+        /// Create your short link.
+        /// </summary>
         [HttpPost]
         [Route("/")]
         public IActionResult Create(LinkDTO linkDTO)
@@ -25,6 +28,9 @@ namespace Curtme.Controllers
             return this.Ok(link);
         }
 
+        /// <summary>
+        /// This is the endpoint that people use when they click on a link
+        /// </summary>
         [HttpGet]
         [Route("/{shortURL}")]
         public IActionResult Visited(String shortURL)
@@ -39,6 +45,9 @@ namespace Curtme.Controllers
             return this.Redirect(link.LongURL);
         }
 
+        /// <summary>
+        /// Get the stats of your links
+        /// </summary>
         [HttpGet]
         [Route("/{shortURL}/stats")]
         public IActionResult Stats(String shortURL)
