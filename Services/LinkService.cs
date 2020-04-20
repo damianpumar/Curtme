@@ -38,7 +38,7 @@ namespace Curtme.Services
 
         private string CreateShortURL()
         {
-            var shortURL = RandomShortURL.Create(7);
+            var shortURL = RandomExtensions.Create(7);
 
             var link = this.Get(shortURL);
 

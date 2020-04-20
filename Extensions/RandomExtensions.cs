@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Curtme.Extensions
 {
-    public static class RandomShortURL
+    public static class RandomExtensions
     {
         private static Random random = new Random();
         public static string Create(int length)

@@ -23,6 +23,9 @@ namespace Curtme.Controllers
         [Route("/")]
         public IActionResult Create(LinkDTO linkDTO)
         {
+            if (linkDTO == null || !linkDTO.IsValidURL())
+                return this.BadRequest(new { error = "Invalid URL" });
+
             var link = this.linkService.Create(linkDTO.URL);
 
             return this.Ok(link);
@@ -33,7 +36,7 @@ namespace Curtme.Controllers
         /// </summary>
         [HttpGet]
         [Route("/{shortURL}")]
-        public IActionResult Visited(String shortURL)
+        public IActionResult Visit(String shortURL)
         {
             var link = this.linkService.Get(shortURL);
 
