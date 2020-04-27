@@ -6,7 +6,7 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/Curtme.dll",
+			"program": "${workspaceFolder}/src/bin/Debug/netcoreapp3.1/Curtme.dll",
 			"args": [],
 			"cwd": "${workspaceFolder}",
 			"stopAtEntry": false,
