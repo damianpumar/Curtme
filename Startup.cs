@@ -67,6 +67,10 @@ namespace Curtme
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();
