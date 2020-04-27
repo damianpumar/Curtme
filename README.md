@@ -20,21 +20,11 @@
 - Request
   execute POST action to https://curtme.org/ with that body json type.
 
-```
-{
-    "URL" : "https://YOUR-LONG-URL"
-}
-```
+![alt text](https://github.com/damianpumar/Curtme/blob/master/resources/create-short-link-request.png "Request body")
 
 - Response
 
-```
-{
-    "longURL": "https://YOUR-LONG-URL",
-    "shortURL": "V6DARYX",
-    "visited": 0
-}
-```
+![alt text](https://github.com/damianpumar/Curtme/blob/master/resources/create-short-link-response.png "Response body")
 
 ## Redirect to your long URL :arrow_right:
 
@@ -48,13 +38,7 @@
 
 - Response
 
-```
-{
-    "longURL": "https://YOUR-LONG-URL",
-    "shortURL": "V6DARYX",
-    "visited": 20
-}
-```
+![alt text](https://github.com/damianpumar/Curtme/blob/master/resources/short-link-stats.png "Stats response body")
 
 ## Build and Release
 
