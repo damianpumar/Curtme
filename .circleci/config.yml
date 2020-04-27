@@ -10,6 +10,6 @@ jobs:
     steps:
       - checkout
       - run:
-          working_directory: ~/repo/scr
+          working_directory: ~/repo/src
           command: |
             dotnet build
