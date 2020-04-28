@@ -14,6 +14,11 @@
         });
     }
   }
+
+  function getDateParsed() {
+    const date = new Date(link.date);
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+  }
 </script>
 
 <style>
@@ -82,8 +87,8 @@
   in:fly={{ y: 200, duration: 2000 }}
   out:fade>
   <div class="result">
-    <p class="date-link">27.04.2020</p>
-    <p class="title-link">Home Meet | Stay at home</p>
+    <p class="date-link">{getDateParsed()}</p>
+    <p class="title-link">{link.title}</p>
     <p class="long-link">
       <a href={link.longURL} target="blank">{link.longURL}</a>
     </p>

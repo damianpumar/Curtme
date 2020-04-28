@@ -1340,6 +1340,8 @@ var app = (function () {
     	let p0;
     	let t1;
     	let p1;
+    	let t2_value = /*link*/ ctx[0].title + "";
+    	let t2;
     	let t3;
     	let p2;
     	let a0;
@@ -1366,10 +1368,10 @@ var app = (function () {
     			div2 = element("div");
     			div1 = element("div");
     			p0 = element("p");
-    			p0.textContent = "27.04.2020";
+    			p0.textContent = `${/*getDateParsed*/ ctx[2]()}`;
     			t1 = space();
     			p1 = element("p");
-    			p1.textContent = "Home Meet | Stay at home";
+    			t2 = text(t2_value);
     			t3 = space();
     			p2 = element("p");
     			a0 = element("a");
@@ -1383,28 +1385,28 @@ var app = (function () {
     			t8 = space();
     			button = element("button");
     			attr_dev(p0, "class", "date-link svelte-1bop2m5");
-    			add_location(p0, file$2, 84, 4, 1799);
+    			add_location(p0, file$2, 89, 4, 1948);
     			attr_dev(p1, "class", "title-link svelte-1bop2m5");
-    			add_location(p1, file$2, 85, 4, 1839);
+    			add_location(p1, file$2, 90, 4, 1995);
     			attr_dev(a0, "href", a0_href_value = /*link*/ ctx[0].longURL);
     			attr_dev(a0, "target", "blank");
-    			add_location(a0, file$2, 87, 6, 1922);
+    			add_location(a0, file$2, 92, 6, 2066);
     			attr_dev(p2, "class", "long-link svelte-1bop2m5");
-    			add_location(p2, file$2, 86, 4, 1894);
+    			add_location(p2, file$2, 91, 4, 2038);
     			attr_dev(a1, "href", a1_href_value = "https://curtme.org/" + /*link*/ ctx[0].shortURL);
     			attr_dev(a1, "class", "short_url");
     			attr_dev(a1, "target", "blank");
-    			add_location(a1, file$2, 91, 8, 2047);
+    			add_location(a1, file$2, 96, 8, 2191);
     			attr_dev(p3, "class", "short-link svelte-1bop2m5");
-    			add_location(p3, file$2, 90, 6, 2016);
+    			add_location(p3, file$2, 95, 6, 2160);
     			attr_dev(button, "class", "icon regular fa-copy svelte-1bop2m5");
-    			add_location(button, file$2, 98, 6, 2231);
+    			add_location(button, file$2, 103, 6, 2375);
     			attr_dev(div0, "class", "row");
-    			add_location(div0, file$2, 89, 4, 1992);
+    			add_location(div0, file$2, 94, 4, 2136);
     			attr_dev(div1, "class", "result svelte-1bop2m5");
-    			add_location(div1, file$2, 83, 2, 1774);
+    			add_location(div1, file$2, 88, 2, 1923);
     			attr_dev(div2, "class", "col-12 col-12-mobilep container medium");
-    			add_location(div2, file$2, 79, 0, 1668);
+    			add_location(div2, file$2, 84, 0, 1817);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1415,6 +1417,7 @@ var app = (function () {
     			append_dev(div1, p0);
     			append_dev(div1, t1);
     			append_dev(div1, p1);
+    			append_dev(p1, t2);
     			append_dev(div1, t3);
     			append_dev(div1, p2);
     			append_dev(p2, a0);
@@ -1432,6 +1435,7 @@ var app = (function () {
     			dispose = listen_dev(button, "click", /*copyClipboard*/ ctx[1], false, false, false);
     		},
     		p: function update(ctx, [dirty]) {
+    			if ((!current || dirty & /*link*/ 1) && t2_value !== (t2_value = /*link*/ ctx[0].title + "")) set_data_dev(t2, t2_value);
     			if ((!current || dirty & /*link*/ 1) && t4_value !== (t4_value = /*link*/ ctx[0].longURL + "")) set_data_dev(t4, t4_value);
 
     			if (!current || dirty & /*link*/ 1 && a0_href_value !== (a0_href_value = /*link*/ ctx[0].longURL)) {
@@ -1491,6 +1495,11 @@ var app = (function () {
     		}
     	}
 
+    	function getDateParsed() {
+    		const date = new Date(link.date);
+    		return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+    	}
+
     	const writable_props = ["link"];
 
     	Object.keys($$props).forEach(key => {
@@ -1504,7 +1513,13 @@ var app = (function () {
     		if ("link" in $$props) $$invalidate(0, link = $$props.link);
     	};
 
-    	$$self.$capture_state = () => ({ fade, fly, link, copyClipboard });
+    	$$self.$capture_state = () => ({
+    		fade,
+    		fly,
+    		link,
+    		copyClipboard,
+    		getDateParsed
+    	});
 
     	$$self.$inject_state = $$props => {
     		if ("link" in $$props) $$invalidate(0, link = $$props.link);
@@ -1514,7 +1529,7 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [link, copyClipboard];
+    	return [link, copyClipboard, getDateParsed];
     }
 
     class Link extends SvelteComponentDev {

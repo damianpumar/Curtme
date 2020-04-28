@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using Curtme.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -11,6 +12,7 @@ namespace Curtme.Models
         {
             this.LongURL = longURL;
             this.Date = DateTime.Now;
+            this.Title = this.LongURL.GetTitle();
         }
 
         [JsonIgnore]
@@ -21,6 +23,8 @@ namespace Curtme.Models
         public String LongURL { get; set; }
 
         public String ShortURL { get; set; }
+
+        public String Title { get; set; }
 
         public DateTime Date { get; set; }
 
