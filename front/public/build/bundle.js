@@ -1222,17 +1222,17 @@ var app = (function () {
     			nav = element("nav");
     			ul = element("ul");
     			attr_dev(a, "href", "/");
-    			attr_dev(a, "class", "svelte-eb4kyf");
-    			add_location(a, file$1, 136, 4, 2436);
-    			attr_dev(h1, "class", "svelte-eb4kyf");
-    			add_location(h1, file$1, 135, 2, 2427);
-    			attr_dev(ul, "class", "svelte-eb4kyf");
-    			add_location(ul, file$1, 139, 4, 2488);
+    			attr_dev(a, "class", "svelte-17iygr6");
+    			add_location(a, file$1, 137, 4, 2463);
+    			attr_dev(h1, "class", "svelte-17iygr6");
+    			add_location(h1, file$1, 136, 2, 2454);
+    			attr_dev(ul, "class", "svelte-17iygr6");
+    			add_location(ul, file$1, 140, 4, 2515);
     			attr_dev(nav, "id", "nav");
-    			attr_dev(nav, "class", "svelte-eb4kyf");
-    			add_location(nav, file$1, 138, 2, 2469);
-    			attr_dev(header, "class", "alt svelte-eb4kyf");
-    			add_location(header, file$1, 134, 0, 2404);
+    			attr_dev(nav, "class", "svelte-17iygr6");
+    			add_location(nav, file$1, 139, 2, 2496);
+    			attr_dev(header, "class", "alt svelte-17iygr6");
+    			add_location(header, file$1, 135, 0, 2431);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");

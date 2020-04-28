@@ -47,6 +47,7 @@
     color: #fff;
     font-weight: 400;
     border: 0;
+    text-decoration: none;
   }
 
   header nav {
