@@ -10,6 +10,7 @@ namespace Curtme.Models
         public Link(string longURL)
         {
             this.LongURL = longURL;
+            this.Date = DateTime.Now;
         }
 
         [JsonIgnore]
@@ -20,6 +21,8 @@ namespace Curtme.Models
         public String LongURL { get; set; }
 
         public String ShortURL { get; set; }
+
+        public DateTime Date { get; set; }
 
         public Int32 Visited { get; set; }
     }

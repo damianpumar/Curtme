@@ -3,7 +3,7 @@ using Curtme.Extensions;
 
 namespace Curtme.Models
 {
-    public class LinkDTO
+    public class LinkViewModel
     {
         public String URL { get; set; }
 

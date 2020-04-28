@@ -21,12 +21,12 @@ namespace Curtme.Controllers
         /// </summary>
         [HttpPost]
         [Route("/")]
-        public IActionResult Create(LinkDTO linkDTO)
+        public IActionResult Create(LinkViewModel linkViewModel)
         {
-            if (linkDTO == null || !linkDTO.IsValidURL())
+            if (linkViewModel == null || !linkViewModel.IsValidURL())
                 return this.BadRequest(new { error = "Invalid URL" });
 
-            var link = this.linkService.Create(linkDTO.URL);
+            var link = this.linkService.Create(linkViewModel.URL);
 
             return this.Ok(link);
         }
