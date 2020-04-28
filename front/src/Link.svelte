@@ -21,9 +21,9 @@
     background-color: white;
     border: solid 1px lightgray;
     margin-top: 2em;
-    -webkit-box-shadow: -5px 11px 10px 1px rgba(227, 227, 227, 1);
-    -moz-box-shadow: -5px 11px 10px 1px rgba(227, 227, 227, 1);
-    box-shadow: -5px 11px 10px 1px rgba(227, 227, 227, 1);
+    -webkit-box-shadow: 0px 0px 20px -5px rgba(214, 214, 214, 1);
+    -moz-box-shadow: 0px 0px 20px -5px rgba(214, 214, 214, 1);
+    box-shadow: 0px 0px 20px -5px rgba(214, 214, 214, 1);
   }
 
   .result:hover {
