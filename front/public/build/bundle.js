@@ -4,6 +4,7 @@ var app = (function () {
     'use strict';
 
     function noop() { }
+    const identity = x => x;
     function assign(tar, src) {
         // @ts-ignore
         for (const k in src)
@@ -60,6 +61,41 @@ var app = (function () {
         return $$scope.dirty;
     }
 
+    const is_client = typeof window !== 'undefined';
+    let now = is_client
+        ? () => window.performance.now()
+        : () => Date.now();
+    let raf = is_client ? cb => requestAnimationFrame(cb) : noop;
+
+    const tasks = new Set();
+    function run_tasks(now) {
+        tasks.forEach(task => {
+            if (!task.c(now)) {
+                tasks.delete(task);
+                task.f();
+            }
+        });
+        if (tasks.size !== 0)
+            raf(run_tasks);
+    }
+    /**
+     * Creates a new task that runs on each raf frame
+     * until it returns a falsy value or is aborted
+     */
+    function loop(callback) {
+        let task;
+        if (tasks.size === 0)
+            raf(run_tasks);
+        return {
+            promise: new Promise(fulfill => {
+                tasks.add(task = { c: callback, f: fulfill });
+            }),
+            abort() {
+                tasks.delete(task);
+            }
+        };
+    }
+
     function append(target, node) {
         target.appendChild(node);
     }
@@ -109,6 +145,67 @@ var app = (function () {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, false, false, detail);
         return e;
+    }
+
+    const active_docs = new Set();
+    let active = 0;
+    // https://github.com/darkskyapp/string-hash/blob/master/index.js
+    function hash(str) {
+        let hash = 5381;
+        let i = str.length;
+        while (i--)
+            hash = ((hash << 5) - hash) ^ str.charCodeAt(i);
+        return hash >>> 0;
+    }
+    function create_rule(node, a, b, duration, delay, ease, fn, uid = 0) {
+        const step = 16.666 / duration;
+        let keyframes = '{\n';
+        for (let p = 0; p <= 1; p += step) {
+            const t = a + (b - a) * ease(p);
+            keyframes += p * 100 + `%{${fn(t, 1 - t)}}\n`;
+        }
+        const rule = keyframes + `100% {${fn(b, 1 - b)}}\n}`;
+        const name = `__svelte_${hash(rule)}_${uid}`;
+        const doc = node.ownerDocument;
+        active_docs.add(doc);
+        const stylesheet = doc.__svelte_stylesheet || (doc.__svelte_stylesheet = doc.head.appendChild(element('style')).sheet);
+        const current_rules = doc.__svelte_rules || (doc.__svelte_rules = {});
+        if (!current_rules[name]) {
+            current_rules[name] = true;
+            stylesheet.insertRule(`@keyframes ${name} ${rule}`, stylesheet.cssRules.length);
+        }
+        const animation = node.style.animation || '';
+        node.style.animation = `${animation ? `${animation}, ` : ``}${name} ${duration}ms linear ${delay}ms 1 both`;
+        active += 1;
+        return name;
+    }
+    function delete_rule(node, name) {
+        const previous = (node.style.animation || '').split(', ');
+        const next = previous.filter(name
+            ? anim => anim.indexOf(name) < 0 // remove specific animation
+            : anim => anim.indexOf('__svelte') === -1 // remove all Svelte animations
+        );
+        const deleted = previous.length - next.length;
+        if (deleted) {
+            node.style.animation = next.join(', ');
+            active -= deleted;
+            if (!active)
+                clear_rules();
+        }
+    }
+    function clear_rules() {
+        raf(() => {
+            if (active)
+                return;
+            active_docs.forEach(doc => {
+                const stylesheet = doc.__svelte_stylesheet;
+                let i = stylesheet.cssRules.length;
+                while (i--)
+                    stylesheet.deleteRule(i);
+                doc.__svelte_rules = {};
+            });
+            active_docs.clear();
+        });
     }
 
     let current_component;
@@ -195,6 +292,20 @@ var app = (function () {
             $$.after_update.forEach(add_render_callback);
         }
     }
+
+    let promise;
+    function wait() {
+        if (!promise) {
+            promise = Promise.resolve();
+            promise.then(() => {
+                promise = null;
+            });
+        }
+        return promise;
+    }
+    function dispatch(node, direction, kind) {
+        node.dispatchEvent(custom_event(`${direction ? 'intro' : 'outro'}${kind}`));
+    }
     const outroing = new Set();
     let outros;
     function group_outros() {
@@ -231,6 +342,125 @@ var app = (function () {
             });
             block.o(local);
         }
+    }
+    const null_transition = { duration: 0 };
+    function create_in_transition(node, fn, params) {
+        let config = fn(node, params);
+        let running = false;
+        let animation_name;
+        let task;
+        let uid = 0;
+        function cleanup() {
+            if (animation_name)
+                delete_rule(node, animation_name);
+        }
+        function go() {
+            const { delay = 0, duration = 300, easing = identity, tick = noop, css } = config || null_transition;
+            if (css)
+                animation_name = create_rule(node, 0, 1, duration, delay, easing, css, uid++);
+            tick(0, 1);
+            const start_time = now() + delay;
+            const end_time = start_time + duration;
+            if (task)
+                task.abort();
+            running = true;
+            add_render_callback(() => dispatch(node, true, 'start'));
+            task = loop(now => {
+                if (running) {
+                    if (now >= end_time) {
+                        tick(1, 0);
+                        dispatch(node, true, 'end');
+                        cleanup();
+                        return running = false;
+                    }
+                    if (now >= start_time) {
+                        const t = easing((now - start_time) / duration);
+                        tick(t, 1 - t);
+                    }
+                }
+                return running;
+            });
+        }
+        let started = false;
+        return {
+            start() {
+                if (started)
+                    return;
+                delete_rule(node);
+                if (is_function(config)) {
+                    config = config();
+                    wait().then(go);
+                }
+                else {
+                    go();
+                }
+            },
+            invalidate() {
+                started = false;
+            },
+            end() {
+                if (running) {
+                    cleanup();
+                    running = false;
+                }
+            }
+        };
+    }
+    function create_out_transition(node, fn, params) {
+        let config = fn(node, params);
+        let running = true;
+        let animation_name;
+        const group = outros;
+        group.r += 1;
+        function go() {
+            const { delay = 0, duration = 300, easing = identity, tick = noop, css } = config || null_transition;
+            if (css)
+                animation_name = create_rule(node, 1, 0, duration, delay, easing, css);
+            const start_time = now() + delay;
+            const end_time = start_time + duration;
+            add_render_callback(() => dispatch(node, false, 'start'));
+            loop(now => {
+                if (running) {
+                    if (now >= end_time) {
+                        tick(0, 1);
+                        dispatch(node, false, 'end');
+                        if (!--group.r) {
+                            // this will result in `end()` being called,
+                            // so we don't need to clean up here
+                            run_all(group.c);
+                        }
+                        return false;
+                    }
+                    if (now >= start_time) {
+                        const t = easing((now - start_time) / duration);
+                        tick(1 - t, t);
+                    }
+                }
+                return running;
+            });
+        }
+        if (is_function(config)) {
+            wait().then(() => {
+                // @ts-ignore
+                config = config();
+                go();
+            });
+        }
+        else {
+            go();
+        }
+        return {
+            end(reset) {
+                if (reset && config.tick) {
+                    config.tick(1, 0);
+                }
+                if (running) {
+                    if (animation_name)
+                        delete_rule(node, animation_name);
+                    running = false;
+                }
+            }
+        };
     }
 
     const globals = (typeof window !== 'undefined'
@@ -1072,8 +1302,36 @@ var app = (function () {
     	}
     }
 
-    /* src/Link.svelte generated by Svelte v3.21.0 */
+    function cubicOut(t) {
+        const f = t - 1.0;
+        return f * f * f + 1.0;
+    }
 
+    function fade(node, { delay = 0, duration = 400, easing = identity }) {
+        const o = +getComputedStyle(node).opacity;
+        return {
+            delay,
+            duration,
+            easing,
+            css: t => `opacity: ${t * o}`
+        };
+    }
+    function fly(node, { delay = 0, duration = 400, easing = cubicOut, x = 0, y = 0, opacity = 0 }) {
+        const style = getComputedStyle(node);
+        const target_opacity = +style.opacity;
+        const transform = style.transform === 'none' ? '' : style.transform;
+        const od = target_opacity * (1 - opacity);
+        return {
+            delay,
+            duration,
+            easing,
+            css: (t, u) => `
+			transform: ${transform} translate(${(1 - t) * x}px, ${(1 - t) * y}px);
+			opacity: ${target_opacity - (od * u)}`
+        };
+    }
+
+    /* src/Link.svelte generated by Svelte v3.21.0 */
     const file$2 = "src/Link.svelte";
 
     function create_fragment$3(ctx) {
@@ -1098,6 +1356,9 @@ var app = (function () {
     	let a1_href_value;
     	let t8;
     	let button;
+    	let div2_intro;
+    	let div2_outro;
+    	let current;
     	let dispose;
 
     	const block = {
@@ -1123,28 +1384,28 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Copy";
     			attr_dev(p0, "class", "date-link svelte-xvho8v");
-    			add_location(p0, file$2, 72, 4, 1580);
+    			add_location(p0, file$2, 77, 4, 1681);
     			attr_dev(p1, "class", "title-link svelte-xvho8v");
-    			add_location(p1, file$2, 73, 4, 1620);
+    			add_location(p1, file$2, 78, 4, 1721);
     			attr_dev(a0, "href", a0_href_value = /*link*/ ctx[0].longURL);
     			attr_dev(a0, "target", "blank");
-    			add_location(a0, file$2, 75, 6, 1703);
+    			add_location(a0, file$2, 80, 6, 1804);
     			attr_dev(p2, "class", "long-link svelte-xvho8v");
-    			add_location(p2, file$2, 74, 4, 1675);
+    			add_location(p2, file$2, 79, 4, 1776);
     			attr_dev(a1, "href", a1_href_value = "https://curtme.org/" + /*link*/ ctx[0].shortURL);
     			attr_dev(a1, "class", "short_url");
     			attr_dev(a1, "target", "blank");
-    			add_location(a1, file$2, 79, 8, 1828);
+    			add_location(a1, file$2, 84, 8, 1929);
     			attr_dev(p3, "class", "short-link svelte-xvho8v");
-    			add_location(p3, file$2, 78, 6, 1797);
+    			add_location(p3, file$2, 83, 6, 1898);
     			attr_dev(button, "class", "svelte-xvho8v");
-    			add_location(button, file$2, 86, 6, 2012);
+    			add_location(button, file$2, 91, 6, 2113);
     			attr_dev(div0, "class", "row");
-    			add_location(div0, file$2, 77, 4, 1773);
+    			add_location(div0, file$2, 82, 4, 1874);
     			attr_dev(div1, "class", "result svelte-xvho8v");
-    			add_location(div1, file$2, 71, 2, 1555);
+    			add_location(div1, file$2, 76, 2, 1656);
     			attr_dev(div2, "class", "col-12 col-12-mobilep container medium");
-    			add_location(div2, file$2, 70, 0, 1500);
+    			add_location(div2, file$2, 72, 0, 1550);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1167,26 +1428,42 @@ var app = (function () {
     			append_dev(a1, t7);
     			append_dev(div0, t8);
     			append_dev(div0, button);
+    			current = true;
     			if (remount) dispose();
     			dispose = listen_dev(button, "click", /*copyClipboard*/ ctx[1], false, false, false);
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*link*/ 1 && t4_value !== (t4_value = /*link*/ ctx[0].longURL + "")) set_data_dev(t4, t4_value);
+    			if ((!current || dirty & /*link*/ 1) && t4_value !== (t4_value = /*link*/ ctx[0].longURL + "")) set_data_dev(t4, t4_value);
 
-    			if (dirty & /*link*/ 1 && a0_href_value !== (a0_href_value = /*link*/ ctx[0].longURL)) {
+    			if (!current || dirty & /*link*/ 1 && a0_href_value !== (a0_href_value = /*link*/ ctx[0].longURL)) {
     				attr_dev(a0, "href", a0_href_value);
     			}
 
-    			if (dirty & /*link*/ 1 && t7_value !== (t7_value = /*link*/ ctx[0].shortURL + "")) set_data_dev(t7, t7_value);
+    			if ((!current || dirty & /*link*/ 1) && t7_value !== (t7_value = /*link*/ ctx[0].shortURL + "")) set_data_dev(t7, t7_value);
 
-    			if (dirty & /*link*/ 1 && a1_href_value !== (a1_href_value = "https://curtme.org/" + /*link*/ ctx[0].shortURL)) {
+    			if (!current || dirty & /*link*/ 1 && a1_href_value !== (a1_href_value = "https://curtme.org/" + /*link*/ ctx[0].shortURL)) {
     				attr_dev(a1, "href", a1_href_value);
     			}
     		},
-    		i: noop,
-    		o: noop,
+    		i: function intro(local) {
+    			if (current) return;
+
+    			add_render_callback(() => {
+    				if (div2_outro) div2_outro.end(1);
+    				if (!div2_intro) div2_intro = create_in_transition(div2, fly, { y: 200, duration: 2000 });
+    				div2_intro.start();
+    			});
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			if (div2_intro) div2_intro.invalidate();
+    			div2_outro = create_out_transition(div2, fade, {});
+    			current = false;
+    		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div2);
+    			if (detaching && div2_outro) div2_outro.end();
     			dispose();
     		}
     	};
@@ -1228,7 +1505,7 @@ var app = (function () {
     		if ("link" in $$props) $$invalidate(0, link = $$props.link);
     	};
 
-    	$$self.$capture_state = () => ({ link, copyClipboard });
+    	$$self.$capture_state = () => ({ fade, fly, link, copyClipboard });
 
     	$$self.$inject_state = $$props => {
     		if ("link" in $$props) $$invalidate(0, link = $$props.link);
@@ -1518,7 +1795,7 @@ var app = (function () {
     	});
 
     	function addNewLink(link) {
-    		$$invalidate(1, links = [...links, link]);
+    		$$invalidate(1, links = [link, ...links]);
     		localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
     	}
 

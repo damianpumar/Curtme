@@ -16,7 +16,7 @@
   });
 
   function addNewLink(link) {
-    links = [...links, link];
+    links = [link, ...links];
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
   }

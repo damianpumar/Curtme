@@ -1,4 +1,6 @@
 <script>
+  import { fade, fly } from "svelte/transition";
+
   export let link;
 
   function copyClipboard() {
@@ -68,7 +70,10 @@
   }
 </style>
 
-<div class="col-12 col-12-mobilep container medium">
+<div
+  class="col-12 col-12-mobilep container medium"
+  in:fly={{ y: 200, duration: 2000 }}
+  out:fade>
   <div class="result">
     <p class="date-link">27.04.2020</p>
     <p class="title-link">Home Meet | Stay at home</p>
