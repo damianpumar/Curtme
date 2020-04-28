@@ -5,7 +5,7 @@
 ## Pending requirements
 
 - Validate if long URL is a website :white_check_mark:
-- Website for end users
+- Website for end users :white_check_mark:
 - Allow user to create custom short URL
 - Track origin ip, user agent for each shorter link visited
 
