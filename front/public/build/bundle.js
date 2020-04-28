@@ -1555,7 +1555,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (72:0) {#each links as link}
+    // (71:0) {#each links as link}
     function create_each_block(ctx) {
     	let current;
 
@@ -1595,7 +1595,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(72:0) {#each links as link}",
+    		source: "(71:0) {#each links as link}",
     		ctx
     	});
 
@@ -1661,18 +1661,17 @@ var app = (function () {
     			attr_dev(input, "type", "text");
     			attr_dev(input, "autocomplete", "false");
     			attr_dev(input, "placeholder", "Paste long url and shorten it");
-    			input.required = true;
     			add_location(input, file$3, 54, 6, 1104);
     			attr_dev(div0, "class", "col-12 col-12-mobilep");
     			add_location(div0, file$3, 53, 4, 1062);
     			attr_dev(div1, "class", "row");
     			add_location(div1, file$3, 52, 2, 1040);
     			attr_dev(button, "class", "button");
-    			add_location(button, file$3, 66, 6, 1439);
+    			add_location(button, file$3, 65, 6, 1422);
     			attr_dev(div2, "class", "col-12 col-12-mobilep");
-    			add_location(div2, file$3, 65, 4, 1397);
+    			add_location(div2, file$3, 64, 4, 1380);
     			attr_dev(div3, "class", "row");
-    			add_location(div3, file$3, 64, 2, 1375);
+    			add_location(div3, file$3, 63, 2, 1358);
     			attr_dev(section, "id", "banner");
     			attr_dev(section, "class", "container medium");
     			add_location(section, file$3, 49, 0, 915);
