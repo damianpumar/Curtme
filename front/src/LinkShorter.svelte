@@ -8,6 +8,7 @@
   let links = [];
 
   onMount(() => {
+    document.getElementById("longURL").focus();
     const linksStored = localStorage.getItem(STORAGE_KEY);
 
     if (linksStored) {
@@ -50,7 +51,9 @@
   <div class="row">
     <div class="col-12 col-12-mobilep">
       <input
+        id="longURL"
         type="text"
+        autocomplete="false"
         bind:value={longURL}
         placeholder="Paste long url and shorten it"
         on:keypress={e => (e.keyCode == 13 ? createShortURL() : null)}

@@ -1556,7 +1556,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (67:0) {#each links as link}
+    // (70:0) {#each links as link}
     function create_each_block(ctx) {
     	let current;
 
@@ -1596,7 +1596,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(67:0) {#each links as link}",
+    		source: "(70:0) {#each links as link}",
     		ctx
     	});
 
@@ -1656,25 +1656,27 @@ var app = (function () {
     			}
 
     			each_1_anchor = empty();
-    			add_location(h2, file$3, 47, 2, 889);
-    			add_location(p, file$3, 48, 2, 911);
+    			add_location(h2, file$3, 48, 2, 937);
+    			add_location(p, file$3, 49, 2, 959);
+    			attr_dev(input, "id", "longURL");
     			attr_dev(input, "type", "text");
+    			attr_dev(input, "autocomplete", "false");
     			attr_dev(input, "placeholder", "Paste long url and shorten it");
     			input.required = true;
-    			add_location(input, file$3, 51, 6, 1029);
+    			add_location(input, file$3, 52, 6, 1077);
     			attr_dev(div0, "class", "col-12 col-12-mobilep");
-    			add_location(div0, file$3, 50, 4, 987);
+    			add_location(div0, file$3, 51, 4, 1035);
     			attr_dev(div1, "class", "row");
-    			add_location(div1, file$3, 49, 2, 965);
+    			add_location(div1, file$3, 50, 2, 1013);
     			attr_dev(button, "class", "button");
-    			add_location(button, file$3, 61, 6, 1314);
+    			add_location(button, file$3, 64, 6, 1412);
     			attr_dev(div2, "class", "col-12 col-12-mobilep");
-    			add_location(div2, file$3, 60, 4, 1272);
+    			add_location(div2, file$3, 63, 4, 1370);
     			attr_dev(div3, "class", "row");
-    			add_location(div3, file$3, 59, 2, 1250);
+    			add_location(div3, file$3, 62, 2, 1348);
     			attr_dev(section, "id", "banner");
     			attr_dev(section, "class", "container medium");
-    			add_location(section, file$3, 46, 0, 840);
+    			add_location(section, file$3, 47, 0, 888);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1787,6 +1789,7 @@ var app = (function () {
     	let links = [];
 
     	onMount(() => {
+    		document.getElementById("longURL").focus();
     		const linksStored = localStorage.getItem(STORAGE_KEY);
 
     		if (linksStored) {
