@@ -1382,30 +1382,29 @@ var app = (function () {
     			t7 = text(t7_value);
     			t8 = space();
     			button = element("button");
-    			button.textContent = "Copy";
-    			attr_dev(p0, "class", "date-link svelte-c79ie7");
-    			add_location(p0, file$2, 79, 4, 1726);
-    			attr_dev(p1, "class", "title-link svelte-c79ie7");
-    			add_location(p1, file$2, 80, 4, 1766);
+    			attr_dev(p0, "class", "date-link svelte-1bop2m5");
+    			add_location(p0, file$2, 84, 4, 1799);
+    			attr_dev(p1, "class", "title-link svelte-1bop2m5");
+    			add_location(p1, file$2, 85, 4, 1839);
     			attr_dev(a0, "href", a0_href_value = /*link*/ ctx[0].longURL);
     			attr_dev(a0, "target", "blank");
-    			add_location(a0, file$2, 82, 6, 1849);
-    			attr_dev(p2, "class", "long-link svelte-c79ie7");
-    			add_location(p2, file$2, 81, 4, 1821);
+    			add_location(a0, file$2, 87, 6, 1922);
+    			attr_dev(p2, "class", "long-link svelte-1bop2m5");
+    			add_location(p2, file$2, 86, 4, 1894);
     			attr_dev(a1, "href", a1_href_value = "https://curtme.org/" + /*link*/ ctx[0].shortURL);
     			attr_dev(a1, "class", "short_url");
     			attr_dev(a1, "target", "blank");
-    			add_location(a1, file$2, 86, 8, 1974);
-    			attr_dev(p3, "class", "short-link svelte-c79ie7");
-    			add_location(p3, file$2, 85, 6, 1943);
-    			attr_dev(button, "class", "svelte-c79ie7");
-    			add_location(button, file$2, 93, 6, 2158);
+    			add_location(a1, file$2, 91, 8, 2047);
+    			attr_dev(p3, "class", "short-link svelte-1bop2m5");
+    			add_location(p3, file$2, 90, 6, 2016);
+    			attr_dev(button, "class", "icon regular fa-copy svelte-1bop2m5");
+    			add_location(button, file$2, 98, 6, 2231);
     			attr_dev(div0, "class", "row");
-    			add_location(div0, file$2, 84, 4, 1919);
-    			attr_dev(div1, "class", "result svelte-c79ie7");
-    			add_location(div1, file$2, 78, 2, 1701);
+    			add_location(div0, file$2, 89, 4, 1992);
+    			attr_dev(div1, "class", "result svelte-1bop2m5");
+    			add_location(div1, file$2, 83, 2, 1774);
     			attr_dev(div2, "class", "col-12 col-12-mobilep container medium");
-    			add_location(div2, file$2, 74, 0, 1595);
+    			add_location(div2, file$2, 79, 0, 1668);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1556,7 +1555,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (70:0) {#each links as link}
+    // (72:0) {#each links as link}
     function create_each_block(ctx) {
     	let current;
 
@@ -1596,7 +1595,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(70:0) {#each links as link}",
+    		source: "(72:0) {#each links as link}",
     		ctx
     	});
 
@@ -1656,27 +1655,27 @@ var app = (function () {
     			}
 
     			each_1_anchor = empty();
-    			add_location(h2, file$3, 48, 2, 937);
-    			add_location(p, file$3, 49, 2, 959);
+    			add_location(h2, file$3, 50, 2, 964);
+    			add_location(p, file$3, 51, 2, 986);
     			attr_dev(input, "id", "longURL");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "autocomplete", "false");
     			attr_dev(input, "placeholder", "Paste long url and shorten it");
     			input.required = true;
-    			add_location(input, file$3, 52, 6, 1077);
+    			add_location(input, file$3, 54, 6, 1104);
     			attr_dev(div0, "class", "col-12 col-12-mobilep");
-    			add_location(div0, file$3, 51, 4, 1035);
+    			add_location(div0, file$3, 53, 4, 1062);
     			attr_dev(div1, "class", "row");
-    			add_location(div1, file$3, 50, 2, 1013);
+    			add_location(div1, file$3, 52, 2, 1040);
     			attr_dev(button, "class", "button");
-    			add_location(button, file$3, 64, 6, 1412);
+    			add_location(button, file$3, 66, 6, 1439);
     			attr_dev(div2, "class", "col-12 col-12-mobilep");
-    			add_location(div2, file$3, 63, 4, 1370);
+    			add_location(div2, file$3, 65, 4, 1397);
     			attr_dev(div3, "class", "row");
-    			add_location(div3, file$3, 62, 2, 1348);
+    			add_location(div3, file$3, 64, 2, 1375);
     			attr_dev(section, "id", "banner");
     			attr_dev(section, "class", "container medium");
-    			add_location(section, file$3, 47, 0, 888);
+    			add_location(section, file$3, 49, 0, 915);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1803,6 +1802,7 @@ var app = (function () {
     	}
 
     	async function createShortURL() {
+    		if (!longURL) return;
     		const data = { url: longURL };
 
     		const response = await fetch("https://curtme.org", {

@@ -66,9 +66,14 @@
 
   button {
     background-color: transparent;
-    box-shadow: inset 0 0 0 2px #999;
+    box-shadow: unset !important;
     color: #e89980;
-    text-align: center;
+    padding-top: 10px;
+    padding-left: 1px !important;
+  }
+
+  button:hover {
+    color: lightgray;
   }
 </style>
 
@@ -91,7 +96,7 @@
           https://curtme.org/{link.shortURL}
         </a>
       </p>
-      <button on:click={copyClipboard}>Copy</button>
+      <button class="icon regular fa-copy" on:click={copyClipboard} />
     </div>
   </div>
 </div>

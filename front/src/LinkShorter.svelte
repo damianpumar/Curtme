@@ -23,6 +23,8 @@
   }
 
   async function createShortURL() {
+    if (!longURL) return;
+
     const data = {
       url: longURL
     };
