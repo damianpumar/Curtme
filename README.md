@@ -6,6 +6,8 @@
 
 - Validate if long URL is a website :white_check_mark:
 - Website for end users :white_check_mark:
+- Show clicks on the fronted
+- Add login functionality 
 - Allow user to create custom short URL
 - Track origin ip, user agent for each shorter link visited
 
