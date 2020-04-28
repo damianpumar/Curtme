@@ -42,7 +42,7 @@
 
 ## Build and Release
 
-- dotnet publish ./src -c Release -o ../publish
+- dotnet publish ./back/src -c Release -o ../publish
 
 ## License
 
