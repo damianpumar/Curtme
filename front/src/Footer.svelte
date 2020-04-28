@@ -54,6 +54,13 @@
         <span class="label">Github</span>
       </a>
     </li>
+    <li>
+      <a
+        href="https://curtme.org/developer/"
+        class="icon brands fa-connectdevelop">
+        <span class="label">Swagger</span>
+      </a>
+    </li>
   </ul>
   <ul class="copyright">
     <li>&copy; Curtme.org</li>

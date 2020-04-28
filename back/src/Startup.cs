@@ -72,6 +72,7 @@ namespace Curtme
                 .AllowAnyMethod());
 
             app.UseDefaultFiles();
+
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();

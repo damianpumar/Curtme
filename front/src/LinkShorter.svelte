@@ -49,7 +49,7 @@
 
 <section id="banner" class="container medium">
   <h2>Curtme.org</h2>
-  <p>Free, open source and unlimited link shorter</p>
+  <p>Free open source and unlimited link shorter</p>
   <div class="row">
     <div class="col-12 col-12-mobilep">
       <input
