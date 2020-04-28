@@ -19,6 +19,7 @@
 <style>
   .result {
     background-color: white;
+    border-radius: 5px;
     border: solid 1px lightgray;
     margin-top: 2em;
     -webkit-box-shadow: 0px 0px 20px -5px rgba(214, 214, 214, 1);
