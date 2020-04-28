@@ -46,6 +46,7 @@
     text-align: center !important;
     border: solid 1px black;
     width: 15%;
+    border-radius: 3px;
   }
 
   .title-link {
