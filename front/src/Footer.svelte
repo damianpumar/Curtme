@@ -85,6 +85,15 @@
         <span class="label">Bug</span>
       </a>
     </li>
+    <li>
+      <a
+        href="https://ko-fi.com/D1D11NVC3"
+        title="Buy me a coffee"
+        target="_blank"
+        class="icon solid fa-coffee">
+        <span class="label">Buy me a Coffee</span>
+      </a>
+    </li>
   </ul>
   <ul class="copyright">
     <li>&copy; Curtme.org</li>
