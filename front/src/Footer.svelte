@@ -64,6 +64,7 @@
     <li>
       <a
         href="https://github.com/damianpumar/Curtme"
+        title="Repository open source"
         class="icon brands fa-github">
         <span class="label">Github</span>
       </a>
@@ -71,8 +72,19 @@
     <li>
       <a
         href="https://curtme.org/developer/"
+        target="_blank"
+        title="Developer site"
         class="icon brands fa-connectdevelop">
         <span class="label">Swagger</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://github.com/damianpumar/Curtme/issues/new/"
+        target="_blank"
+        title="you found an error?"
+        class="icon solid fa-bug">
+        <span class="label">Bug</span>
       </a>
     </li>
   </ul>
