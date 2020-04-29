@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/damianpumar/Curtme.svg?style=svg)](https://circleci.com/gh/damianpumar/Curtme)
 
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D11NVC3)
+
 ## Pending requirements
 
 - Validate if long URL is a website :white_check_mark:
