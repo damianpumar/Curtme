@@ -135,9 +135,9 @@
         </a>
       </p>
       <button class="icon regular fa-copy" on:click={copyClipboard} />
-      <div class="res-circle">
+      <!-- <div class="res-circle">
         <div class="circle-txt">{link.visited}</div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

@@ -1669,8 +1669,8 @@ var app = (function () {
     const file$3 = "src/Link.svelte";
 
     function create_fragment$4(ctx) {
-    	let div4;
-    	let div3;
+    	let div2;
+    	let div1;
     	let p0;
     	let t1;
     	let p1;
@@ -1683,7 +1683,7 @@ var app = (function () {
     	let t4;
     	let a0_href_value;
     	let t5;
-    	let div2;
+    	let div0;
     	let p3;
     	let a1;
     	let t6_value = endpoint + /*link*/ ctx[0].shortURL + "";
@@ -1691,20 +1691,15 @@ var app = (function () {
     	let a1_href_value;
     	let t7;
     	let button;
-    	let t8;
-    	let div1;
-    	let div0;
-    	let t9_value = /*link*/ ctx[0].visited + "";
-    	let t9;
-    	let div4_intro;
-    	let div4_outro;
+    	let div2_intro;
+    	let div2_outro;
     	let current;
     	let dispose;
 
     	const block = {
     		c: function create() {
-    			div4 = element("div");
-    			div3 = element("div");
+    			div2 = element("div");
+    			div1 = element("div");
     			p0 = element("p");
     			p0.textContent = `${/*getDateParsed*/ ctx[2]()}`;
     			t1 = space();
@@ -1715,16 +1710,12 @@ var app = (function () {
     			a0 = element("a");
     			t4 = text(t4_value);
     			t5 = space();
-    			div2 = element("div");
+    			div0 = element("div");
     			p3 = element("p");
     			a1 = element("a");
     			t6 = text(t6_value);
     			t7 = space();
     			button = element("button");
-    			t8 = space();
-    			div1 = element("div");
-    			div0 = element("div");
-    			t9 = text(t9_value);
     			attr_dev(p0, "class", "date-link svelte-ixibqa");
     			add_location(p0, file$3, 125, 4, 2592);
     			attr_dev(p1, "class", "title-link svelte-ixibqa");
@@ -1742,42 +1733,34 @@ var app = (function () {
     			add_location(p3, file$3, 131, 6, 2804);
     			attr_dev(button, "class", "icon regular fa-copy svelte-ixibqa");
     			add_location(button, file$3, 136, 6, 2971);
-    			attr_dev(div0, "class", "circle-txt svelte-ixibqa");
-    			add_location(div0, file$3, 138, 8, 3075);
-    			attr_dev(div1, "class", "res-circle svelte-ixibqa");
-    			add_location(div1, file$3, 137, 6, 3042);
-    			attr_dev(div2, "class", "row");
-    			add_location(div2, file$3, 130, 4, 2780);
-    			attr_dev(div3, "class", "result svelte-ixibqa");
-    			add_location(div3, file$3, 124, 2, 2567);
-    			attr_dev(div4, "class", "col-12 col-12-mobilep container medium");
-    			add_location(div4, file$3, 120, 0, 2461);
+    			attr_dev(div0, "class", "row");
+    			add_location(div0, file$3, 130, 4, 2780);
+    			attr_dev(div1, "class", "result svelte-ixibqa");
+    			add_location(div1, file$3, 124, 2, 2567);
+    			attr_dev(div2, "class", "col-12 col-12-mobilep container medium");
+    			add_location(div2, file$3, 120, 0, 2461);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor, remount) {
-    			insert_dev(target, div4, anchor);
-    			append_dev(div4, div3);
-    			append_dev(div3, p0);
-    			append_dev(div3, t1);
-    			append_dev(div3, p1);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div1);
+    			append_dev(div1, p0);
+    			append_dev(div1, t1);
+    			append_dev(div1, p1);
     			append_dev(p1, t2);
-    			append_dev(div3, t3);
-    			append_dev(div3, p2);
+    			append_dev(div1, t3);
+    			append_dev(div1, p2);
     			append_dev(p2, a0);
     			append_dev(a0, t4);
-    			append_dev(div3, t5);
-    			append_dev(div3, div2);
-    			append_dev(div2, p3);
+    			append_dev(div1, t5);
+    			append_dev(div1, div0);
+    			append_dev(div0, p3);
     			append_dev(p3, a1);
     			append_dev(a1, t6);
-    			append_dev(div2, t7);
-    			append_dev(div2, button);
-    			append_dev(div2, t8);
-    			append_dev(div2, div1);
-    			append_dev(div1, div0);
-    			append_dev(div0, t9);
+    			append_dev(div0, t7);
+    			append_dev(div0, button);
     			current = true;
     			if (remount) dispose();
     			dispose = listen_dev(button, "click", /*copyClipboard*/ ctx[1], false, false, false);
@@ -1795,28 +1778,26 @@ var app = (function () {
     			if (!current || dirty & /*link*/ 1 && a1_href_value !== (a1_href_value = endpoint + /*link*/ ctx[0].shortURL)) {
     				attr_dev(a1, "href", a1_href_value);
     			}
-
-    			if ((!current || dirty & /*link*/ 1) && t9_value !== (t9_value = /*link*/ ctx[0].visited + "")) set_data_dev(t9, t9_value);
     		},
     		i: function intro(local) {
     			if (current) return;
 
     			add_render_callback(() => {
-    				if (div4_outro) div4_outro.end(1);
-    				if (!div4_intro) div4_intro = create_in_transition(div4, fly, { y: 200, duration: 2000 });
-    				div4_intro.start();
+    				if (div2_outro) div2_outro.end(1);
+    				if (!div2_intro) div2_intro = create_in_transition(div2, fly, { y: 200, duration: 2000 });
+    				div2_intro.start();
     			});
 
     			current = true;
     		},
     		o: function outro(local) {
-    			if (div4_intro) div4_intro.invalidate();
-    			div4_outro = create_out_transition(div4, fade, {});
+    			if (div2_intro) div2_intro.invalidate();
+    			div2_outro = create_out_transition(div2, fade, {});
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div4);
-    			if (detaching && div4_outro) div4_outro.end();
+    			if (detaching) detach_dev(div2);
+    			if (detaching && div2_outro) div2_outro.end();
     			dispose();
     		}
     	};
