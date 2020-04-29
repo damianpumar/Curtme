@@ -1671,7 +1671,7 @@ var app = (function () {
     const file$3 = "src/Link.svelte";
 
     function create_fragment$4(ctx) {
-    	let div3;
+    	let section;
     	let div2;
     	let p0;
     	let t1;
@@ -1699,14 +1699,16 @@ var app = (function () {
     	let t9_value = /*link*/ ctx[0].visited + "";
     	let t9;
     	let t10;
-    	let div3_intro;
-    	let div3_outro;
+    	let t11_value = (/*link*/ ctx[0].visited === 1 ? "Click" : "Clicks") + "";
+    	let t11;
+    	let section_intro;
+    	let section_outro;
     	let current;
     	let dispose;
 
     	const block = {
     		c: function create() {
-    			div3 = element("div");
+    			section = element("section");
     			div2 = element("div");
     			p0 = element("p");
     			p0.textContent = `${/*getDateParsed*/ ctx[2]()}`;
@@ -1728,40 +1730,41 @@ var app = (function () {
     			div0 = element("div");
     			span = element("span");
     			t9 = text(t9_value);
-    			t10 = text(" Clicks");
-    			attr_dev(p0, "class", "date-link svelte-14xjk67");
-    			add_location(p0, file$3, 98, 4, 2143);
-    			attr_dev(p1, "class", "title-link svelte-14xjk67");
-    			add_location(p1, file$3, 99, 4, 2190);
+    			t10 = space();
+    			t11 = text(t11_value);
+    			attr_dev(p0, "class", "date-link svelte-m2s409");
+    			add_location(p0, file$3, 107, 4, 2309);
+    			attr_dev(p1, "class", "title-link svelte-m2s409");
+    			add_location(p1, file$3, 108, 4, 2356);
     			attr_dev(a0, "href", a0_href_value = /*link*/ ctx[0].longURL);
     			attr_dev(a0, "target", "blank");
-    			add_location(a0, file$3, 101, 6, 2261);
-    			attr_dev(p2, "class", "long-link svelte-14xjk67");
-    			add_location(p2, file$3, 100, 4, 2233);
+    			add_location(a0, file$3, 110, 6, 2427);
+    			attr_dev(p2, "class", "long-link svelte-m2s409");
+    			add_location(p2, file$3, 109, 4, 2399);
     			attr_dev(a1, "href", a1_href_value = VISIT_LINK(/*link*/ ctx[0].shortURL));
     			attr_dev(a1, "class", "short_url");
     			attr_dev(a1, "target", "blank");
-    			add_location(a1, file$3, 105, 8, 2386);
-    			attr_dev(p3, "class", "short-link svelte-14xjk67");
-    			add_location(p3, file$3, 104, 6, 2355);
-    			attr_dev(button, "class", "icon regular fa-copy svelte-14xjk67");
-    			add_location(button, file$3, 109, 6, 2524);
-    			add_location(span, file$3, 111, 8, 2630);
-    			attr_dev(div0, "class", "visited-link svelte-14xjk67");
-    			add_location(div0, file$3, 110, 6, 2595);
+    			add_location(a1, file$3, 114, 8, 2552);
+    			attr_dev(p3, "class", "short-link svelte-m2s409");
+    			add_location(p3, file$3, 113, 6, 2521);
+    			attr_dev(button, "class", "icon regular fa-copy svelte-m2s409");
+    			add_location(button, file$3, 118, 6, 2690);
+    			add_location(span, file$3, 120, 8, 2796);
+    			attr_dev(div0, "class", "visited-link svelte-m2s409");
+    			add_location(div0, file$3, 119, 6, 2761);
     			attr_dev(div1, "class", "row");
-    			add_location(div1, file$3, 103, 4, 2331);
-    			attr_dev(div2, "class", "result svelte-14xjk67");
-    			add_location(div2, file$3, 97, 2, 2118);
-    			attr_dev(div3, "class", "col-12 col-12-mobilep container medium");
-    			add_location(div3, file$3, 93, 0, 2012);
+    			add_location(div1, file$3, 112, 4, 2497);
+    			attr_dev(div2, "class", "result svelte-m2s409");
+    			add_location(div2, file$3, 106, 2, 2284);
+    			attr_dev(section, "class", "col-12 col-12-mobilep container medium svelte-m2s409");
+    			add_location(section, file$3, 102, 0, 2174);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor, remount) {
-    			insert_dev(target, div3, anchor);
-    			append_dev(div3, div2);
+    			insert_dev(target, section, anchor);
+    			append_dev(section, div2);
     			append_dev(div2, p0);
     			append_dev(div2, t1);
     			append_dev(div2, p1);
@@ -1782,6 +1785,7 @@ var app = (function () {
     			append_dev(div0, span);
     			append_dev(span, t9);
     			append_dev(span, t10);
+    			append_dev(span, t11);
     			current = true;
     			if (remount) dispose();
     			dispose = listen_dev(button, "click", /*copyClipboard*/ ctx[1], false, false, false);
@@ -1801,26 +1805,27 @@ var app = (function () {
     			}
 
     			if ((!current || dirty & /*link*/ 1) && t9_value !== (t9_value = /*link*/ ctx[0].visited + "")) set_data_dev(t9, t9_value);
+    			if ((!current || dirty & /*link*/ 1) && t11_value !== (t11_value = (/*link*/ ctx[0].visited === 1 ? "Click" : "Clicks") + "")) set_data_dev(t11, t11_value);
     		},
     		i: function intro(local) {
     			if (current) return;
 
     			add_render_callback(() => {
-    				if (div3_outro) div3_outro.end(1);
-    				if (!div3_intro) div3_intro = create_in_transition(div3, fly, { y: 200, duration: 2000 });
-    				div3_intro.start();
+    				if (section_outro) section_outro.end(1);
+    				if (!section_intro) section_intro = create_in_transition(section, fly, { y: 200, duration: 2000 });
+    				section_intro.start();
     			});
 
     			current = true;
     		},
     		o: function outro(local) {
-    			if (div3_intro) div3_intro.invalidate();
-    			div3_outro = create_out_transition(div3, fade, {});
+    			if (section_intro) section_intro.invalidate();
+    			section_outro = create_out_transition(section, fade, {});
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div3);
-    			if (detaching && div3_outro) div3_outro.end();
+    			if (detaching) detach_dev(section);
+    			if (detaching && section_outro) section_outro.end();
     			dispose();
     		}
     	};
@@ -2044,28 +2049,28 @@ var app = (function () {
     			}
 
     			each_1_anchor = empty();
-    			attr_dev(h2, "class", "svelte-9x3rm2");
-    			add_location(h2, file$4, 172, 2, 3262);
-    			attr_dev(p, "class", "svelte-9x3rm2");
-    			add_location(p, file$4, 173, 2, 3284);
+    			attr_dev(h2, "class", "svelte-otgc6s");
+    			add_location(h2, file$4, 172, 2, 3260);
+    			attr_dev(p, "class", "svelte-otgc6s");
+    			add_location(p, file$4, 173, 2, 3282);
     			attr_dev(input, "id", "longURL");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "autocomplete", "false");
     			attr_dev(input, "placeholder", "Paste long url and shorten it");
-    			attr_dev(input, "class", "svelte-9x3rm2");
-    			add_location(input, file$4, 176, 6, 3401);
-    			attr_dev(div0, "class", "col-12 col-12-mobilep svelte-9x3rm2");
-    			add_location(div0, file$4, 175, 4, 3359);
-    			attr_dev(div1, "class", "row svelte-9x3rm2");
-    			add_location(div1, file$4, 174, 2, 3337);
-    			attr_dev(button, "class", "svelte-9x3rm2");
-    			add_location(button, file$4, 188, 6, 3759);
-    			attr_dev(div2, "class", "col-12 col-12-mobilep svelte-9x3rm2");
-    			add_location(div2, file$4, 187, 4, 3717);
-    			attr_dev(div3, "class", "row svelte-9x3rm2");
-    			add_location(div3, file$4, 186, 2, 3695);
-    			attr_dev(section, "class", "container medium svelte-9x3rm2");
-    			add_location(section, file$4, 171, 0, 3225);
+    			attr_dev(input, "class", "svelte-otgc6s");
+    			add_location(input, file$4, 176, 6, 3399);
+    			attr_dev(div0, "class", "col-12 col-12-mobilep svelte-otgc6s");
+    			add_location(div0, file$4, 175, 4, 3357);
+    			attr_dev(div1, "class", "row svelte-otgc6s");
+    			add_location(div1, file$4, 174, 2, 3335);
+    			attr_dev(button, "class", "svelte-otgc6s");
+    			add_location(button, file$4, 188, 6, 3757);
+    			attr_dev(div2, "class", "col-12 col-12-mobilep svelte-otgc6s");
+    			add_location(div2, file$4, 187, 4, 3715);
+    			attr_dev(div3, "class", "row svelte-otgc6s");
+    			add_location(div3, file$4, 186, 2, 3693);
+    			attr_dev(section, "class", "container medium svelte-otgc6s");
+    			add_location(section, file$4, 171, 0, 3223);
     		},
     		l: function claim(nodes) {
     			throw new Error_1$2("options.hydrate only works if the component was compiled with the `hydratable: true` option");

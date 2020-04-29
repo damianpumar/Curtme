@@ -53,7 +53,10 @@
     margin-right: 5px !important;
     text-align: center !important;
     border: solid 1px black;
-    width: 15%;
+    min-width: 15%;
+    width: auto;
+    padding-left: 2px;
+    padding-right: 2px;
     border-radius: 3px;
   }
 
@@ -89,9 +92,15 @@
   button:hover {
     color: lightgray;
   }
+
+  @media screen and (max-width: 480px) {
+    section {
+      padding: 0 1em 0 1em;
+    }
+  }
 </style>
 
-<div
+<section
   class="col-12 col-12-mobilep container medium"
   in:fly={{ y: 200, duration: 2000 }}
   out:fade>
@@ -109,8 +118,8 @@
       </p>
       <button class="icon regular fa-copy" on:click={copyClipboard} />
       <div class="visited-link">
-        <span>{link.visited} Clicks</span>
+        <span>{link.visited} {link.visited === 1 ? 'Click' : 'Clicks'}</span>
       </div>
     </div>
   </div>
-</div>
+</section>
