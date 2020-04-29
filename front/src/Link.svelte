@@ -1,6 +1,6 @@
 <script>
   import { fade, fly } from "svelte/transition";
-  import { endpoint } from "./utils/config.js";
+  import { VISIT_LINK } from "./utils/config.js";
 
   export let link;
 
@@ -48,7 +48,9 @@
   }
 
   .date-link {
-    margin-top: 10px !important;
+    float: right;
+    margin-top: 5px !important;
+    margin-right: 5px !important;
     text-align: center !important;
     border: solid 1px black;
     width: 15%;
@@ -56,14 +58,9 @@
   }
 
   .visited-link {
-    margin-left: 10px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    color: gray;
-    line-height: 50px;
-    text-align: center;
-    background: #e89980;
+    align-self: flex-end;
+    margin-right: 10px !important;
+    margin-left: auto;
   }
 
   .title-link {
@@ -92,30 +89,6 @@
   button:hover {
     color: lightgray;
   }
-
-  .res-circle {
-    width: 30px;
-    height: 30px;
-    top: 16px;
-    margin-left: 20px;
-    border-radius: 50%;
-    line-height: 0;
-    background: #e89980;
-    position: relative;
-  }
-  .res-circle:after {
-    content: "";
-    display: block;
-    padding-bottom: 100%;
-  }
-  .circle-txt {
-    position: absolute;
-    bottom: 50%;
-    left: 13px;
-    width: 0%;
-    text-align: center;
-    font-weight: bold;
-  }
 </style>
 
 <div
@@ -130,14 +103,14 @@
     </p>
     <div class="row">
       <p class="short-link">
-        <a href={endpoint + link.shortURL} class="short_url" target="blank">
-          {endpoint + link.shortURL}
+        <a href={VISIT_LINK(link.shortURL)} class="short_url" target="blank">
+          {VISIT_LINK(link.shortURL)}
         </a>
       </p>
       <button class="icon regular fa-copy" on:click={copyClipboard} />
-      <!-- <div class="res-circle">
-        <div class="circle-txt">{link.visited}</div>
-      </div> -->
+      <div class="visited-link">
+        <span>{link.visited} Clicks</span>
+      </div>
     </div>
   </div>
 </div>

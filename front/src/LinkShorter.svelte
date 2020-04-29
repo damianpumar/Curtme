@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { validURL } from "./utils/url.js";
-  import { endpoint } from "./utils/config.js";
+  import { BASE_URL, GET_STAT } from "./utils/config.js";
   import {
     INTERNET_CONNECTION,
     URL_INVALID,
@@ -18,13 +18,36 @@
   let errorMessage = null;
   let links = [];
 
-  onMount(() => {
+  onMount(async () => {
     document.getElementById(LONG_URL_INPUT_ID).focus();
 
     const linksStored = localStorage.getItem(STORAGE_KEY);
 
     if (linksStored) {
-      links = JSON.parse(linksStored);
+      const linkStoredParsed = JSON.parse(linksStored);
+
+      for (let index = 0; index < linkStoredParsed.length; index++) {
+        let link = linkStoredParsed[index];
+
+        try {
+          const response = await fetch(GET_STAT(link.shortURL), {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+
+          if (response.ok) {
+            link = await response.json();
+          }
+
+          links = [...links, link];
+        } catch (exception) {
+          continue;
+        }
+      }
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
     }
   });
 
@@ -50,7 +73,7 @@
     };
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(BASE_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
