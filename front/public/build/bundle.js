@@ -2365,6 +2365,8 @@ var app = (function () {
     	let li3;
     	let t7;
     	let li4;
+    	let t9;
+    	let li5;
     	let a3;
 
     	const block = {
@@ -2391,49 +2393,53 @@ var app = (function () {
     			li3.textContent = "© Curtme.org";
     			t7 = space();
     			li4 = element("li");
+    			li4.textContent = "|";
+    			t9 = space();
+    			li5 = element("li");
     			a3 = element("a");
     			a3.textContent = "Damián Pumar";
     			attr_dev(span0, "class", "label");
-    			add_location(span0, file$5, 68, 8, 1223);
+    			add_location(span0, file$5, 66, 8, 1165);
     			attr_dev(a0, "href", "https://github.com/damianpumar/Curtme");
     			attr_dev(a0, "title", "Repository open source");
-    			attr_dev(a0, "class", "icon brands fa-github svelte-1i6f3bl");
-    			add_location(a0, file$5, 64, 6, 1081);
-    			attr_dev(li0, "class", "svelte-1i6f3bl");
-    			add_location(li0, file$5, 63, 4, 1070);
+    			attr_dev(a0, "class", "icon brands fa-github svelte-h6ctw3");
+    			add_location(a0, file$5, 62, 6, 1023);
+    			attr_dev(li0, "class", "svelte-h6ctw3");
+    			add_location(li0, file$5, 61, 4, 1012);
     			attr_dev(span1, "class", "label");
-    			add_location(span1, file$5, 77, 8, 1451);
+    			add_location(span1, file$5, 75, 8, 1393);
     			attr_dev(a1, "href", "https://curtme.org/developer/");
     			attr_dev(a1, "target", "_blank");
     			attr_dev(a1, "title", "Developer site");
-    			attr_dev(a1, "class", "icon brands fa-connectdevelop svelte-1i6f3bl");
-    			add_location(a1, file$5, 72, 6, 1293);
-    			attr_dev(li1, "class", "svelte-1i6f3bl");
-    			add_location(li1, file$5, 71, 4, 1282);
+    			attr_dev(a1, "class", "icon brands fa-connectdevelop svelte-h6ctw3");
+    			add_location(a1, file$5, 70, 6, 1235);
+    			attr_dev(li1, "class", "svelte-h6ctw3");
+    			add_location(li1, file$5, 69, 4, 1224);
     			attr_dev(span2, "class", "label");
-    			add_location(span2, file$5, 86, 8, 1693);
+    			add_location(span2, file$5, 84, 8, 1635);
     			attr_dev(a2, "href", "https://github.com/damianpumar/Curtme/issues/new/");
     			attr_dev(a2, "target", "_blank");
     			attr_dev(a2, "title", "you found an error?");
-    			attr_dev(a2, "class", "icon solid fa-bug svelte-1i6f3bl");
-    			add_location(a2, file$5, 81, 6, 1522);
-    			attr_dev(li2, "class", "svelte-1i6f3bl");
-    			add_location(li2, file$5, 80, 4, 1511);
-    			attr_dev(ul0, "class", "icons svelte-1i6f3bl");
-    			add_location(ul0, file$5, 62, 2, 1047);
-    			attr_dev(li3, "class", "svelte-1i6f3bl");
-    			add_location(li3, file$5, 91, 4, 1782);
+    			attr_dev(a2, "class", "icon solid fa-bug svelte-h6ctw3");
+    			add_location(a2, file$5, 79, 6, 1464);
+    			attr_dev(li2, "class", "svelte-h6ctw3");
+    			add_location(li2, file$5, 78, 4, 1453);
+    			attr_dev(ul0, "class", "icons svelte-h6ctw3");
+    			add_location(ul0, file$5, 60, 2, 989);
+    			attr_dev(li3, "class", "svelte-h6ctw3");
+    			add_location(li3, file$5, 89, 4, 1724);
+    			attr_dev(li4, "class", "svelte-h6ctw3");
+    			add_location(li4, file$5, 90, 4, 1755);
     			attr_dev(a3, "href", "https://damianpumar.com");
-    			attr_dev(a3, "target", "_blan");
-    			attr_dev(a3, "k", "");
-    			attr_dev(a3, "class", "svelte-1i6f3bl");
-    			add_location(a3, file$5, 93, 6, 1824);
-    			attr_dev(li4, "class", "svelte-1i6f3bl");
-    			add_location(li4, file$5, 92, 4, 1813);
-    			attr_dev(ul1, "class", "copyright svelte-1i6f3bl");
-    			add_location(ul1, file$5, 90, 2, 1755);
-    			attr_dev(footer, "class", "svelte-1i6f3bl");
-    			add_location(footer, file$5, 61, 0, 1036);
+    			attr_dev(a3, "target", "_blank");
+    			attr_dev(a3, "class", "svelte-h6ctw3");
+    			add_location(a3, file$5, 92, 6, 1781);
+    			attr_dev(li5, "class", "svelte-h6ctw3");
+    			add_location(li5, file$5, 91, 4, 1770);
+    			attr_dev(ul1, "class", "copyright svelte-h6ctw3");
+    			add_location(ul1, file$5, 88, 2, 1697);
+    			attr_dev(footer, "class", "svelte-h6ctw3");
+    			add_location(footer, file$5, 59, 0, 978);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2457,7 +2463,9 @@ var app = (function () {
     			append_dev(ul1, li3);
     			append_dev(ul1, t7);
     			append_dev(ul1, li4);
-    			append_dev(li4, a3);
+    			append_dev(ul1, t9);
+    			append_dev(ul1, li5);
+    			append_dev(li5, a3);
     		},
     		p: noop,
     		i: noop,

@@ -31,7 +31,6 @@
   }
 
   .copyright li {
-    border-left: solid 1px #ffffff;
     display: inline-block;
     list-style: none;
     margin-left: 1em;
@@ -51,7 +50,6 @@
 
     footer .copyright li {
       border-left: 0;
-      display: block;
       line-height: 2em;
       margin-left: 0;
       padding-left: 0;
@@ -90,8 +88,9 @@
   </ul>
   <ul class="copyright">
     <li>&copy; Curtme.org</li>
+    <li>|</li>
     <li>
-      <a href="https://damianpumar.com" target="_blan" k>Damián Pumar</a>
+      <a href="https://damianpumar.com" target="_blank">Damián Pumar</a>
     </li>
   </ul>
 </footer>
