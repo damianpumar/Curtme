@@ -126,11 +126,6 @@ q:after {
 	content: none;
 }
 
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
 body {
 	-webkit-text-size-adjust: none;
 }
@@ -158,10 +153,6 @@ textarea {
 	width: device-width;
 }
 
-body {
-	-ms-overflow-style: scrollbar;
-}
-
 @media screen and (max-width: 480px) {
 	html,
 	body {
@@ -169,8 +160,21 @@ body {
 	}
 }
 
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
 html {
+	height: 100%;
 	box-sizing: border-box;
+}
+body {
+	min-height: 100%;
+	color: #fff;
+	background-color: #fd940a;
+	background-image: radial-gradient(circle, #f9a72b 0%, #fa9026 70%, #fb6c1f 100%);
+	-ms-overflow-style: scrollbar;
 }
 
 *,
@@ -2375,12 +2379,15 @@ button {
 	cursor: pointer;
 	display: inline-block;
 	font-weight: 400;
+	font-family: inherit;
+	font-size: inherit;
 	height: 3em;
 	line-height: 3em;
 	padding: 0 2em;
 	text-align: center;
 	text-decoration: none;
 	white-space: nowrap;
+	outline: none;
 }
 
 @-moz-keyframes reveal-header {

@@ -824,28 +824,29 @@ var app = (function () {
     			div8 = element("div");
     			t8 = space();
     			div9 = element("div");
-    			attr_dev(div0, "class", "cloud foreground");
-    			add_location(div0, file, 1, 2, 20);
-    			attr_dev(div1, "class", "cloud background");
-    			add_location(div1, file, 2, 2, 55);
-    			attr_dev(div2, "class", "cloud foreground");
-    			add_location(div2, file, 3, 2, 90);
-    			attr_dev(div3, "class", "cloud background");
-    			add_location(div3, file, 4, 2, 125);
-    			attr_dev(div4, "class", "cloud foreground");
-    			add_location(div4, file, 5, 2, 160);
-    			attr_dev(div5, "class", "cloud background");
-    			add_location(div5, file, 6, 2, 195);
-    			attr_dev(div6, "class", "cloud background");
-    			add_location(div6, file, 7, 2, 230);
-    			attr_dev(div7, "class", "cloud foreground");
-    			add_location(div7, file, 8, 2, 265);
-    			attr_dev(div8, "class", "cloud background");
-    			add_location(div8, file, 9, 2, 300);
-    			attr_dev(div9, "class", "cloud background");
-    			add_location(div9, file, 10, 2, 335);
+    			attr_dev(div0, "class", "cloud foreground svelte-y0ou9h");
+    			add_location(div0, file, 262, 2, 8676);
+    			attr_dev(div1, "class", "cloud background svelte-y0ou9h");
+    			add_location(div1, file, 263, 2, 8711);
+    			attr_dev(div2, "class", "cloud foreground svelte-y0ou9h");
+    			add_location(div2, file, 264, 2, 8746);
+    			attr_dev(div3, "class", "cloud background svelte-y0ou9h");
+    			add_location(div3, file, 265, 2, 8781);
+    			attr_dev(div4, "class", "cloud foreground svelte-y0ou9h");
+    			add_location(div4, file, 266, 2, 8816);
+    			attr_dev(div5, "class", "cloud background svelte-y0ou9h");
+    			add_location(div5, file, 267, 2, 8851);
+    			attr_dev(div6, "class", "cloud background svelte-y0ou9h");
+    			add_location(div6, file, 268, 2, 8886);
+    			attr_dev(div7, "class", "cloud foreground svelte-y0ou9h");
+    			add_location(div7, file, 269, 2, 8921);
+    			attr_dev(div8, "class", "cloud background svelte-y0ou9h");
+    			add_location(div8, file, 270, 2, 8956);
+    			attr_dev(div9, "class", "cloud background svelte-y0ou9h");
+    			add_location(div9, file, 271, 2, 8991);
     			attr_dev(div10, "id", "clouds");
-    			add_location(div10, file, 0, 0, 0);
+    			attr_dev(div10, "class", "svelte-y0ou9h");
+    			add_location(div10, file, 261, 0, 8656);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1471,7 +1472,7 @@ var app = (function () {
     const { Error: Error_1$1 } = globals;
     const file$2 = "src/Error.svelte";
 
-    // (13:0) {#if error}
+    // (20:2) {#if error}
     function create_if_block(ctx) {
     	let span;
     	let t;
@@ -1482,7 +1483,7 @@ var app = (function () {
     		c: function create() {
     			span = element("span");
     			t = text(/*error*/ ctx[0]);
-    			add_location(span, file$2, 13, 2, 179);
+    			add_location(span, file$2, 20, 4, 237);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -1517,7 +1518,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(13:0) {#if error}",
+    		source: "(20:2) {#if error}",
     		ctx
     	});
 
@@ -1525,21 +1526,23 @@ var app = (function () {
     }
 
     function create_fragment$3(ctx) {
-    	let if_block_anchor;
+    	let div;
     	let current;
     	let if_block = /*error*/ ctx[0] && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
+    			div = element("div");
     			if (if_block) if_block.c();
-    			if_block_anchor = empty();
+    			attr_dev(div, "class", "svelte-1891lz2");
+    			add_location(div, file$2, 18, 0, 213);
     		},
     		l: function claim(nodes) {
     			throw new Error_1$1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			if (if_block) if_block.m(target, anchor);
-    			insert_dev(target, if_block_anchor, anchor);
+    			insert_dev(target, div, anchor);
+    			if (if_block) if_block.m(div, null);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
@@ -1554,7 +1557,7 @@ var app = (function () {
     					if_block = create_if_block(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
-    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    					if_block.m(div, null);
     				}
     			} else if (if_block) {
     				group_outros();
@@ -1576,8 +1579,8 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (if_block) if_block.d(detaching);
-    			if (detaching) detach_dev(if_block_anchor);
+    			if (detaching) detach_dev(div);
+    			if (if_block) if_block.d();
     		}
     	};
 

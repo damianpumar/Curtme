@@ -10,6 +10,14 @@
   }
 </script>
 
-{#if error}
-  <span transition:fade>{error}</span>
-{/if}
+<style>
+  div {
+    height: 20px;
+  }
+</style>
+
+<div>
+  {#if error}
+    <span transition:fade>{error}</span>
+  {/if}
+</div>
