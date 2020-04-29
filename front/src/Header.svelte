@@ -127,17 +127,23 @@
   header button:active {
     background-color: rgba(255, 255, 255, 0.2);
   }
+
+  @media screen and (max-width: 840px) {
+    header {
+      display: none;
+    }
+  }
 </style>
 
 <!-- <Auth0Context
   domain="dev-6r8s11fz.eu.auth0.com"
   client_id="2l41JB9wG62TaX0BmIfILNq6GiTbt92b">
   {$isLoading} -->
-<header class="alt">
+<header>
   <h1>
     <a href="/">Curtme</a>
   </h1>
-  <nav id="nav">
+  <nav>
     <ul>
       <!-- {#if $isAuthenticated}
           <li>

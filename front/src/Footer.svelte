@@ -43,6 +43,20 @@
     margin-left: 0;
     padding-left: 0;
   }
+
+  @media screen and (max-width: 736px) {
+    footer {
+      padding: 4em 0;
+    }
+
+    footer .copyright li {
+      border-left: 0;
+      display: block;
+      line-height: 2em;
+      margin-left: 0;
+      padding-left: 0;
+    }
+  }
 </style>
 
 <footer>

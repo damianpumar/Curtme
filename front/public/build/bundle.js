@@ -1338,17 +1338,16 @@ var app = (function () {
     			nav = element("nav");
     			ul = element("ul");
     			attr_dev(a, "href", "/");
-    			attr_dev(a, "class", "svelte-17iygr6");
-    			add_location(a, file$1, 137, 4, 2463);
-    			attr_dev(h1, "class", "svelte-17iygr6");
-    			add_location(h1, file$1, 136, 2, 2454);
-    			attr_dev(ul, "class", "svelte-17iygr6");
-    			add_location(ul, file$1, 140, 4, 2515);
-    			attr_dev(nav, "id", "nav");
-    			attr_dev(nav, "class", "svelte-17iygr6");
-    			add_location(nav, file$1, 139, 2, 2496);
-    			attr_dev(header, "class", "alt svelte-17iygr6");
-    			add_location(header, file$1, 135, 0, 2431);
+    			attr_dev(a, "class", "svelte-orvi6v");
+    			add_location(a, file$1, 143, 4, 2537);
+    			attr_dev(h1, "class", "svelte-orvi6v");
+    			add_location(h1, file$1, 142, 2, 2528);
+    			attr_dev(ul, "class", "svelte-orvi6v");
+    			add_location(ul, file$1, 146, 4, 2580);
+    			attr_dev(nav, "class", "svelte-orvi6v");
+    			add_location(nav, file$1, 145, 2, 2570);
+    			attr_dev(header, "class", "svelte-orvi6v");
+    			add_location(header, file$1, 141, 0, 2517);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1921,7 +1920,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (98:0) {#each links as link}
+    // (171:0) {#each links as link}
     function create_each_block(ctx) {
     	let current;
 
@@ -1961,7 +1960,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(98:0) {#each links as link}",
+    		source: "(171:0) {#each links as link}",
     		ctx
     	});
 
@@ -2038,26 +2037,28 @@ var app = (function () {
     			}
 
     			each_1_anchor = empty();
-    			add_location(h2, file$4, 76, 2, 1558);
-    			add_location(p, file$4, 77, 2, 1580);
+    			attr_dev(h2, "class", "svelte-9x3rm2");
+    			add_location(h2, file$4, 149, 2, 2652);
+    			attr_dev(p, "class", "svelte-9x3rm2");
+    			add_location(p, file$4, 150, 2, 2674);
     			attr_dev(input, "id", "longURL");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "autocomplete", "false");
     			attr_dev(input, "placeholder", "Paste long url and shorten it");
-    			add_location(input, file$4, 80, 6, 1697);
-    			attr_dev(div0, "class", "col-12 col-12-mobilep");
-    			add_location(div0, file$4, 79, 4, 1655);
-    			attr_dev(div1, "class", "row");
-    			add_location(div1, file$4, 78, 2, 1633);
-    			attr_dev(button, "class", "button");
-    			add_location(button, file$4, 92, 6, 2055);
-    			attr_dev(div2, "class", "col-12 col-12-mobilep");
-    			add_location(div2, file$4, 91, 4, 2013);
-    			attr_dev(div3, "class", "row");
-    			add_location(div3, file$4, 90, 2, 1991);
-    			attr_dev(section, "id", "banner");
-    			attr_dev(section, "class", "container medium");
-    			add_location(section, file$4, 75, 0, 1509);
+    			attr_dev(input, "class", "svelte-9x3rm2");
+    			add_location(input, file$4, 153, 6, 2791);
+    			attr_dev(div0, "class", "col-12 col-12-mobilep svelte-9x3rm2");
+    			add_location(div0, file$4, 152, 4, 2749);
+    			attr_dev(div1, "class", "row svelte-9x3rm2");
+    			add_location(div1, file$4, 151, 2, 2727);
+    			attr_dev(button, "class", "svelte-9x3rm2");
+    			add_location(button, file$4, 165, 6, 3149);
+    			attr_dev(div2, "class", "col-12 col-12-mobilep svelte-9x3rm2");
+    			add_location(div2, file$4, 164, 4, 3107);
+    			attr_dev(div3, "class", "row svelte-9x3rm2");
+    			add_location(div3, file$4, 163, 2, 3085);
+    			attr_dev(section, "class", "container medium svelte-9x3rm2");
+    			add_location(section, file$4, 148, 0, 2615);
     		},
     		l: function claim(nodes) {
     			throw new Error_1$2("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2350,32 +2351,34 @@ var app = (function () {
     			a2 = element("a");
     			a2.textContent = "Damián Pumar";
     			attr_dev(span0, "class", "label");
-    			add_location(span0, file$5, 53, 8, 950);
+    			add_location(span0, file$5, 67, 8, 1184);
     			attr_dev(a0, "href", "https://github.com/damianpumar/Curtme");
-    			attr_dev(a0, "class", "icon brands fa-github svelte-1smvird");
-    			add_location(a0, file$5, 50, 6, 847);
-    			add_location(li0, file$5, 49, 4, 836);
+    			attr_dev(a0, "class", "icon brands fa-github svelte-1i6f3bl");
+    			add_location(a0, file$5, 64, 6, 1081);
+    			attr_dev(li0, "class", "svelte-1i6f3bl");
+    			add_location(li0, file$5, 63, 4, 1070);
     			attr_dev(span1, "class", "label");
-    			add_location(span1, file$5, 60, 8, 1123);
+    			add_location(span1, file$5, 74, 8, 1357);
     			attr_dev(a1, "href", "https://curtme.org/developer/");
-    			attr_dev(a1, "class", "icon brands fa-connectdevelop svelte-1smvird");
-    			add_location(a1, file$5, 57, 6, 1020);
-    			add_location(li1, file$5, 56, 4, 1009);
-    			attr_dev(ul0, "class", "icons svelte-1smvird");
-    			add_location(ul0, file$5, 48, 2, 813);
-    			attr_dev(li2, "class", "svelte-1smvird");
-    			add_location(li2, file$5, 65, 4, 1216);
+    			attr_dev(a1, "class", "icon brands fa-connectdevelop svelte-1i6f3bl");
+    			add_location(a1, file$5, 71, 6, 1254);
+    			attr_dev(li1, "class", "svelte-1i6f3bl");
+    			add_location(li1, file$5, 70, 4, 1243);
+    			attr_dev(ul0, "class", "icons svelte-1i6f3bl");
+    			add_location(ul0, file$5, 62, 2, 1047);
+    			attr_dev(li2, "class", "svelte-1i6f3bl");
+    			add_location(li2, file$5, 79, 4, 1450);
     			attr_dev(a2, "href", "https://damianpumar.com");
     			attr_dev(a2, "target", "_blan");
     			attr_dev(a2, "k", "");
-    			attr_dev(a2, "class", "svelte-1smvird");
-    			add_location(a2, file$5, 67, 6, 1258);
-    			attr_dev(li3, "class", "svelte-1smvird");
-    			add_location(li3, file$5, 66, 4, 1247);
-    			attr_dev(ul1, "class", "copyright svelte-1smvird");
-    			add_location(ul1, file$5, 64, 2, 1189);
-    			attr_dev(footer, "class", "svelte-1smvird");
-    			add_location(footer, file$5, 47, 0, 802);
+    			attr_dev(a2, "class", "svelte-1i6f3bl");
+    			add_location(a2, file$5, 81, 6, 1492);
+    			attr_dev(li3, "class", "svelte-1i6f3bl");
+    			add_location(li3, file$5, 80, 4, 1481);
+    			attr_dev(ul1, "class", "copyright svelte-1i6f3bl");
+    			add_location(ul1, file$5, 78, 2, 1423);
+    			attr_dev(footer, "class", "svelte-1i6f3bl");
+    			add_location(footer, file$5, 61, 0, 1036);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2466,8 +2469,8 @@ var app = (function () {
     			create_component(linkshorter.$$.fragment);
     			t2 = space();
     			create_component(footer.$$.fragment);
-    			attr_dev(div, "id", "page-wrapper");
-    			add_location(div, file$6, 7, 0, 188);
+    			attr_dev(div, "class", "svelte-1uv6kw4");
+    			add_location(div, file$6, 24, 0, 663);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
