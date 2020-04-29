@@ -164,7 +164,7 @@
 
   @media screen and (max-width: 480px) {
     section {
-      padding: 5em 3em 0 3em;
+      padding: 5em 1em 0 1em;
     }
   }
 </style>
