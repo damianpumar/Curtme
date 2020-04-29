@@ -1,12 +1,13 @@
 <script>
   import { fade, fly } from "svelte/transition";
+  import { endpoint } from "./utils/config.js";
 
   export let link;
 
   function copyClipboard() {
     if (navigator.clipboard) {
       return navigator.clipboard
-        .writeText("https://curtme.org/" + link.shortURL)
+        .writeText(endpoint + link.shortURL)
         .catch(function(err) {
           throw err !== undefined
             ? err
@@ -54,6 +55,17 @@
     border-radius: 3px;
   }
 
+  .visited-link {
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: gray;
+    line-height: 50px;
+    text-align: center;
+    background: #e89980;
+  }
+
   .title-link {
     font-weight: bold;
   }
@@ -80,6 +92,30 @@
   button:hover {
     color: lightgray;
   }
+
+  .res-circle {
+    width: 30px;
+    height: 30px;
+    top: 16px;
+    margin-left: 20px;
+    border-radius: 50%;
+    line-height: 0;
+    background: #e89980;
+    position: relative;
+  }
+  .res-circle:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+  .circle-txt {
+    position: absolute;
+    bottom: 50%;
+    left: 13px;
+    width: 0%;
+    text-align: center;
+    font-weight: bold;
+  }
 </style>
 
 <div
@@ -94,14 +130,14 @@
     </p>
     <div class="row">
       <p class="short-link">
-        <a
-          href="https://curtme.org/{link.shortURL}"
-          class="short_url"
-          target="blank">
-          https://curtme.org/{link.shortURL}
+        <a href={endpoint + link.shortURL} class="short_url" target="blank">
+          {endpoint + link.shortURL}
         </a>
       </p>
       <button class="icon regular fa-copy" on:click={copyClipboard} />
+      <div class="res-circle">
+        <div class="circle-txt">{link.visited}</div>
+      </div>
     </div>
   </div>
 </div>
