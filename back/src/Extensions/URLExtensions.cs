@@ -10,7 +10,9 @@ namespace Curtme.Extensions
                     &&
                     Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
                     &&
-                   (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                   (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps)
+                   &&
+                   !uriResult.IsLoopback;
         }
     }
 }
