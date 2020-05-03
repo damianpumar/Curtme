@@ -1,14 +1,24 @@
 <script>
-  import {
-    Auth0Context,
-    authError,
-    authToken,
-    isAuthenticated,
-    isLoading,
-    login,
-    logout,
-    userInfo
-  } from "@dopry/svelte-auth0";
+  import { createAuth } from "./auth0";
+
+  // Go to Auth0 to get the values and set everything up.
+  // Make sure all callback urls are set correctly.
+  const config = {
+    domain: "dev-6r8s11fz.eu.auth0.com",
+    client_id: "2l41JB9wG62TaX0BmIfILNq6GiTbt92b",
+    redirect_uri: window.location.origin,
+    useRefreshTokens: true
+  };
+
+  const { isAuthenticated, login, logout, authToken, userInfo } = createAuth(
+    config
+  );
+
+  $: state = {
+    isAuthenticated: $isAuthenticated,
+    userInfo: $userInfo,
+    authToken: $authToken
+  };
 </script>
 
 <style>
@@ -70,6 +80,12 @@
     padding-left: 0;
   }
 
+  img {
+    height: 1.5em;
+    vertical-align: middle;
+    border-radius: 20%;
+  }
+
   header nav > ul > li button {
     display: inline-block;
     height: 2em;
@@ -78,7 +94,7 @@
     border-radius: 6px;
   }
 
-  header nav > ul > li a:not(.button) {
+  header nav > ul > li a {
     color: #fff;
     display: inline-block;
     text-decoration: none;
@@ -112,7 +128,7 @@
     background-color: rgba(153, 153, 153, 0.5);
   }
 
-  header nav > ul > li.active a:not(.button) {
+  header nav > ul > li.active a {
     background-color: rgba(255, 255, 255, 0.2);
   }
 
@@ -128,6 +144,28 @@
     background-color: rgba(255, 255, 255, 0.2);
   }
 
+  menu {
+    position: relative;
+    display: inline-block;
+  }
+
+  menu-content {
+    display: none;
+    position: absolute;
+    min-width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+  }
+
+  menu:hover menu-content {
+    display: block;
+  }
+
+  menu-content button {
+    left: 15%;
+  }
+
   @media screen and (max-width: 840px) {
     header {
       display: none;
@@ -135,27 +173,35 @@
   }
 </style>
 
-<!-- <Auth0Context
-  domain="dev-6r8s11fz.eu.auth0.com"
-  client_id="2l41JB9wG62TaX0BmIfILNq6GiTbt92b">
-  {$isLoading} -->
 <header>
   <h1>
     <a href="/">Curtme</a>
   </h1>
   <nav>
     <ul>
-      <!-- {#if $isAuthenticated}
-          <li>
-            <button on:click|preventDefault={() => logout()}>Logout</button>
-          </li>
-        {:else}
-          <li>
-            <button on:click|preventDefault={() => login()}>Login</button>
-          </li>
-        {/if} -->
+      {#if $isAuthenticated}
+        <li>
+          <menu>
+            <span>
+              <img src={$userInfo.picture} alt={$userInfo.name} />
+              {$userInfo.name}
+              <i class="icon solid fa-angle-down" />
+            </span>
+            <menu-content>
+              <button on:click|preventDefault={() => logout()}>Logout</button>
+            </menu-content>
+          </menu>
+
+        </li>
+      {:else}
+        <li>
+          <button on:click|preventDefault={() => login()}>Login</button>
+        </li>
+      {/if}
     </ul>
   </nav>
-</header>
 
-<!-- </Auth0Context> -->
+  <br />
+  <div>{JSON.stringify(state, null, 2)}</div>
+
+</header>

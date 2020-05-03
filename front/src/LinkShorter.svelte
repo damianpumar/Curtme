@@ -180,7 +180,7 @@
         autocomplete="false"
         bind:value={longURL}
         placeholder="Paste long url and shorten it"
-        on:keypress={e => (e.keyCode == 13 ? createShortURL() : null)} />
+        on:keydown={event => event.key === 'Enter' && createShortURL()} />
     </div>
     <Error bind:error={errorMessage} />
   </div>
