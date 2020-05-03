@@ -1,12 +1,13 @@
 <script>
   import { onMount } from "svelte";
-  import { validURL } from "./utils/url.js";
-  import { BASE_URL, GET_STAT } from "./utils/config.js";
+  import { validURL } from "./utils/url";
+  import { createLink, getInfo } from "./utils/api";
   import {
     INTERNET_CONNECTION,
     URL_INVALID,
     URL_MANDATORY
   } from "./utils/messages.js";
+  import { isAuthenticated, authToken } from "./auth0/auth0.store";
 
   import Error from "./Error.svelte";
   import Link from "./Link.svelte";
@@ -18,9 +19,7 @@
   let errorMessage = null;
   let links = [];
 
-  onMount(async () => {
-    document.getElementById(LONG_URL_INPUT_ID).focus();
-
+  async function loadLinksWithoutUser() {
     const linksStored = localStorage.getItem(STORAGE_KEY);
 
     if (linksStored) {
@@ -30,12 +29,7 @@
         let link = linkStoredParsed[index];
 
         try {
-          const response = await fetch(GET_STAT(link.id), {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json"
-            }
-          });
+          const response = await getInfo(link);
 
           if (response.ok) {
             link = await response.json();
@@ -49,12 +43,29 @@
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
     }
+  }
+
+  async function loadLinkWithUser() {}
+
+  async function syncLinkWithoutUser() {}
+
+  onMount(async () => {
+    document.getElementById(LONG_URL_INPUT_ID).focus();
+
+    if ($isAuthenticated) {
+      await syncLinkWithoutUser();
+      await loadLinkWithUser();
+    } else {
+      await loadLinksWithoutUser();
+    }
   });
 
-  function addNewLink(link) {
+  function addLink(link) {
     links = [link, ...links];
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+    if (!$isAuthenticated) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+    }
   }
 
   async function createShortURL() {
@@ -68,25 +79,15 @@
       return;
     }
 
-    const data = {
-      url: longURL
-    };
-
     try {
-      const response = await fetch(BASE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+      const response = await createLink(longURL);
 
       if (response.ok) {
         const link = await response.json();
 
         longURL = null;
 
-        addNewLink(link);
+        addLink(link);
       } else {
         errorMessage = URL_INVALID;
       }

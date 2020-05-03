@@ -1416,7 +1416,30 @@ var app = (function () {
 
     const BASE_URL = "https://curtme.org/";
     const VISIT_LINK = (shortURL) => `${BASE_URL}${shortURL}`;
-    const GET_STAT = (id) => `https://curtme.org/${id}/stats`;
+    const GET_INFO = (id) => `https://curtme.org/${id}/info`;
+
+    async function createLink(longURL) {
+    	const data = {
+    		url: longURL,
+    	};
+
+    	return await fetch(BASE_URL, {
+    		method: "POST",
+    		headers: {
+    			"Content-Type": "application/json",
+    		},
+    		body: JSON.stringify(data),
+    	});
+    }
+
+    async function getInfo(link) {
+    	await fetch(GET_INFO(link.id), {
+    		method: "GET",
+    		headers: {
+    			"Content-Type": "application/json",
+    		},
+    	});
+    }
 
     const INTERNET_CONNECTION = "Please check your internet connection.";
     const URL_INVALID = "The url is not valid.";
@@ -1910,16 +1933,16 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[8] = list[i];
+    	child_ctx[10] = list[i];
     	return child_ctx;
     }
 
-    // (194:0) {#each links as link}
+    // (195:0) {#each links as link}
     function create_each_block(ctx) {
     	let current;
 
     	const link = new Link({
-    			props: { link: /*link*/ ctx[8] },
+    			props: { link: /*link*/ ctx[10] },
     			$$inline: true
     		});
 
@@ -1933,7 +1956,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const link_changes = {};
-    			if (dirty & /*links*/ 4) link_changes.link = /*link*/ ctx[8];
+    			if (dirty & /*links*/ 4) link_changes.link = /*link*/ ctx[10];
     			link.$set(link_changes);
     		},
     		i: function intro(local) {
@@ -1954,7 +1977,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(194:0) {#each links as link}",
+    		source: "(195:0) {#each links as link}",
     		ctx
     	});
 
@@ -1982,7 +2005,7 @@ var app = (function () {
     	let dispose;
 
     	function error_error_binding(value) {
-    		/*error_error_binding*/ ctx[7].call(null, value);
+    		/*error_error_binding*/ ctx[9].call(null, value);
     	}
 
     	let error_props = {};
@@ -2032,27 +2055,27 @@ var app = (function () {
 
     			each_1_anchor = empty();
     			attr_dev(h2, "class", "svelte-1w05hy8");
-    			add_location(h2, file$4, 172, 2, 3254);
+    			add_location(h2, file$4, 173, 2, 3299);
     			attr_dev(p, "class", "svelte-1w05hy8");
-    			add_location(p, file$4, 173, 2, 3276);
+    			add_location(p, file$4, 174, 2, 3321);
     			attr_dev(input, "id", "longURL");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "autocomplete", "false");
     			attr_dev(input, "placeholder", "Paste long url and shorten it");
     			attr_dev(input, "class", "svelte-1w05hy8");
-    			add_location(input, file$4, 176, 6, 3393);
+    			add_location(input, file$4, 177, 6, 3438);
     			attr_dev(div0, "class", "col-12 col-12-mobilep svelte-1w05hy8");
-    			add_location(div0, file$4, 175, 4, 3351);
+    			add_location(div0, file$4, 176, 4, 3396);
     			attr_dev(div1, "class", "row svelte-1w05hy8");
-    			add_location(div1, file$4, 174, 2, 3329);
+    			add_location(div1, file$4, 175, 2, 3374);
     			attr_dev(button, "class", "svelte-1w05hy8");
-    			add_location(button, file$4, 188, 6, 3752);
+    			add_location(button, file$4, 189, 6, 3797);
     			attr_dev(div2, "class", "col-12 col-12-mobilep svelte-1w05hy8");
-    			add_location(div2, file$4, 187, 4, 3710);
+    			add_location(div2, file$4, 188, 4, 3755);
     			attr_dev(div3, "class", "row svelte-1w05hy8");
-    			add_location(div3, file$4, 186, 2, 3688);
+    			add_location(div3, file$4, 187, 2, 3733);
     			attr_dev(section, "class", "container medium svelte-1w05hy8");
-    			add_location(section, file$4, 171, 0, 3217);
+    			add_location(section, file$4, 172, 0, 3262);
     		},
     		l: function claim(nodes) {
     			throw new Error_1$1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2084,8 +2107,8 @@ var app = (function () {
     			if (remount) run_all(dispose);
 
     			dispose = [
-    				listen_dev(input, "input", /*input_input_handler*/ ctx[5]),
-    				listen_dev(input, "keydown", /*keydown_handler*/ ctx[6], false, false, false),
+    				listen_dev(input, "input", /*input_input_handler*/ ctx[7]),
+    				listen_dev(input, "keydown", /*keydown_handler*/ ctx[8], false, false, false),
     				listen_dev(button, "click", /*createShortURL*/ ctx[3], false, false, false)
     			];
     		},
@@ -2176,13 +2199,23 @@ var app = (function () {
     const STORAGE_KEY = "links";
     const LONG_URL_INPUT_ID = "longURL";
 
+    async function loadLinkWithUser() {
+    	
+    }
+
+    async function syncLinkWithoutUser() {
+    	
+    }
+
     function instance$4($$self, $$props, $$invalidate) {
+    	let $isAuthenticated;
+    	validate_store(isAuthenticated, "isAuthenticated");
+    	component_subscribe($$self, isAuthenticated, $$value => $$invalidate(4, $isAuthenticated = $$value));
     	let longURL = null;
     	let errorMessage = null;
     	let links = [];
 
-    	onMount(async () => {
-    		document.getElementById(LONG_URL_INPUT_ID).focus();
+    	async function loadLinksWithoutUser() {
     		const linksStored = localStorage.getItem(STORAGE_KEY);
 
     		if (linksStored) {
@@ -2192,10 +2225,7 @@ var app = (function () {
     				let link = linkStoredParsed[index];
 
     				try {
-    					const response = await fetch(GET_STAT(link.id), {
-    						method: "GET",
-    						headers: { "Content-Type": "application/json" }
-    					});
+    					const response = await getInfo(link);
 
     					if (response.ok) {
     						link = await response.json();
@@ -2209,11 +2239,25 @@ var app = (function () {
 
     			localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
     		}
+    	}
+
+    	onMount(async () => {
+    		document.getElementById(LONG_URL_INPUT_ID).focus();
+
+    		if ($isAuthenticated) {
+    			await syncLinkWithoutUser();
+    			await loadLinkWithUser();
+    		} else {
+    			await loadLinksWithoutUser();
+    		}
     	});
 
-    	function addNewLink(link) {
+    	function addLink(link) {
     		$$invalidate(2, links = [link, ...links]);
-    		localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+
+    		if (!$isAuthenticated) {
+    			localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+    		}
     	}
 
     	async function createShortURL() {
@@ -2227,19 +2271,13 @@ var app = (function () {
     			return;
     		}
 
-    		const data = { url: longURL };
-
     		try {
-    			const response = await fetch(BASE_URL, {
-    				method: "POST",
-    				headers: { "Content-Type": "application/json" },
-    				body: JSON.stringify(data)
-    			});
+    			const response = await createLink(longURL);
 
     			if (response.ok) {
     				const link = await response.json();
     				$$invalidate(0, longURL = null);
-    				addNewLink(link);
+    				addLink(link);
     			} else {
     				$$invalidate(1, errorMessage = URL_INVALID);
     			}
@@ -2272,11 +2310,13 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		onMount,
     		validURL,
-    		BASE_URL,
-    		GET_STAT,
+    		createLink,
+    		getInfo,
     		INTERNET_CONNECTION,
     		URL_INVALID,
     		URL_MANDATORY,
+    		isAuthenticated,
+    		authToken,
     		Error: Error$1,
     		Link,
     		STORAGE_KEY,
@@ -2284,8 +2324,12 @@ var app = (function () {
     		longURL,
     		errorMessage,
     		links,
-    		addNewLink,
-    		createShortURL
+    		loadLinksWithoutUser,
+    		loadLinkWithUser,
+    		syncLinkWithoutUser,
+    		addLink,
+    		createShortURL,
+    		$isAuthenticated
     	});
 
     	$$self.$inject_state = $$props => {
@@ -2303,7 +2347,9 @@ var app = (function () {
     		errorMessage,
     		links,
     		createShortURL,
-    		addNewLink,
+    		$isAuthenticated,
+    		loadLinksWithoutUser,
+    		addLink,
     		input_input_handler,
     		keydown_handler,
     		error_error_binding
