@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -7,7 +8,7 @@ namespace Curtme.Extensions
 {
     public static class Auth0Extensions
     {
-        public static void AddAuth0(this IServiceCollection services)
+        public static void AddAuth0(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
            {
@@ -16,8 +17,8 @@ namespace Curtme.Extensions
            })
            .AddJwtBearer(options =>
            {
-               options.Authority = "https://dev-6r8s11fz.eu.auth0.com/";
-               options.Audience = "https://dev-6r8s11fz.eu.auth0.com/api/v2/";
+               options.Authority = configuration["Auth0:Authority"];
+               options.Audience = configuration["Auth0:Audience"];
                options.RequireHttpsMetadata = false;
                options.TokenValidationParameters = new TokenValidationParameters
                {
