@@ -14,12 +14,6 @@
   const { isAuthenticated, login, logout, authToken, userInfo } = createAuth(
     config
   );
-
-  $: state = {
-    isAuthenticated: $isAuthenticated,
-    userInfo: $userInfo,
-    authToken: $authToken
-  };
 </script>
 
 <style>
@@ -95,19 +89,8 @@
     border-radius: 6px;
   }
 
-  header nav > ul > li a {
-    color: #fff;
-    display: inline-block;
-    text-decoration: none;
-    border: 0;
-  }
-
   header nav > ul > li:first-child {
     margin-left: 0;
-  }
-
-  header nav > ul > li.active a:not(.button) {
-    background-color: rgba(153, 153, 153, 0.25);
   }
 
   header nav > ul > li button {
@@ -127,10 +110,6 @@
 
   header button:active {
     background-color: rgba(153, 153, 153, 0.5);
-  }
-
-  header nav > ul > li.active a {
-    background-color: rgba(255, 255, 255, 0.2);
   }
 
   header button {
@@ -201,8 +180,5 @@
       {/if}
     </ul>
   </nav>
-
-  <br />
-  <div>{JSON.stringify(state, null, 2)}</div>
 
 </header>

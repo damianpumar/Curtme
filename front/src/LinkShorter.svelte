@@ -1,13 +1,18 @@
 <script>
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { validURL } from "./utils/url";
-  import { createLink, getInfo } from "./utils/api";
+  import {
+    createLink,
+    getLinks,
+    getUserLinks,
+    syncLinksWithUser
+  } from "./utils/api";
   import {
     INTERNET_CONNECTION,
     URL_INVALID,
     URL_MANDATORY
   } from "./utils/messages.js";
-  import { isAuthenticated, authToken } from "./auth0/auth0.store";
+  import { isAuthenticated, isLoading } from "./auth0/auth0.store";
 
   import Error from "./Error.svelte";
   import Link from "./Link.svelte";
@@ -25,43 +30,50 @@
     if (linksStored) {
       const linkStoredParsed = JSON.parse(linksStored);
 
-      for (let index = 0; index < linkStoredParsed.length; index++) {
-        let link = linkStoredParsed[index];
+      try {
+        const response = await getLinks(linkStoredParsed);
 
-        try {
-          const response = await getInfo(link);
+        if (response.ok) {
+          links = await response.json();
 
-          if (response.ok) {
-            link = await response.json();
-          }
-
-          links = [...links, link];
-        } catch (exception) {
-          continue;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
         }
+      } catch (exception) {
+        console.log(exception);
       }
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
     }
   }
 
-  async function loadLinkWithUser() {}
+  async function loadLinkWithUser() {
+    try {
+      const response = await getUserLinks();
 
-  async function syncLinkWithoutUser() {}
+      if (response.ok) {
+        links = await response.json();
+      }
+    } catch (exception) {}
+  }
 
-  onMount(async () => {
-    document.getElementById(LONG_URL_INPUT_ID).focus();
+  async function syncLinkWithoutUser() {
+    const linksStored = localStorage.getItem(STORAGE_KEY);
 
-    if ($isAuthenticated) {
-      await syncLinkWithoutUser();
-      await loadLinkWithUser();
-    } else {
-      await loadLinksWithoutUser();
+    if (linksStored) {
+      const linkStoredParsed = JSON.parse(linksStored);
+
+      try {
+        const response = await syncLinksWithUser(linkStoredParsed);
+
+        if (response.ok) {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      } catch (exception) {
+        await loadLinksWithoutUser();
+      }
     }
-  });
+  }
 
   function addLink(link) {
-    links = [link, ...links];
+    links = [...links, link];
 
     if (!$isAuthenticated) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
@@ -95,6 +107,27 @@
       errorMessage = INTERNET_CONNECTION;
     }
   }
+
+  async function loadLinks() {
+    if ($isAuthenticated) {
+      await syncLinkWithoutUser();
+      await loadLinkWithUser();
+    } else {
+      await loadLinksWithoutUser();
+    }
+  }
+
+  const unsubscribe = isLoading.subscribe(newValue => {
+    if (!newValue) {
+      loadLinks();
+    }
+  });
+
+  onMount(() => {
+    document.getElementById(LONG_URL_INPUT_ID).focus();
+  });
+
+  onDestroy(unsubscribe);
 </script>
 
 <style>

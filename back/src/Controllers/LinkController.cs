@@ -40,7 +40,7 @@ namespace Curtme.Controllers
         [Route("/{shortURL}")]
         public IActionResult Visit(String shortURL)
         {
-            var link = this.linkService.Get(shortURL);
+            var link = this.linkService.GetByShortURL(shortURL);
 
             if (link == null)
                 return this.NotFound();
@@ -51,18 +51,15 @@ namespace Curtme.Controllers
         }
 
         /// <summary>
-        /// Get the info of your links
+        /// Get links
         /// </summary>
         [HttpGet]
-        [Route("/{id}/info")]
-        public IActionResult Get(String id)
+        [Route("/links-by-id")]
+        public IActionResult Get([FromQuery] String[] ids)
         {
-            var link = this.linkService.Get(id);
+            var links = this.linkService.GetById(ids);
 
-            if (link == null)
-                return this.NotFound();
-
-            return this.Ok(link);
+            return Ok(links);
         }
 
         /// <summary>
@@ -71,12 +68,31 @@ namespace Curtme.Controllers
         /// </summary>
         [HttpGet]
         [Authorize]
-        [Route("/info")]
-        public IActionResult GetAll()
+        [Route("/links")]
+        public IActionResult GetUserLinks()
         {
             var links = this.linkService.GetAll(this.HttpContext.User.GetId());
 
             return Ok(links);
+        }
+
+        /// <summary>
+        /// Set the user in their links
+        /// If user is not logged in return 403
+        /// </summary>
+        [HttpPut]
+        [Authorize]
+        [Route("/sync")]
+        public IActionResult Sync(String[] ids)
+        {
+            var userId = this.HttpContext.User.GetId();
+
+            foreach (var id in ids)
+            {
+                this.linkService.Update(id, userId);
+            }
+
+            return Ok();
         }
     }
 }
