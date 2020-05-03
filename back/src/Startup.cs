@@ -32,6 +32,8 @@ namespace Curtme
             services.AddControllers();
 
             services.AddSwagger();
+
+            services.AddAuth0();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -45,15 +47,17 @@ namespace Curtme
                 .AllowAnyHeader()
                 .AllowAnyMethod());
 
+            app.UseHttpsRedirection();
+
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
 
-            app.UseHttpsRedirection();
-
             app.UseSwaggerUIDeveloper();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -8,17 +8,20 @@ namespace Curtme.Models
 {
     public class Link
     {
-        public Link(string longURL)
+        public Link(string longURL, string userId = null)
         {
             this.LongURL = longURL;
             this.Date = DateTime.Now;
             this.Title = this.LongURL.GetTitle();
+            this.UserId = userId;
         }
 
-        [JsonIgnore]
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public String Id { get; set; }
+
+        [JsonIgnore]
+        public String UserId { get; set; }
 
         public String LongURL { get; set; }
 

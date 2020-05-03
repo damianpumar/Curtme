@@ -6,6 +6,7 @@
   const config = {
     domain: "dev-6r8s11fz.eu.auth0.com",
     client_id: "2l41JB9wG62TaX0BmIfILNq6GiTbt92b",
+    audience: "https://dev-6r8s11fz.eu.auth0.com/api/v2/",
     redirect_uri: window.location.origin,
     useRefreshTokens: true
   };

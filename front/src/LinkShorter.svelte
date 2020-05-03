@@ -30,7 +30,7 @@
         let link = linkStoredParsed[index];
 
         try {
-          const response = await fetch(GET_STAT(link.shortURL), {
+          const response = await fetch(GET_STAT(link.id), {
             method: "GET",
             headers: {
               "Content-Type": "application/json"
