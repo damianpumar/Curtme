@@ -1,8 +1,8 @@
+import { get } from "svelte/store";
 import { BASE_URL, GET_LINKS_BY_IDS, GET_USER_LINKS, SYNC_LINKS } from "./config";
 import { isAuthenticated, authToken } from "../auth0/auth0.store";
-import { get } from "svelte/store";
 
-export function buildHeader() {
+function buildHeader() {
 	let header = {
 		"Content-Type": "application/json",
 	};
@@ -27,26 +27,38 @@ export async function createLink(longURL) {
 }
 
 export async function getUserLinks() {
-	return await fetch(GET_USER_LINKS, {
-		method: "GET",
-		headers: buildHeader(),
-	});
+	try {
+		return await fetch(GET_USER_LINKS, {
+			method: "GET",
+			headers: buildHeader(),
+		});
+	} catch (error) {
+		return { ok: false };
+	}
 }
 
 export async function getLinks(links) {
-	var url = new URL(GET_LINKS_BY_IDS);
-	links.forEach((link) => url.searchParams.append("ids", link.id));
+	try {
+		var url = new URL(GET_LINKS_BY_IDS);
+		links.forEach((link) => url.searchParams.append("ids", link.id));
 
-	return await fetch(url, {
-		method: "GET",
-		headers: buildHeader(),
-	});
+		return await fetch(url, {
+			method: "GET",
+			headers: buildHeader(),
+		});
+	} catch (error) {
+		return { ok: false };
+	}
 }
 
 export async function syncLinksWithUser(links) {
-	return await fetch(SYNC_LINKS, {
-		method: "PUT",
-		headers: buildHeader(),
-		body: JSON.stringify(links.map((l) => l.id)),
-	});
+	try {
+		return await fetch(SYNC_LINKS, {
+			method: "PUT",
+			headers: buildHeader(),
+			body: JSON.stringify(links.map((l) => l.id)),
+		});
+	} catch (error) {
+		return { ok: false };
+	}
 }

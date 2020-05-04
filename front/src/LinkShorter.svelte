@@ -30,28 +30,22 @@
     if (linksStored) {
       const linkStoredParsed = JSON.parse(linksStored);
 
-      try {
-        const response = await getLinks(linkStoredParsed);
+      const response = await getLinks(linkStoredParsed);
 
-        if (response.ok) {
-          links = await response.json();
+      if (response.ok) {
+        links = await response.json();
 
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
-        }
-      } catch (exception) {
-        console.log(exception);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
       }
     }
   }
 
   async function loadLinkWithUser() {
-    try {
-      const response = await getUserLinks();
+    const response = await getUserLinks();
 
-      if (response.ok) {
-        links = await response.json();
-      }
-    } catch (exception) {}
+    if (response.ok) {
+      links = await response.json();
+    }
   }
 
   async function syncLinkWithoutUser() {
@@ -60,13 +54,11 @@
     if (linksStored) {
       const linkStoredParsed = JSON.parse(linksStored);
 
-      try {
-        const response = await syncLinksWithUser(linkStoredParsed);
+      const response = await syncLinksWithUser(linkStoredParsed);
 
-        if (response.ok) {
-          localStorage.removeItem(STORAGE_KEY);
-        }
-      } catch (exception) {
+      if (response.ok) {
+        localStorage.removeItem(STORAGE_KEY);
+      } else {
         await loadLinksWithoutUser();
       }
     }
