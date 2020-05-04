@@ -33,7 +33,7 @@ namespace Curtme
 
             services.AddSwagger();
 
-            services.AddAuth0(this.Configuration);
+            services.AddAuth0();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -8,8 +8,10 @@ namespace Curtme.Extensions
 {
     public static class Auth0Extensions
     {
-        public static void AddAuth0(this IServiceCollection services, IConfiguration configuration)
+        public static void AddAuth0(this IServiceCollection services)
         {
+            var configuration = (IConfiguration)services.BuildServiceProvider().GetService(typeof(IConfiguration));
+
             services.AddAuthentication(options =>
            {
                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
