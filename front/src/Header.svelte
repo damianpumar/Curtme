@@ -138,7 +138,7 @@
   }
 
   @media screen and (max-width: 840px) {
-    header {
+    header h1 a {
       display: none;
     }
   }
