@@ -11,7 +11,7 @@
 - Show clicks on the fronted :white_check_mark:
 - Add login functionality :white_check_mark:
 - Add google analytics :white_check_mark: [branched](https://github.com/damianpumar/Curtme/tree/google-analytics)
-- Improve login styles (UI)
+- Improve login styles (UI) :white_check_mark:
 - Allow user to create custom short URL
 - Track origin ip, user agent for each shorter link visited
 
