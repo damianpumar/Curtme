@@ -21,7 +21,7 @@ namespace Curtme.Extensions
                     Contact = new OpenApiContact
                     {
                         Name = "Damián Pumar",
-                        Email = string.Empty,
+                        Email = "damianpumar@gmail.com",
                         Url = new Uri("https://damianpumar.com"),
                     },
                     License = new OpenApiLicense
@@ -34,6 +34,14 @@ namespace Curtme.Extensions
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
             });
         }
 
