@@ -1,12 +1,18 @@
 <script>
-  import { onMount } from "svelte";
-  import { validURL } from "./utils/url.js";
-  import { BASE_URL, GET_STAT } from "./utils/config.js";
+  import { onMount, onDestroy } from "svelte";
+  import { validURL } from "./utils/url";
+  import {
+    createLink,
+    getLinks,
+    getUserLinks,
+    syncLinksWithUser
+  } from "./utils/api";
   import {
     INTERNET_CONNECTION,
     URL_INVALID,
     URL_MANDATORY
   } from "./utils/messages.js";
+  import { isAuthenticated, isLoading } from "./auth0/auth0.store";
 
   import Error from "./Error.svelte";
   import Link from "./Link.svelte";
@@ -18,43 +24,52 @@
   let errorMessage = null;
   let links = [];
 
-  onMount(async () => {
-    document.getElementById(LONG_URL_INPUT_ID).focus();
-
+  async function loadLinksWithoutUser() {
     const linksStored = localStorage.getItem(STORAGE_KEY);
 
     if (linksStored) {
       const linkStoredParsed = JSON.parse(linksStored);
 
-      for (let index = 0; index < linkStoredParsed.length; index++) {
-        let link = linkStoredParsed[index];
+      const response = await getLinks(linkStoredParsed);
 
-        try {
-          const response = await fetch(GET_STAT(link.shortURL), {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json"
-            }
-          });
+      if (response.ok) {
+        links = await response.json();
 
-          if (response.ok) {
-            link = await response.json();
-          }
-
-          links = [...links, link];
-        } catch (exception) {
-          continue;
-        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
       }
+    }
+  }
 
+  async function loadLinkWithUser() {
+    const response = await getUserLinks();
+
+    if (response.ok) {
+      links = await response.json();
+    }
+  }
+
+  async function syncLinkWithoutUser() {
+    const linksStored = localStorage.getItem(STORAGE_KEY);
+
+    if (linksStored) {
+      const linkStoredParsed = JSON.parse(linksStored);
+
+      const response = await syncLinksWithUser(linkStoredParsed);
+
+      if (response.ok) {
+        localStorage.removeItem(STORAGE_KEY);
+      } else {
+        await loadLinksWithoutUser();
+      }
+    }
+  }
+
+  function addLink(link) {
+    links = [...links, link];
+
+    if (!$isAuthenticated) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
     }
-  });
-
-  function addNewLink(link) {
-    links = [link, ...links];
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
   }
 
   async function createShortURL() {
@@ -68,25 +83,15 @@
       return;
     }
 
-    const data = {
-      url: longURL
-    };
-
     try {
-      const response = await fetch(BASE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+      const response = await createLink(longURL);
 
       if (response.ok) {
         const link = await response.json();
 
         longURL = null;
 
-        addNewLink(link);
+        addLink(link);
       } else {
         errorMessage = URL_INVALID;
       }
@@ -94,6 +99,27 @@
       errorMessage = INTERNET_CONNECTION;
     }
   }
+
+  async function loadLinks() {
+    if ($isAuthenticated) {
+      await syncLinkWithoutUser();
+      await loadLinkWithUser();
+    } else {
+      await loadLinksWithoutUser();
+    }
+  }
+
+  const unsubscribe = isLoading.subscribe(newValue => {
+    if (!newValue) {
+      loadLinks();
+    }
+  });
+
+  onMount(() => {
+    document.getElementById(LONG_URL_INPUT_ID).focus();
+  });
+
+  onDestroy(unsubscribe);
 </script>
 
 <style>
@@ -180,7 +206,7 @@
         autocomplete="false"
         bind:value={longURL}
         placeholder="Paste long url and shorten it"
-        on:keypress={e => (e.keyCode == 13 ? createShortURL() : null)} />
+        on:keydown={event => event.key === 'Enter' && createShortURL()} />
     </div>
     <Error bind:error={errorMessage} />
   </div>

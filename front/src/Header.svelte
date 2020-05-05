@@ -1,14 +1,16 @@
 <script>
-  import {
-    Auth0Context,
-    authError,
-    authToken,
+  import { blur } from "svelte/transition";
+  import { createAuth } from "./auth0";
+  import { auth0 } from "./utils/config";
+
+  const {
     isAuthenticated,
     isLoading,
     login,
     logout,
+    authToken,
     userInfo
-  } from "@dopry/svelte-auth0";
+  } = createAuth(auth0);
 </script>
 
 <style>
@@ -70,6 +72,12 @@
     padding-left: 0;
   }
 
+  img {
+    height: 1.5em;
+    vertical-align: middle;
+    border-radius: 20%;
+  }
+
   header nav > ul > li button {
     display: inline-block;
     height: 2em;
@@ -78,19 +86,8 @@
     border-radius: 6px;
   }
 
-  header nav > ul > li a:not(.button) {
-    color: #fff;
-    display: inline-block;
-    text-decoration: none;
-    border: 0;
-  }
-
   header nav > ul > li:first-child {
     margin-left: 0;
-  }
-
-  header nav > ul > li.active a:not(.button) {
-    background-color: rgba(153, 153, 153, 0.25);
   }
 
   header nav > ul > li button {
@@ -112,10 +109,6 @@
     background-color: rgba(153, 153, 153, 0.5);
   }
 
-  header nav > ul > li.active a:not(.button) {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-
   header button {
     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
   }
@@ -128,34 +121,62 @@
     background-color: rgba(255, 255, 255, 0.2);
   }
 
+  menu {
+    position: relative;
+    display: inline-block;
+  }
+
+  menu-content {
+    display: none;
+    position: absolute;
+    min-width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+  }
+
+  menu:hover menu-content {
+    display: block;
+  }
+
+  menu-content button {
+    left: 15%;
+  }
+
   @media screen and (max-width: 840px) {
-    header {
+    header h1 a {
       display: none;
     }
   }
 </style>
 
-<!-- <Auth0Context
-  domain="dev-6r8s11fz.eu.auth0.com"
-  client_id="2l41JB9wG62TaX0BmIfILNq6GiTbt92b">
-  {$isLoading} -->
 <header>
   <h1>
     <a href="/">Curtme</a>
   </h1>
-  <nav>
-    <ul>
-      <!-- {#if $isAuthenticated}
+  {#if !$isLoading}
+    <nav>
+      <ul>
+        {#if $isAuthenticated}
           <li>
-            <button on:click|preventDefault={() => logout()}>Logout</button>
+            <menu transition:blur={{ amount: 100 }}>
+              <span>
+                <img src={$userInfo.picture} alt={$userInfo.name} />
+                {$userInfo.name}
+                <i class="icon solid fa-angle-down" />
+              </span>
+              <menu-content>
+                <button on:click|preventDefault={() => logout()}>Logout</button>
+              </menu-content>
+            </menu>
           </li>
         {:else}
           <li>
             <button on:click|preventDefault={() => login()}>Login</button>
           </li>
-        {/if} -->
-    </ul>
-  </nav>
-</header>
+        {/if}
+      </ul>
+    </nav>
+  {/if}
 
-<!-- </Auth0Context> -->
+</header>

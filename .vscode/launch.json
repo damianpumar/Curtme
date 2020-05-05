@@ -1,4 +1,7 @@
 {
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
 	"configurations": [
 		{
@@ -8,8 +11,12 @@
 			"preLaunchTask": "build",
 			"program": "${workspaceFolder}/back/src/bin/Debug/netcoreapp3.1/Curtme.dll",
 			"args": [],
-			"cwd": "${workspaceFolder}",
+			"cwd": "${workspaceFolder}/back/src",
 			"stopAtEntry": false,
+			"serverReadyAction": {
+				"action": "openExternally",
+				"pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+			},
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development"
 			},
