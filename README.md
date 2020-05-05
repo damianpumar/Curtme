@@ -10,6 +10,7 @@
 - Website for end users :white_check_mark:
 - Show clicks on the fronted :white_check_mark:
 - Add login functionality :white_check_mark:
+- Improve login styles (UI)
 - Allow user to create custom short URL
 - Track origin ip, user agent for each shorter link visited
 
