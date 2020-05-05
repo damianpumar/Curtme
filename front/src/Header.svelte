@@ -1,7 +1,7 @@
 <script>
   import { blur } from "svelte/transition";
   import { createAuth } from "./auth0";
-  import { auth0 } from "./utils/config";
+  import { AUTH0 } from "./utils/config";
 
   const {
     isAuthenticated,
@@ -10,7 +10,7 @@
     logout,
     authToken,
     userInfo
-  } = createAuth(auth0);
+  } = createAuth(AUTH0);
 </script>
 
 <style>
