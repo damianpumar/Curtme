@@ -7,7 +7,7 @@
   function copyClipboard() {
     if (navigator.clipboard) {
       return navigator.clipboard
-        .writeText(endpoint + link.shortURL)
+        .writeText(VISIT_LINK(link.shortURL))
         .catch(function(err) {
           throw err !== undefined
             ? err
