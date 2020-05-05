@@ -1,10 +1,16 @@
 <script>
+  import { blur } from "svelte/transition";
   import { createAuth } from "./auth0";
   import { auth0 } from "./utils/config";
 
-  const { isAuthenticated, login, logout, authToken, userInfo } = createAuth(
-    auth0
-  );
+  const {
+    isAuthenticated,
+    isLoading,
+    login,
+    logout,
+    authToken,
+    userInfo
+  } = createAuth(auth0);
 </script>
 
 <style>
@@ -148,28 +154,29 @@
   <h1>
     <a href="/">Curtme</a>
   </h1>
-  <nav>
-    <ul>
-      {#if $isAuthenticated}
-        <li>
-          <menu>
-            <span>
-              <img src={$userInfo.picture} alt={$userInfo.name} />
-              {$userInfo.name}
-              <i class="icon solid fa-angle-down" />
-            </span>
-            <menu-content>
-              <button on:click|preventDefault={() => logout()}>Logout</button>
-            </menu-content>
-          </menu>
-
-        </li>
-      {:else}
-        <li>
-          <button on:click|preventDefault={() => login()}>Login</button>
-        </li>
-      {/if}
-    </ul>
-  </nav>
+  {#if !$isLoading}
+    <nav>
+      <ul>
+        {#if $isAuthenticated}
+          <li>
+            <menu transition:blur={{ amount: 100 }}>
+              <span>
+                <img src={$userInfo.picture} alt={$userInfo.name} />
+                {$userInfo.name}
+                <i class="icon solid fa-angle-down" />
+              </span>
+              <menu-content>
+                <button on:click|preventDefault={() => logout()}>Logout</button>
+              </menu-content>
+            </menu>
+          </li>
+        {:else}
+          <li>
+            <button on:click|preventDefault={() => login()}>Login</button>
+          </li>
+        {/if}
+      </ul>
+    </nav>
+  {/if}
 
 </header>
