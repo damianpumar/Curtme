@@ -406,62 +406,6 @@ var app = (function () {
             }
         };
     }
-    function create_out_transition(node, fn, params) {
-        let config = fn(node, params);
-        let running = true;
-        let animation_name;
-        const group = outros;
-        group.r += 1;
-        function go() {
-            const { delay = 0, duration = 300, easing = identity, tick = noop, css } = config || null_transition;
-            if (css)
-                animation_name = create_rule(node, 1, 0, duration, delay, easing, css);
-            const start_time = now() + delay;
-            const end_time = start_time + duration;
-            add_render_callback(() => dispatch(node, false, 'start'));
-            loop(now => {
-                if (running) {
-                    if (now >= end_time) {
-                        tick(0, 1);
-                        dispatch(node, false, 'end');
-                        if (!--group.r) {
-                            // this will result in `end()` being called,
-                            // so we don't need to clean up here
-                            run_all(group.c);
-                        }
-                        return false;
-                    }
-                    if (now >= start_time) {
-                        const t = easing((now - start_time) / duration);
-                        tick(1 - t, t);
-                    }
-                }
-                return running;
-            });
-        }
-        if (is_function(config)) {
-            wait().then(() => {
-                // @ts-ignore
-                config = config();
-                go();
-            });
-        }
-        else {
-            go();
-        }
-        return {
-            end(reset) {
-                if (reset && config.tick) {
-                    config.tick(1, 0);
-                }
-                if (running) {
-                    if (animation_name)
-                        delete_rule(node, animation_name);
-                    running = false;
-                }
-            }
-        };
-    }
     function create_bidirectional_transition(node, fn, params, intro) {
         let config = fn(node, params);
         let t = intro ? 0 : 1;
@@ -942,20 +886,6 @@ var app = (function () {
             duration,
             easing,
             css: t => `opacity: ${t * o}`
-        };
-    }
-    function fly(node, { delay = 0, duration = 400, easing = cubicOut, x = 0, y = 0, opacity = 0 }) {
-        const style = getComputedStyle(node);
-        const target_opacity = +style.opacity;
-        const transform = style.transform === 'none' ? '' : style.transform;
-        const od = target_opacity * (1 - opacity);
-        return {
-            delay,
-            duration,
-            easing,
-            css: (t, u) => `
-			transform: ${transform} translate(${(1 - t) * x}px, ${(1 - t) * y}px);
-			opacity: ${target_opacity - (od * u)}`
         };
     }
     function scale(node, { delay = 0, duration = 400, easing = cubicOut, start = 0, opacity = 0 }) {
@@ -1855,8 +1785,7 @@ var app = (function () {
     	let t10;
     	let t11_value = (/*link*/ ctx[0].visited === 1 ? "Click" : "Clicks") + "";
     	let t11;
-    	let section_intro;
-    	let section_outro;
+    	let section_transition;
     	let current;
     	let dispose;
 
@@ -1887,31 +1816,31 @@ var app = (function () {
     			t10 = space();
     			t11 = text(t11_value);
     			attr_dev(p0, "class", "date-link svelte-m2s409");
-    			add_location(p0, file$3, 106, 4, 2225);
+    			add_location(p0, file$3, 105, 4, 2201);
     			attr_dev(p1, "class", "title-link svelte-m2s409");
-    			add_location(p1, file$3, 107, 4, 2276);
+    			add_location(p1, file$3, 106, 4, 2252);
     			attr_dev(a0, "href", a0_href_value = /*link*/ ctx[0].longURL);
     			attr_dev(a0, "target", "blank");
-    			add_location(a0, file$3, 109, 6, 2347);
+    			add_location(a0, file$3, 108, 6, 2323);
     			attr_dev(p2, "class", "long-link svelte-m2s409");
-    			add_location(p2, file$3, 108, 4, 2319);
+    			add_location(p2, file$3, 107, 4, 2295);
     			attr_dev(a1, "href", a1_href_value = VISIT_LINK(/*link*/ ctx[0].shortURL));
     			attr_dev(a1, "class", "short_url");
     			attr_dev(a1, "target", "blank");
-    			add_location(a1, file$3, 113, 8, 2492);
+    			add_location(a1, file$3, 112, 8, 2468);
     			attr_dev(p3, "class", "short-link svelte-m2s409");
-    			add_location(p3, file$3, 112, 6, 2441);
+    			add_location(p3, file$3, 111, 6, 2417);
     			attr_dev(button, "class", "icon regular fa-copy svelte-m2s409");
-    			add_location(button, file$3, 117, 6, 2630);
-    			add_location(span, file$3, 119, 8, 2736);
+    			add_location(button, file$3, 116, 6, 2606);
+    			add_location(span, file$3, 118, 8, 2712);
     			attr_dev(div0, "class", "visited-link svelte-m2s409");
-    			add_location(div0, file$3, 118, 6, 2701);
+    			add_location(div0, file$3, 117, 6, 2677);
     			attr_dev(div1, "class", "row");
-    			add_location(div1, file$3, 111, 4, 2417);
+    			add_location(div1, file$3, 110, 4, 2393);
     			attr_dev(div2, "class", "result svelte-m2s409");
-    			add_location(div2, file$3, 105, 2, 2200);
+    			add_location(div2, file$3, 104, 2, 2176);
     			attr_dev(section, "class", "col-12 col-12-mobilep container medium svelte-m2s409");
-    			add_location(section, file$3, 101, 0, 2090);
+    			add_location(section, file$3, 101, 0, 2079);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1968,22 +1897,21 @@ var app = (function () {
     			if (current) return;
 
     			add_render_callback(() => {
-    				if (section_outro) section_outro.end(1);
-    				if (!section_intro) section_intro = create_in_transition(section, fly, { y: 200, duration: 2000 });
-    				section_intro.start();
+    				if (!section_transition) section_transition = create_bidirectional_transition(section, scale, { start: 0.5 }, true);
+    				section_transition.run(1);
     			});
 
     			current = true;
     		},
     		o: function outro(local) {
-    			if (section_intro) section_intro.invalidate();
-    			section_outro = create_out_transition(section, fade, {});
+    			if (!section_transition) section_transition = create_bidirectional_transition(section, scale, { start: 0.5 }, false);
+    			section_transition.run(0);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(section);
     			/*p3_binding*/ ctx[4](null);
-    			if (detaching && section_outro) section_outro.end();
+    			if (detaching && section_transition) section_transition.end();
     			dispose();
     		}
     	};
@@ -2034,8 +1962,6 @@ var app = (function () {
     	};
 
     	$$self.$capture_state = () => ({
-    		fade,
-    		fly,
     		scale,
     		create_in_transition,
     		VISIT_LINK,
@@ -2096,7 +2022,7 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
+    	child_ctx[16] = list[i];
     	return child_ctx;
     }
 
@@ -2105,7 +2031,7 @@ var app = (function () {
     	let current;
 
     	const link = new Link({
-    			props: { link: /*link*/ ctx[14] },
+    			props: { link: /*link*/ ctx[16] },
     			$$inline: true
     		});
 
@@ -2119,7 +2045,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const link_changes = {};
-    			if (dirty & /*links*/ 4) link_changes.link = /*link*/ ctx[14];
+    			if (dirty & /*links*/ 8) link_changes.link = /*link*/ ctx[16];
     			link.$set(link_changes);
     		},
     		i: function intro(local) {
@@ -2168,18 +2094,18 @@ var app = (function () {
     	let dispose;
 
     	function error_error_binding(value) {
-    		/*error_error_binding*/ ctx[13].call(null, value);
+    		/*error_error_binding*/ ctx[15].call(null, value);
     	}
 
     	let error_props = {};
 
-    	if (/*errorMessage*/ ctx[1] !== void 0) {
-    		error_props.error = /*errorMessage*/ ctx[1];
+    	if (/*errorMessage*/ ctx[2] !== void 0) {
+    		error_props.error = /*errorMessage*/ ctx[2];
     	}
 
     	const error = new Error$1({ props: error_props, $$inline: true });
     	binding_callbacks.push(() => bind(error, "error", error_error_binding));
-    	let each_value = /*links*/ ctx[2];
+    	let each_value = /*links*/ ctx[3];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -2218,27 +2144,26 @@ var app = (function () {
 
     			each_1_anchor = empty();
     			attr_dev(h2, "class", "svelte-1w05hy8");
-    			add_location(h2, file$4, 198, 2, 3754);
+    			add_location(h2, file$4, 198, 2, 3701);
     			attr_dev(p, "class", "svelte-1w05hy8");
-    			add_location(p, file$4, 199, 2, 3776);
-    			attr_dev(input, "id", "longURL");
+    			add_location(p, file$4, 199, 2, 3723);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "autocomplete", "false");
     			attr_dev(input, "placeholder", "Paste long url and shorten it");
     			attr_dev(input, "class", "svelte-1w05hy8");
-    			add_location(input, file$4, 202, 6, 3893);
+    			add_location(input, file$4, 202, 6, 3840);
     			attr_dev(div0, "class", "col-12 col-12-mobilep svelte-1w05hy8");
-    			add_location(div0, file$4, 201, 4, 3851);
+    			add_location(div0, file$4, 201, 4, 3798);
     			attr_dev(div1, "class", "row svelte-1w05hy8");
-    			add_location(div1, file$4, 200, 2, 3829);
+    			add_location(div1, file$4, 200, 2, 3776);
     			attr_dev(button, "class", "svelte-1w05hy8");
-    			add_location(button, file$4, 214, 6, 4252);
+    			add_location(button, file$4, 214, 6, 4215);
     			attr_dev(div2, "class", "col-12 col-12-mobilep svelte-1w05hy8");
-    			add_location(div2, file$4, 213, 4, 4210);
+    			add_location(div2, file$4, 213, 4, 4173);
     			attr_dev(div3, "class", "row svelte-1w05hy8");
-    			add_location(div3, file$4, 212, 2, 4188);
+    			add_location(div3, file$4, 212, 2, 4151);
     			attr_dev(section, "class", "container medium svelte-1w05hy8");
-    			add_location(section, file$4, 197, 0, 3717);
+    			add_location(section, file$4, 197, 0, 3664);
     		},
     		l: function claim(nodes) {
     			throw new Error_1$1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2252,7 +2177,8 @@ var app = (function () {
     			append_dev(section, div1);
     			append_dev(div1, div0);
     			append_dev(div0, input);
-    			set_input_value(input, /*longURL*/ ctx[0]);
+    			set_input_value(input, /*longURL*/ ctx[1]);
+    			/*input_binding*/ ctx[13](input);
     			append_dev(div1, t4);
     			mount_component(error, div1, null);
     			append_dev(section, t5);
@@ -2270,28 +2196,28 @@ var app = (function () {
     			if (remount) run_all(dispose);
 
     			dispose = [
-    				listen_dev(input, "input", /*input_input_handler*/ ctx[11]),
-    				listen_dev(input, "keydown", /*keydown_handler*/ ctx[12], false, false, false),
-    				listen_dev(button, "click", /*createShortURL*/ ctx[3], false, false, false)
+    				listen_dev(input, "input", /*input_input_handler*/ ctx[12]),
+    				listen_dev(input, "keydown", /*keydown_handler*/ ctx[14], false, false, false),
+    				listen_dev(button, "click", /*createShortURL*/ ctx[4], false, false, false)
     			];
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*longURL*/ 1 && input.value !== /*longURL*/ ctx[0]) {
-    				set_input_value(input, /*longURL*/ ctx[0]);
+    			if (dirty & /*longURL*/ 2 && input.value !== /*longURL*/ ctx[1]) {
+    				set_input_value(input, /*longURL*/ ctx[1]);
     			}
 
     			const error_changes = {};
 
-    			if (!updating_error && dirty & /*errorMessage*/ 2) {
+    			if (!updating_error && dirty & /*errorMessage*/ 4) {
     				updating_error = true;
-    				error_changes.error = /*errorMessage*/ ctx[1];
+    				error_changes.error = /*errorMessage*/ ctx[2];
     				add_flush_callback(() => updating_error = false);
     			}
 
     			error.$set(error_changes);
 
-    			if (dirty & /*links*/ 4) {
-    				each_value = /*links*/ ctx[2];
+    			if (dirty & /*links*/ 8) {
+    				each_value = /*links*/ ctx[3];
     				validate_each_argument(each_value);
     				let i;
 
@@ -2340,6 +2266,7 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(section);
+    			/*input_binding*/ ctx[13](null);
     			destroy_component(error);
     			if (detaching) detach_dev(t7);
     			destroy_each(each_blocks, detaching);
@@ -2360,12 +2287,12 @@ var app = (function () {
     }
 
     const STORAGE_KEY = "links";
-    const LONG_URL_INPUT_ID = "longURL";
 
     function instance$4($$self, $$props, $$invalidate) {
     	let $isAuthenticated;
     	validate_store(isAuthenticated, "isAuthenticated");
-    	component_subscribe($$self, isAuthenticated, $$value => $$invalidate(4, $isAuthenticated = $$value));
+    	component_subscribe($$self, isAuthenticated, $$value => $$invalidate(5, $isAuthenticated = $$value));
+    	let longInputElement;
     	let longURL = null;
     	let errorMessage = null;
     	let links = [];
@@ -2378,7 +2305,7 @@ var app = (function () {
     			const response = await getLinks(linkStoredParsed);
 
     			if (response.ok) {
-    				$$invalidate(2, links = await response.json());
+    				$$invalidate(3, links = await response.json());
     				localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
     			}
     		}
@@ -2388,7 +2315,7 @@ var app = (function () {
     		const response = await getUserLinks();
 
     		if (response.ok) {
-    			$$invalidate(2, links = await response.json());
+    			$$invalidate(3, links = await response.json());
     		}
     	}
 
@@ -2408,7 +2335,7 @@ var app = (function () {
     	}
 
     	function addLink(link) {
-    		$$invalidate(2, links = [...links, link]);
+    		$$invalidate(3, links = [...links, link]);
 
     		if (!$isAuthenticated) {
     			localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
@@ -2417,12 +2344,12 @@ var app = (function () {
 
     	async function createShortURL() {
     		if (!longURL) {
-    			$$invalidate(1, errorMessage = URL_MANDATORY);
+    			$$invalidate(2, errorMessage = URL_MANDATORY);
     			return;
     		}
 
     		if (!validURL(longURL)) {
-    			$$invalidate(1, errorMessage = URL_INVALID);
+    			$$invalidate(2, errorMessage = URL_INVALID);
     			return;
     		}
 
@@ -2431,22 +2358,22 @@ var app = (function () {
 
     			if (response.ok) {
     				const link = await response.json();
-    				$$invalidate(0, longURL = null);
+    				$$invalidate(1, longURL = null);
     				addLink(link);
     			} else {
-    				$$invalidate(1, errorMessage = URL_INVALID);
+    				$$invalidate(2, errorMessage = URL_INVALID);
     			}
     		} catch(exception) {
-    			$$invalidate(1, errorMessage = INTERNET_CONNECTION);
+    			$$invalidate(2, errorMessage = INTERNET_CONNECTION);
     		}
     	}
 
     	async function loadLinks() {
     		if ($isAuthenticated) {
     			await syncLinkWithoutUser();
-    			await loadLinkWithUser();
+    			loadLinkWithUser();
     		} else {
-    			await loadLinksWithoutUser();
+    			loadLinksWithoutUser();
     		}
     	}
 
@@ -2457,7 +2384,7 @@ var app = (function () {
     	});
 
     	onMount(() => {
-    		document.getElementById(LONG_URL_INPUT_ID).focus();
+    		longInputElement.focus();
     	});
 
     	onDestroy(unsubscribe);
@@ -2472,14 +2399,20 @@ var app = (function () {
 
     	function input_input_handler() {
     		longURL = this.value;
-    		$$invalidate(0, longURL);
+    		$$invalidate(1, longURL);
+    	}
+
+    	function input_binding($$value) {
+    		binding_callbacks[$$value ? "unshift" : "push"](() => {
+    			$$invalidate(0, longInputElement = $$value);
+    		});
     	}
 
     	const keydown_handler = event => event.key === "Enter" && createShortURL();
 
     	function error_error_binding(value) {
     		errorMessage = value;
-    		$$invalidate(1, errorMessage);
+    		$$invalidate(2, errorMessage);
     	}
 
     	$$self.$capture_state = () => ({
@@ -2498,7 +2431,7 @@ var app = (function () {
     		Error: Error$1,
     		Link,
     		STORAGE_KEY,
-    		LONG_URL_INPUT_ID,
+    		longInputElement,
     		longURL,
     		errorMessage,
     		links,
@@ -2513,9 +2446,10 @@ var app = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("longURL" in $$props) $$invalidate(0, longURL = $$props.longURL);
-    		if ("errorMessage" in $$props) $$invalidate(1, errorMessage = $$props.errorMessage);
-    		if ("links" in $$props) $$invalidate(2, links = $$props.links);
+    		if ("longInputElement" in $$props) $$invalidate(0, longInputElement = $$props.longInputElement);
+    		if ("longURL" in $$props) $$invalidate(1, longURL = $$props.longURL);
+    		if ("errorMessage" in $$props) $$invalidate(2, errorMessage = $$props.errorMessage);
+    		if ("links" in $$props) $$invalidate(3, links = $$props.links);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -2523,6 +2457,7 @@ var app = (function () {
     	}
 
     	return [
+    		longInputElement,
     		longURL,
     		errorMessage,
     		links,
@@ -2535,6 +2470,7 @@ var app = (function () {
     		loadLinks,
     		unsubscribe,
     		input_input_handler,
+    		input_binding,
     		keydown_handler,
     		error_error_binding
     	];

@@ -1,5 +1,5 @@
 <script>
-  import { fade, fly, scale } from "svelte/transition";
+  import { scale } from "svelte/transition";
   import { create_in_transition } from "svelte/internal";
   import { VISIT_LINK } from "./utils/config";
   import { getDateParsed } from "./utils/date";
@@ -101,8 +101,7 @@
 
 <section
   class="col-12 col-12-mobilep container medium"
-  in:fly={{ y: 200, duration: 2000 }}
-  out:fade>
+  transition:scale={{ start: 0.5 }}>
   <div class="result">
     <p class="date-link">{getDateParsed(link)}</p>
     <p class="title-link">{link.title}</p>
