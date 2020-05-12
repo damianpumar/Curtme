@@ -21,7 +21,7 @@
 
 ## Build and Release backend
 
-- dotnet publish ./back/src -c Release -o ./publish
+- dotnet publish ./back -c Release -o ./publish
 
 ## Build and Release frontend
 
