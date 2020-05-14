@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -7,11 +8,21 @@ namespace Curtme.Extensions
     {
         public static string GetTitle(this string url)
         {
-            WebClient x = new WebClient();
-            string source = x.DownloadString(url);
+            try
+            {
+                WebClient x = new WebClient();
+                string source = x.DownloadString(url);
 
-            return Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>",
-                RegexOptions.IgnoreCase).Groups["Title"].Value;
+                return Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>",
+                    RegexOptions.IgnoreCase).Groups["Title"].Value;
+            }
+            catch (Exception)
+            {
+                if (Uri.TryCreate(url, UriKind.Absolute, out var uriResult))
+                    return uriResult.Host;
+
+                return url;
+            }
         }
     }
 }

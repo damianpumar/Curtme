@@ -9,9 +9,9 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/back/src/bin/Debug/netcoreapp3.1/Curtme.dll",
+			"program": "${workspaceFolder}/back/bin/Debug/netcoreapp3.1/Curtme.dll",
 			"args": [],
-			"cwd": "${workspaceFolder}/back/src",
+			"cwd": "${workspaceFolder}/back",
 			"stopAtEntry": false,
 			"serverReadyAction": {
 				"action": "openExternally",
