@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 
 namespace Curtme.Extensions
 {
@@ -10,11 +11,9 @@ namespace Curtme.Extensions
         {
             try
             {
-                WebClient x = new WebClient();
-                string source = x.DownloadString(url);
-
-                return Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>",
-                    RegexOptions.IgnoreCase).Groups["Title"].Value;
+                var webGet = new HtmlWeb();
+                var document = webGet.Load(url);
+                return document.DocumentNode.SelectSingleNode("html/head/title").InnerText;
             }
             catch (Exception)
             {
