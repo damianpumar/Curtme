@@ -1,6 +1,10 @@
 <script>
   import { onMount, onDestroy } from "svelte";
-  import { validURL } from "./utils/url";
+  import {
+    validURL,
+    getLongURLFromParameter,
+    clearLinkParameter
+  } from "./utils/url";
   import { gaEventUserCreateShortLink } from "./utils/ga.js";
   import {
     createLink,
@@ -122,7 +126,14 @@
   });
 
   onMount(() => {
-    longInputElement.focus();
+    longURL = getLongURLFromParameter();
+
+    if (longURL) {
+      clearLinkParameter();
+      createShortURL();
+    } else {
+      longInputElement.focus();
+    }
   });
 
   onDestroy(unsubscribe);
