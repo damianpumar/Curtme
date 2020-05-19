@@ -20,6 +20,9 @@ namespace Curtme.Extensions
             {
                 Uri.TryCreate(url, UriKind.Absolute, out var uriResult);
 
+                if(String.IsNullOrEmpty(uriResult.Host))
+                    return url;
+
                 return uriResult.Host;
             }
         }
