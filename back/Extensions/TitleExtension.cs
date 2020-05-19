@@ -5,23 +5,7 @@ namespace Curtme.Extensions
 {
     public static class TitleExtension
     {
-        public static Boolean TryGetTitle(this String url, out String title)
-        {
-            if (url.IsValidWebSite())
-                return GetWebsiteTitle(url, out title);
-
-            return GetDefaultUnknownURL(url, out title);
-
-        }
-
-        private static Boolean GetDefaultUnknownURL(String url, out string title)
-        {
-            title = url;
-
-            return true;
-        }
-
-        private static Boolean GetWebsiteTitle(String url, out String title)
+        public static String GetTitle(this String url)
         {
             try
             {
@@ -29,15 +13,13 @@ namespace Curtme.Extensions
 
                 var document = webGet.Load(url);
 
-                title = document.DocumentNode.SelectSingleNode("html/head/title").InnerText;
-
-                return true;
+                return document.DocumentNode.SelectSingleNode("html/head/title").InnerText;
             }
             catch (Exception)
             {
-                title = null;
+                Uri.TryCreate(url, UriKind.Absolute, out var uriResult);
 
-                return false;
+                return uriResult.Host;
             }
         }
     }

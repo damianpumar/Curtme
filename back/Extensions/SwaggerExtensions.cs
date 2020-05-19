@@ -1,9 +1,15 @@
 using System;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using Curtme.Filters;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Curtme.Extensions
 {
@@ -31,6 +37,8 @@ namespace Curtme.Extensions
                     }
                 });
 
+                c.DocumentFilter<SwaggerTagFilter>();
+
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
@@ -54,6 +62,32 @@ namespace Curtme.Extensions
                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Curt me API");
                c.RoutePrefix = "developer";
            });
+        }
+
+        public static Boolean HasCustomAttribute<T>(this ApiDescription apiDescription)
+        {
+            var actionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
+
+            var attributes = actionDescriptor.MethodInfo.GetCustomAttributes<ServiceFilterAttribute>();
+
+            return attributes.Any(a=> a.ServiceType == typeof(T));
+        }
+    }
+
+    public class SwaggerTagFilter : IDocumentFilter
+    {
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            foreach(var actionDescriptor in context.ApiDescriptions)
+            {
+                var shouldRemove = actionDescriptor.HasCustomAttribute<ClientIpCheckActionFilter>();
+
+                if(shouldRemove)
+                {
+                    var key = "/" + actionDescriptor.RelativePath.TrimEnd('/');
+                    swaggerDoc.Paths.Remove(key);
+                }
+            }
         }
     }
 }

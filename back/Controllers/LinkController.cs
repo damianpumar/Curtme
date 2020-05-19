@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Curtme.Extensions;
+using Curtme.Filters;
 using Curtme.Models;
 using Curtme.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -41,12 +42,10 @@ namespace Curtme.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Create(LinkViewModel linkViewModel)
         {
-            if (linkViewModel == null ||
-                !linkViewModel.IsValidURL() ||
-                !linkViewModel.TryGetTitle(out var title))
+            if (linkViewModel == null || !linkViewModel.IsValidURL())
                 return this.BadRequest(new { error = "Invalid URL" });
 
-            var link = this.linkService.Create(linkViewModel.URL, title, this.HttpContext.User.GetId());
+            var link = this.linkService.Create(linkViewModel.URL, linkViewModel.GetTitle(), this.HttpContext.User.GetId());
 
             return this.Ok(link);
         }
@@ -158,6 +157,32 @@ namespace Curtme.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("/consolidate")]
+        [ServiceFilter(typeof(ClientIpCheckActionFilter))]
+        public IActionResult Consolidate()
+        {
+            var links = this.linkService.Find(link=> String.IsNullOrEmpty(link.Title) ||
+                                              link.Date == DateTime.MinValue);
+
+            foreach (var link in links)
+            {
+                if(link.Date == DateTime.MinValue)
+                {
+                    link.Date = DateTime.Now;
+                }
+
+                if(String.IsNullOrEmpty(link.Title))
+                {
+                    link.Title = link.LongURL.GetTitle();
+                }
+
+                this.linkService.Update(link);
+            }
+
+            return this.Ok(links);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Curtme.Extensions;
+using Curtme.Filters;
 using Curtme.Models;
 using Curtme.Services;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,8 @@ namespace Curtme
             services.AddSwagger();
 
             services.AddAuth0();
+
+            services.AddFilters();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

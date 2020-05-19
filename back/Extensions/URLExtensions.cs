@@ -12,16 +12,5 @@ namespace Curtme.Extensions
                     &&
                     !uriResult.IsLoopback;
         }
-
-        public static Boolean IsValidWebSite(this String url)
-        {
-            return IsValidURL(url)
-                    &&
-                    Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
-                    &&
-                   (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps)
-                    &&
-                    uriResult.HostNameType == UriHostNameType.Dns;
-        }
     }
 }

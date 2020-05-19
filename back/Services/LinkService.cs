@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Curtme.Extensions;
 using Curtme.Models;
 using MongoDB.Driver;
@@ -52,6 +53,11 @@ namespace Curtme.Services
             return this.links.Find<Link>(link => link.UserId == userId).ToList();
         }
 
+        public IEnumerable<Link> Find(Expression<Func<Link, Boolean>> findQuery)
+        {
+            return this.links.Find<Link>(findQuery).ToList();
+        }
+
         public Boolean Exist(String shortURL)
         {
             return this.links.Find<Link>(link => link.ShortURL == shortURL).Any();
@@ -62,6 +68,11 @@ namespace Curtme.Services
             var linkIn = this.links.Find<Link>(link => link.Id == id).Single();
             linkIn.UserId = userId;
 
+            this.links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+        }
+
+        public void Update(Link linkIn)
+        {
             this.links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
 

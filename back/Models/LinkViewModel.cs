@@ -12,9 +12,9 @@ namespace Curtme.Models
             return this.URL.IsValidURL();
         }
 
-        public Boolean TryGetTitle(out String title)
+        public String GetTitle()
         {
-            return this.URL.TryGetTitle(out title);
+            return this.URL.GetTitle();
         }
     }
 }
