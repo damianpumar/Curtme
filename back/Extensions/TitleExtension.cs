@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using HtmlAgilityPack;
 
 namespace Curtme.Extensions
@@ -10,7 +11,7 @@ namespace Curtme.Extensions
             try
             {
                 var webGet = new HtmlWeb();
-
+                webGet.OverrideEncoding = Encoding.UTF8;
                 var document = webGet.Load(url);
 
                 return document.DocumentNode.SelectSingleNode("html/head/title").InnerText;
