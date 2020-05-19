@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from "svelte";
   import { validURL } from "./utils/url";
+  import { gaEventUserCreateShortLink } from "./utils/ga.js";
   import {
     createLink,
     getLinks,
@@ -84,6 +85,8 @@
     }
 
     try {
+      gaEventUserCreateShortLink();
+
       const response = await createLink(longURL);
 
       if (response.ok) {

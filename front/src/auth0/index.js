@@ -1,6 +1,11 @@
 import { onMount, setContext, getContext } from "svelte";
 import createAuth0Client from "@auth0/auth0-spa-js";
 import {
+	gaEventUserClickLogin,
+	gaEventUserClickLogout,
+	gaEventUserLoggedLogin,
+} from "../utils/ga";
+import {
 	isLoading,
 	isAuthenticated,
 	authToken,
@@ -37,6 +42,8 @@ function createAuth(config) {
 		isAuthenticated.set(_isAuthenticated);
 
 		if (_isAuthenticated) {
+			gaEventUserLoggedLogin();
+
 			userInfo.set(await auth0.getUser());
 
 			const token = await auth0.getTokenSilently();
@@ -54,6 +61,7 @@ function createAuth(config) {
 	});
 
 	const login = async (redirectPage) => {
+		gaEventUserClickLogin();
 		await auth0.loginWithRedirect({
 			redirect_uri: redirectPage || window.location.origin,
 			prompt: "login",
@@ -64,6 +72,8 @@ function createAuth(config) {
 		auth0.logout({
 			returnTo: window.location.origin,
 		});
+
+		gaEventUserClickLogout();
 	};
 
 	const auth = {
