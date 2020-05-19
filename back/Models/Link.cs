@@ -1,6 +1,5 @@
 using System;
 using System.Text.Json.Serialization;
-using Curtme.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -8,11 +7,12 @@ namespace Curtme.Models
 {
     public class Link
     {
-        public Link(string longURL, string userId = null)
+        public Link(String longURL, String shortURL, String title, String userId = null)
         {
             this.LongURL = longURL;
+            this.ShortURL = shortURL;
             this.Date = DateTime.Now;
-            this.Title = this.LongURL.GetTitle();
+            this.Title = title;
             this.UserId = userId;
         }
 

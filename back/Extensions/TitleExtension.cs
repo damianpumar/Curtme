@@ -1,26 +1,43 @@
 using System;
-using System.Net;
-using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace Curtme.Extensions
 {
     public static class TitleExtension
     {
-        public static string GetTitle(this string url)
+        public static Boolean TryGetTitle(this String url, out String title)
+        {
+            if (url.IsValidWebSite())
+                return GetWebsiteTitle(url, out title);
+
+            return GetDefaultUnknownURL(url, out title);
+
+        }
+
+        private static Boolean GetDefaultUnknownURL(String url, out string title)
+        {
+            title = url;
+
+            return true;
+        }
+
+        private static Boolean GetWebsiteTitle(String url, out String title)
         {
             try
             {
                 var webGet = new HtmlWeb();
+
                 var document = webGet.Load(url);
-                return document.DocumentNode.SelectSingleNode("html/head/title").InnerText;
+
+                title = document.DocumentNode.SelectSingleNode("html/head/title").InnerText;
+
+                return true;
             }
             catch (Exception)
             {
-                if (Uri.TryCreate(url, UriKind.Absolute, out var uriResult))
-                    return uriResult.Host;
+                title = null;
 
-                return url;
+                return false;
             }
         }
     }

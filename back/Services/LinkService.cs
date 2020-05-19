@@ -19,10 +19,11 @@ namespace Curtme.Services
             this.links = database.GetCollection<Link>(settings.LinksCollectionName);
         }
 
-        public Link Create(String longURL, String userId = null)
+        public Link Create(String longURL, String title, String userId = null)
         {
-            var link = new Link(longURL, userId);
-            link.ShortURL = this.CreateShortURL();
+            var shortURL = this.CreateShortURL();
+
+            var link = new Link(longURL, shortURL, title, userId);
 
             this.links.InsertOne(link);
 

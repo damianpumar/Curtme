@@ -34,17 +34,19 @@ namespace Curtme.Controllers
         /// <param name="linkViewModel"></param>
         /// <returns>A newly shorted link</returns>
         /// <response code="200">Returns the newly shorted link</response>
-        /// <response code="400">If the linkViewModel is null or has invalid URL</response>  
+        /// <response code="400">If the linkViewModel is null or is invalid URL or the url doesn't exist</response>
         [HttpPost]
         [Route("/")]
         [ProducesResponseType(typeof(Link), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Create(LinkViewModel linkViewModel)
         {
-            if (linkViewModel == null || !linkViewModel.IsValidURL())
+            if (linkViewModel == null ||
+                !linkViewModel.IsValidURL() ||
+                !linkViewModel.TryGetTitle(out var title))
                 return this.BadRequest(new { error = "Invalid URL" });
 
-            var link = this.linkService.Create(linkViewModel.URL, this.HttpContext.User.GetId());
+            var link = this.linkService.Create(linkViewModel.URL, title, this.HttpContext.User.GetId());
 
             return this.Ok(link);
         }
@@ -61,7 +63,7 @@ namespace Curtme.Controllers
         /// <param name="shortURL"></param>
         /// <returns>Redirect to long URL</returns>
         /// <response code="302">Redirect to long url</response>
-        /// <response code="404">If does not exist a link with that shortURL</response>  
+        /// <response code="404">If does not exist a link with that shortURL</response>
         [HttpGet]
         [Route("/{shortURL}")]
         [ProducesResponseType(StatusCodes.Status302Found)]
