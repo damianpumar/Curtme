@@ -10,44 +10,22 @@
 - Website for end users :white_check_mark:
 - Show clicks on the fronted :white_check_mark:
 - Add login functionality :white_check_mark:
-- Improve login styles (UI)
+- Add google analytics :white_check_mark: [branched](https://github.com/damianpumar/Curtme/tree/google-analytics)
+- Improve login styles (UI) :white_check_mark:
 - Allow user to create custom short URL
 - Track origin ip, user agent for each shorter link visited
 
-## Endpoints
+## Documentation
 
-- https://curtme.org/ (POST - with url into body) to create your short link :scissors:
-- https://curtme.org/{SHORTURL} (GET) redirect to your long URL :arrow_right:
-- https://curtme.org/{SHORTURL}/stats (GET) get your stats :bar_chart:
+- [Swagger docs](https://curtme.org/developer/)
 
-## For create your short link :scissors:
+## Build and Release backend
 
-- Request
-  execute POST action to https://curtme.org/ with that body json type.
+- dotnet publish ./back -c Release -o ./publish
 
-![alt text](https://github.com/damianpumar/Curtme/blob/master/resources/create-short-link-request.png "Request body")
+## Build and Release frontend
 
-- Response
-
-![alt text](https://github.com/damianpumar/Curtme/blob/master/resources/create-short-link-response.png "Response body")
-
-## Redirect to your long URL :arrow_right:
-
-- Request
-  browse to https://curtme.org/{SHORTURL}
-
-## View your links stats :bar_chart:
-
-- Request
-  execute GET action to https://curtme.org/{SHORTURL}/stats
-
-- Response
-
-![alt text](https://github.com/damianpumar/Curtme/blob/master/resources/short-link-stats.png "Stats response body")
-
-## Build and Release
-
-- dotnet publish ./back/src -c Release -o ./publish
+- cd front && npm run build
 
 ## License
 

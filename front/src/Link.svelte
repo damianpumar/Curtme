@@ -1,24 +1,23 @@
 <script>
-  import { fade, fly } from "svelte/transition";
-  import { VISIT_LINK } from "./utils/config.js";
+  import { scale } from "svelte/transition";
+  import { create_in_transition } from "svelte/internal";
+  import { VISIT_LINK } from "./utils/config";
+  import { getDateParsed } from "./utils/date";
+  import { copy } from "./utils/clipboard";
 
   export let link;
+  let element;
+  let animationLink;
 
   function copyClipboard() {
-    if (navigator.clipboard) {
-      return navigator.clipboard
-        .writeText(endpoint + link.shortURL)
-        .catch(function(err) {
-          throw err !== undefined
-            ? err
-            : new DOMException("The request is not allowed", "NotAllowedError");
-        });
-    }
-  }
+    copy(link);
 
-  function getDateParsed() {
-    const date = new Date(link.date);
-    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+    if (!animationLink) {
+      animationLink = create_in_transition(element, scale, {
+        start: 0.5
+      });
+    }
+    animationLink.start();
   }
 </script>
 
@@ -102,16 +101,15 @@
 
 <section
   class="col-12 col-12-mobilep container medium"
-  in:fly={{ y: 200, duration: 2000 }}
-  out:fade>
+  transition:scale={{ start: 0.5 }}>
   <div class="result">
-    <p class="date-link">{getDateParsed()}</p>
+    <p class="date-link">{getDateParsed(link)}</p>
     <p class="title-link">{link.title}</p>
     <p class="long-link">
       <a href={link.longURL} target="blank">{link.longURL}</a>
     </p>
     <div class="row">
-      <p class="short-link">
+      <p class="short-link" bind:this={element}>
         <a href={VISIT_LINK(link.shortURL)} class="short_url" target="blank">
           {VISIT_LINK(link.shortURL)}
         </a>

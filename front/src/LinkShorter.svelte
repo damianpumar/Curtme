@@ -19,8 +19,8 @@
   import Link from "./Link.svelte";
 
   const STORAGE_KEY = "links";
-  const LONG_URL_INPUT_ID = "longURL";
 
+  let longInputElement;
   let longURL = null;
   let errorMessage = null;
   let links = [];
@@ -106,9 +106,9 @@
   async function loadLinks() {
     if ($isAuthenticated) {
       await syncLinkWithoutUser();
-      await loadLinkWithUser();
+      loadLinkWithUser();
     } else {
-      await loadLinksWithoutUser();
+      loadLinksWithoutUser();
     }
   }
 
@@ -119,7 +119,7 @@
   });
 
   onMount(() => {
-    document.getElementById(LONG_URL_INPUT_ID).focus();
+    longInputElement.focus();
   });
 
   onDestroy(unsubscribe);
@@ -204,11 +204,11 @@
   <div class="row">
     <div class="col-12 col-12-mobilep">
       <input
-        id="longURL"
         type="text"
         autocomplete="false"
         bind:value={longURL}
         placeholder="Paste long url and shorten it"
+        bind:this={longInputElement}
         on:keydown={event => event.key === 'Enter' && createShortURL()} />
     </div>
     <Error bind:error={errorMessage} />
