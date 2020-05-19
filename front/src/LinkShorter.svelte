@@ -24,6 +24,9 @@
   let longURL = null;
   let errorMessage = null;
   let links = [];
+  $: orderedLinks = links.sort(
+    (l1, l2) => new Date(l2.date) - new Date(l1.date)
+  );
 
   async function loadLinksWithoutUser() {
     const linksStored = localStorage.getItem(STORAGE_KEY);
@@ -220,6 +223,6 @@
   </div>
 </section>
 
-{#each links as link}
+{#each orderedLinks as link}
   <Link {link} />
 {/each}
