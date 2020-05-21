@@ -22,7 +22,7 @@ namespace Curtme.Extensions
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Curt me, link shorter, free, unlimited and open source",
+                    Title = "Curt me, Free Open source and Unlimited link shortener",
                     Description = "Curt me web api doc",
                     Contact = new OpenApiContact
                     {

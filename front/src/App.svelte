@@ -3,7 +3,7 @@
   import { gaLoad } from "./utils/ga";
   import Cloud from "./Cloud.svelte";
   import Header from "./Header.svelte";
-  import LinkShorter from "./LinkShorter.svelte";
+  import LinkShortener from "./LinkShortener.svelte";
   import Footer from "./Footer.svelte";
 
   onMount(() => {
@@ -34,7 +34,7 @@
 
   <Header />
 
-  <LinkShorter />
+  <LinkShortener />
 
   <Footer />
 
