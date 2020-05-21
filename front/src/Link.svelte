@@ -92,9 +92,20 @@
     color: lightgray;
   }
 
+  .truncate {
+    max-width: 50em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block; 
+  }
+
   @media screen and (max-width: 480px) {
     section {
       padding: 0 1em 0 1em;
+    }
+    
+    .truncate {
+      max-width: 25em;
     }
   }
 </style>
@@ -106,7 +117,7 @@
     <p class="date-link">{getDateParsed(link)}</p>
     <p class="title-link">{link.title}</p>
     <p class="long-link">
-      <a href={link.longURL} target="blank">{link.longURL}</a>
+      <a href={link.longURL} class="truncate" target="blank">{link.longURL}</a>
     </p>
     <div class="row">
       <p class="short-link" bind:this={element}>
