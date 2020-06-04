@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
-	"name": "FREND switcher",
-	"description": "This extension allow to switch to different environments",
+	"name": "Curtme.org",
+	"description": "Cut your links easily",
 	"version": "1.0.0",
 	"icons": {
 		"128": "cut.png"
