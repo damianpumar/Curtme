@@ -62,19 +62,26 @@ namespace Curtme.Controllers
         /// <param name="shortURL"></param>
         /// <returns>Redirect to long URL</returns>
         /// <response code="302">Redirect to long url</response>
+        /// <response code="400">If short url is null</response>
         /// <response code="404">If does not exist a link with that shortURL</response>
         [HttpGet]
         [Route("/{shortURL}")]
         [ProducesResponseType(StatusCodes.Status302Found)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Visit(String shortURL)
         {
+            if (String.IsNullOrEmpty(shortURL))
+                return this.BadRequest(new { error = "shortURL is required" });
+
             var link = this.linkService.GetByShortURL(shortURL);
 
             if (link == null)
                 return this.NotFound();
 
-            Task.Run(() => this.linkService.Visited(link));
+            var remoteIp = this.HttpContext.Connection.RemoteIpAddress;
+
+            Task.Run(() => this.linkService.Visited(link, remoteIp));
 
             return this.Redirect(link.LongURL);
         }
@@ -164,17 +171,17 @@ namespace Curtme.Controllers
         [ServiceFilter(typeof(ClientIpCheckActionFilter))]
         public IActionResult Consolidate()
         {
-            var links = this.linkService.Find(link=> String.IsNullOrEmpty(link.Title) ||
+            var links = this.linkService.Find(link => String.IsNullOrEmpty(link.Title) ||
                                               link.Date == DateTime.MinValue);
 
             foreach (var link in links)
             {
-                if(link.Date == DateTime.MinValue)
+                if (link.Date == DateTime.MinValue)
                 {
                     link.Date = DateTime.Now;
                 }
 
-                if(String.IsNullOrEmpty(link.Title))
+                if (String.IsNullOrEmpty(link.Title))
                 {
                     link.Title = link.LongURL.GetTitle();
                 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -11,9 +12,10 @@ namespace Curtme.Models
         {
             this.LongURL = longURL;
             this.ShortURL = shortURL;
-            this.Date = DateTime.Now;
+            this.Date = DateTime.UtcNow;
             this.Title = title;
             this.UserId = userId;
+            this.Positions = new List<LinkDetails>();
         }
 
         [BsonId]
@@ -32,5 +34,8 @@ namespace Curtme.Models
         public DateTime Date { get; set; }
 
         public Int32 Visited { get; set; }
+
+        [JsonIgnore]
+        public List<LinkDetails> Positions { get; set; }
     }
 }

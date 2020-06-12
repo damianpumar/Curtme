@@ -28,7 +28,13 @@ namespace Curtme
             services.AddSingleton<ICurtMeDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<CurtMeDatabaseSettings>>().Value);
 
+            services.AddSingleton<MongoDBService>();
+
             services.AddSingleton<LinkService>();
+
+            services.AddSingleton<LinkDetailsService>();
+
+            services.AddSingleton<IpStackService>();
 
             services.AddControllers();
 

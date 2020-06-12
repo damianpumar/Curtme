@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Threading.Tasks;
 using Curtme.Extensions;
 using Curtme.Models;
 using MongoDB.Driver;
@@ -10,14 +12,15 @@ namespace Curtme.Services
 {
     public class LinkService
     {
-        private readonly IMongoCollection<Link> links;
+        private readonly MongoDBService mongoDBService;
 
-        public LinkService(ICurtMeDatabaseSettings settings)
+        private readonly LinkDetailsService linkDetailsService;
+
+        public LinkService(MongoDBService mongoDBService, LinkDetailsService linkDetailsService)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
+            this.mongoDBService = mongoDBService;
 
-            this.links = database.GetCollection<Link>(settings.LinksCollectionName);
+            this.linkDetailsService = linkDetailsService;
         }
 
         public Link Create(String longURL, String title, String userId = null)
@@ -26,54 +29,56 @@ namespace Curtme.Services
 
             var link = new Link(longURL, shortURL, title, userId);
 
-            this.links.InsertOne(link);
+            this.mongoDBService.Links.InsertOne(link);
 
             return link;
         }
 
-        public void Visited(Link linkIn)
+        public void Visited(Link linkIn, IPAddress remoteIp)
         {
             linkIn.Visited++;
 
-            this.links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+            this.linkDetailsService.CreatePosition(linkIn, remoteIp);
+
+            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
 
         public Link GetByShortURL(String shortURL)
         {
-            return this.links.Find<Link>(link => link.ShortURL == shortURL).SingleOrDefault();
+            return this.mongoDBService.Links.Find<Link>(link => link.ShortURL == shortURL).SingleOrDefault();
         }
 
         public IEnumerable<Link> GetById(String[] ids)
         {
-            return this.links.Find<Link>(link => ids.Contains(link.Id)).ToList();
+            return this.mongoDBService.Links.Find<Link>(link => ids.Contains(link.Id)).ToList();
         }
 
         public IEnumerable<Link> GetAll(string userId)
         {
-            return this.links.Find<Link>(link => link.UserId == userId).ToList();
+            return this.mongoDBService.Links.Find<Link>(link => link.UserId == userId).ToList();
         }
 
         public IEnumerable<Link> Find(Expression<Func<Link, Boolean>> findQuery)
         {
-            return this.links.Find<Link>(findQuery).ToList();
+            return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
         }
 
         public Boolean Exist(String shortURL)
         {
-            return this.links.Find<Link>(link => link.ShortURL == shortURL).Any();
+            return this.mongoDBService.Links.Find<Link>(link => link.ShortURL == shortURL).Any();
         }
 
         public void Update(string id, string userId)
         {
-            var linkIn = this.links.Find<Link>(link => link.Id == id).Single();
+            var linkIn = this.mongoDBService.Links.Find<Link>(link => link.Id == id).Single();
             linkIn.UserId = userId;
 
-            this.links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
 
         public void Update(Link linkIn)
         {
-            this.links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
 
         private string CreateShortURL()
