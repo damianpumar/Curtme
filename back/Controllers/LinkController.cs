@@ -42,7 +42,10 @@ namespace Curtme.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Create(LinkViewModel linkViewModel)
         {
-            if (linkViewModel == null || !linkViewModel.IsValidURL())
+            if (linkViewModel == null)
+                return this.BadRequest(new { error = "You must send http body, please check our documentation" });
+
+            if (!linkViewModel.IsValidURL())
                 return this.BadRequest(new { error = "Invalid URL" });
 
             var link = this.linkService.Create(linkViewModel.URL, linkViewModel.GetTitle(), this.HttpContext.User.GetId());
@@ -77,7 +80,7 @@ namespace Curtme.Controllers
             var link = this.linkService.GetByShortURL(shortURL);
 
             if (link == null)
-                return this.NotFound();
+                return this.NotFound(new { error = "Link does not exist" });
 
             var remoteIp = this.HttpContext.Connection.RemoteIpAddress;
 
@@ -103,7 +106,7 @@ namespace Curtme.Controllers
         [ProducesResponseType(typeof(Link[]), StatusCodes.Status200OK)]
         public IActionResult Get([FromQuery] String[] ids)
         {
-            var links = this.linkService.GetById(ids);
+            var links = this.linkService.GetByIds(ids);
 
             return Ok(links);
         }
@@ -145,7 +148,7 @@ namespace Curtme.Controllers
         ///     }
         ///
         /// </remarks>
-        /// <param name="ids"></param>
+        /// <param name="linkIds"></param>
         /// <returns>Status 200 OK</returns>
         /// <response code="200">Always</response>
         /// <response code="403">If user not logged in</response>
@@ -154,16 +157,39 @@ namespace Curtme.Controllers
         [Route("/sync")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public IActionResult Sync(String[] ids)
+        public IActionResult Sync(String[] linkIds)
         {
             var userId = this.HttpContext.User.GetId();
 
-            foreach (var id in ids)
+            foreach (var linkId in linkIds)
             {
-                this.linkService.Update(id, userId);
+                this.linkService.Update(linkId, userId);
             }
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("/{linkId}/{newShortURL}")]
+        public IActionResult Customize(String linkId, String newShortURL)
+        {
+            if (String.IsNullOrEmpty(newShortURL))
+                return this.BadRequest(new { error = "newShortURL is required" });
+
+            if (String.IsNullOrEmpty(linkId))
+                return this.BadRequest(new { error = "linkdId is required" });
+
+            if (this.linkService.ExistByShortURL(newShortURL))
+                return this.BadRequest(new { error = $"{newShortURL} already exists, please take other custom short url" });
+
+            var linkIn = this.linkService.GetById(linkId);
+
+            if (linkIn == null)
+                return this.NotFound(new { error = "Link does not exist" });
+
+            this.linkService.Customize(linkIn, newShortURL);
+
+            return this.Ok();
         }
 
         [HttpPut]

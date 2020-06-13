@@ -48,12 +48,17 @@ namespace Curtme.Services
             return this.mongoDBService.Links.Find<Link>(link => link.ShortURL == shortURL).SingleOrDefault();
         }
 
-        public IEnumerable<Link> GetById(String[] ids)
+        public Link GetById(String linkId)
+        {
+            return this.mongoDBService.Links.Find<Link>(link => link.Id == linkId).SingleOrDefault();
+        }
+
+        public IEnumerable<Link> GetByIds(String[] ids)
         {
             return this.mongoDBService.Links.Find<Link>(link => ids.Contains(link.Id)).ToList();
         }
 
-        public IEnumerable<Link> GetAll(string userId)
+        public IEnumerable<Link> GetAll(String userId)
         {
             return this.mongoDBService.Links.Find<Link>(link => link.UserId == userId).ToList();
         }
@@ -63,14 +68,15 @@ namespace Curtme.Services
             return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
         }
 
-        public Boolean Exist(String shortURL)
+        public Boolean ExistByShortURL(String shortURL)
         {
             return this.mongoDBService.Links.Find<Link>(link => link.ShortURL == shortURL).Any();
         }
 
-        public void Update(string id, string userId)
+        public void Update(String linkId, String userId)
         {
-            var linkIn = this.mongoDBService.Links.Find<Link>(link => link.Id == id).Single();
+            var linkIn = this.mongoDBService.Links.Find<Link>(link => link.Id == linkId).Single();
+
             linkIn.UserId = userId;
 
             this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
@@ -81,11 +87,18 @@ namespace Curtme.Services
             this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
 
+        public void Customize(Link linkIn, String newShortURL)
+        {
+            linkIn.ShortURL = newShortURL;
+
+            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+        }
+
         private string CreateShortURL()
         {
             var shortURL = RandomExtensions.Create(7);
 
-            if (this.Exist(shortURL))
+            if (this.ExistByShortURL(shortURL))
                 return this.CreateShortURL();
 
             return shortURL;

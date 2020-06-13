@@ -16,7 +16,11 @@ namespace Curtme.Services
 
         public IpAddressDetails GetData(IPAddress remoteIp)
         {
+#if DEBUG
+            var ip = "2.155.39.153"; remoteIp.ToString();
+#else
             var ip = remoteIp.ToString();
+#endif
 
             return client.GetIpAddressDetails(ip);
         }

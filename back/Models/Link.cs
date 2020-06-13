@@ -15,7 +15,6 @@ namespace Curtme.Models
             this.Date = DateTime.UtcNow;
             this.Title = title;
             this.UserId = userId;
-            this.Positions = new List<LinkDetails>();
         }
 
         [BsonId]
@@ -34,8 +33,5 @@ namespace Curtme.Models
         public DateTime Date { get; set; }
 
         public Int32 Visited { get; set; }
-
-        [JsonIgnore]
-        public List<LinkDetails> Positions { get; set; }
     }
 }
