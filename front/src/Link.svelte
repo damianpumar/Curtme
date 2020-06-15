@@ -9,6 +9,8 @@
   let element;
   let animationLink;
 
+  let isEditing = false;
+
   function copyClipboard() {
     copy(link);
 
@@ -18,6 +20,14 @@
       });
     }
     animationLink.start();
+  }
+
+  function customizeShortURL() {
+    isEditing = true;
+  }
+
+  function saveCustomShortURL() {
+    isEditing = false;
   }
 </script>
 
@@ -75,9 +85,10 @@
   }
 
   .short-link {
-    margin-top: 20px !important;
     color: gray;
-    width: 14em;
+    min-width: 14em;
+    margin-top: 20px !important;
+    margin-right: 5px !important;
   }
 
   button {
@@ -85,25 +96,31 @@
     box-shadow: unset !important;
     color: #e89980;
     padding-top: 10px;
-    padding-left: 1px !important;
+    padding-left: 6px !important;
   }
 
   button:hover {
     color: lightgray;
   }
 
+  input[type="text"] {
+    height: unset;
+    margin-right: 5px;
+    width: 90%;
+  }
+
   .truncate {
     max-width: 50em;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block; 
+    display: block;
   }
 
   @media screen and (max-width: 480px) {
     section {
       padding: 0 1em 0 1em;
     }
-    
+
     .truncate {
       max-width: 25em;
     }
@@ -121,13 +138,24 @@
     </p>
     <div class="row">
       <p class="short-link" bind:this={element}>
-        <a href={VISIT_LINK(link.shortURL)} class="short_url" target="blank">
-          {VISIT_LINK(link.shortURL)}
-        </a>
+        {#if isEditing}
+          <input type="text" bind:value={link.shortURL} />
+        {:else}
+          <a href={VISIT_LINK(link.shortURL)} class="short_url" target="blank">
+            {VISIT_LINK(link.shortURL)}
+          </a>
+        {/if}
       </p>
-      <button class="icon regular fa-copy" on:click={copyClipboard} />
+      {#if isEditing}
+        <button class="icon fa-save" on:click={saveCustomShortURL} />
+      {:else}
+        <button class="icon fa-edit" on:click={customizeShortURL} />
+      {/if}
+      <button class="icon fa-copy" on:click={copyClipboard} />
       <div class="visited-link">
-        <span>{link.visited} {link.visited === 1 ? 'Click' : 'Clicks'}</span>
+        <a href={`#/link/${link.id}`}>
+          <span>{link.visited} {link.visited === 1 ? 'Click' : 'Clicks'}</span>
+        </a>
       </div>
     </div>
   </div>
