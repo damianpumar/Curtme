@@ -4,6 +4,7 @@
   import Header from "../components/Header.svelte";
   import Footer from "../components/Footer.svelte";
   import Link from "../components/Link.svelte";
+  import LinkStats from "../components/LinkStats.svelte";
 
   import { getLinks } from "../utils/api";
 
@@ -42,6 +43,7 @@
   <div class="link">
 
     <Link {link} />
+    <LinkStats {link} />
 
   </div>
 
