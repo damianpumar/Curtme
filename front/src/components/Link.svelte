@@ -1,9 +1,9 @@
 <script>
   import { scale } from "svelte/transition";
   import { create_in_transition } from "svelte/internal";
-  import { VISIT_LINK } from "./utils/config";
-  import { getDateParsed } from "./utils/date";
-  import { copy } from "./utils/clipboard";
+  import { VISIT_LINK } from "../utils/config";
+  import { getDateParsed } from "../utils/date";
+  import { copy } from "../utils/clipboard";
 
   export let link;
   let element;
@@ -127,36 +127,45 @@
   }
 </style>
 
-<section
-  class="col-12 col-12-mobilep container medium"
-  transition:scale={{ start: 0.5 }}>
-  <div class="result">
-    <p class="date-link">{getDateParsed(link)}</p>
-    <p class="title-link">{link.title}</p>
-    <p class="long-link">
-      <a href={link.longURL} class="truncate" target="blank">{link.longURL}</a>
-    </p>
-    <div class="row">
-      <p class="short-link" bind:this={element}>
-        {#if isEditing}
-          <input type="text" bind:value={link.shortURL} />
-        {:else}
-          <a href={VISIT_LINK(link.shortURL)} class="short_url" target="blank">
-            {VISIT_LINK(link.shortURL)}
-          </a>
-        {/if}
-      </p>
-      {#if isEditing}
-        <button class="icon fa-save" on:click={saveCustomShortURL} />
-      {:else}
-        <button class="icon fa-edit" on:click={customizeShortURL} />
-      {/if}
-      <button class="icon fa-copy" on:click={copyClipboard} />
-      <div class="visited-link">
-        <a href={`#/link/${link.id}`}>
-          <span>{link.visited} {link.visited === 1 ? 'Click' : 'Clicks'}</span>
+{#if link}
+  <section
+    class="col-12 col-12-mobilep container medium"
+    transition:scale={{ start: 0.5 }}>
+    <div class="result">
+      <p class="date-link">{getDateParsed(link)}</p>
+      <p class="title-link">{link.title}</p>
+      <p class="long-link">
+        <a href={link.longURL} class="truncate" target="blank">
+          {link.longURL}
         </a>
+      </p>
+      <div class="row">
+        <p class="short-link" bind:this={element}>
+          {#if isEditing}
+            <input type="text" bind:value={link.shortURL} />
+          {:else}
+            <a
+              href={VISIT_LINK(link.shortURL)}
+              class="short_url"
+              target="blank">
+              {VISIT_LINK(link.shortURL)}
+            </a>
+          {/if}
+        </p>
+        {#if isEditing}
+          <button class="icon fa-save" on:click={saveCustomShortURL} />
+        {:else}
+          <button class="icon fa-edit" on:click={customizeShortURL} />
+        {/if}
+        <button class="icon fa-copy" on:click={copyClipboard} />
+        <div class="visited-link">
+          <a href={`#/link/${link.id}`}>
+            <span>
+              {link.visited} {link.visited === 1 ? 'Click' : 'Clicks'}
+            </span>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+{/if}

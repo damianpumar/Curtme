@@ -4,20 +4,20 @@
     validURL,
     getLongURLFromParameter,
     clearLinkParameter
-  } from "./utils/url";
-  import { gaEventUserCreateShortLink } from "./utils/ga.js";
+  } from "../utils/url";
+  import { gaEventUserCreateShortLink } from "../utils/ga.js";
   import {
     createLink,
     getLinks,
     getUserLinks,
     syncLinksWithUser
-  } from "./utils/api";
+  } from "../utils/api";
   import {
     INTERNET_CONNECTION,
     URL_INVALID,
     URL_MANDATORY
-  } from "./utils/messages.js";
-  import { isAuthenticated, isLoading } from "./auth0/auth0.store";
+  } from "../utils/messages.js";
+  import { isAuthenticated, isLoading } from "../auth0/auth0.store";
 
   import Error from "./Error.svelte";
   import Link from "./Link.svelte";
