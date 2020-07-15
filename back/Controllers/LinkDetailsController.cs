@@ -39,12 +39,12 @@ namespace Curtme.Controllers
         public IActionResult GetDetails(String linkId)
         {
             if (String.IsNullOrEmpty(linkId))
-                return this.BadRequest(new { error = "linkId is required" });
+                return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
 
             var details = this.linkDetailsService.GetDetails(linkId);
 
             if (!details.Any())
-                return this.NotFound();
+                return this.NotFound(new { error = Constants.NOT_FOUND_LINK_DETAILS_ERROR });
 
             return this.Ok(details);
         }
