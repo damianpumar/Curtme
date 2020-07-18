@@ -18,6 +18,7 @@ namespace Curtme.Services
 
             this.ipStackService = ipStackService;
         }
+        
         public void CreatePosition(Link link, IPAddress remoteIp)
         {
             try

@@ -43,10 +43,10 @@ namespace Curtme.Controllers
         public IActionResult Create(LinkViewModel linkViewModel)
         {
             if (linkViewModel == null)
-                return this.BadRequest(new { error = "You must send http body, please check our documentation" });
+                return this.BadRequest(new { error = Constants.NO_BODY_ERROR });
 
             if (!linkViewModel.IsValidURL())
-                return this.BadRequest(new { error = "Invalid URL" });
+                return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
 
             var link = this.linkService.Create(linkViewModel.URL, linkViewModel.GetTitle(), this.HttpContext.User.GetId());
 
@@ -75,12 +75,12 @@ namespace Curtme.Controllers
         public IActionResult Visit(String shortURL)
         {
             if (String.IsNullOrEmpty(shortURL))
-                return this.BadRequest(new { error = "shortURL is required" });
+                return this.BadRequest(new { error = Constants.SHORT_URL_REQUIRED_ERROR });
 
             var link = this.linkService.GetByShortURL(shortURL);
 
             if (link == null)
-                return this.NotFound(new { error = "Link does not exist" });
+                return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
             var remoteIp = this.HttpContext.Connection.RemoteIpAddress;
 
@@ -174,10 +174,10 @@ namespace Curtme.Controllers
         public IActionResult Customize(String linkId, String newShortURL)
         {
             if (String.IsNullOrEmpty(newShortURL))
-                return this.BadRequest(new { error = "newShortURL is required" });
+                return this.BadRequest(new { error = Constants.NEW_SHORT_URL_REQUIRED_ERROR });
 
             if (String.IsNullOrEmpty(linkId))
-                return this.BadRequest(new { error = "linkdId is required" });
+                return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
 
             if (this.linkService.ExistByShortURL(newShortURL))
                 return this.BadRequest(new { error = $"{newShortURL} already exists, please take other custom short url" });
@@ -185,7 +185,7 @@ namespace Curtme.Controllers
             var linkIn = this.linkService.GetById(linkId);
 
             if (linkIn == null)
-                return this.NotFound(new { error = "Link does not exist" });
+                return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
             this.linkService.Customize(linkIn, newShortURL);
 
