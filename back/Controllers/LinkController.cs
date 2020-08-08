@@ -180,7 +180,7 @@ namespace Curtme.Controllers
                 return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
 
             if (this.linkService.ExistByShortURL(newShortURL))
-                return this.BadRequest(new { error = $"{newShortURL} already exists, please take other custom short url" });
+                return this.BadRequest(new { error = $"{newShortURL} {Constants.LINK_ALREADY_EXIST} " });
 
             var linkIn = this.linkService.GetById(linkId);
 

@@ -10,7 +10,6 @@ namespace Curtme.Controllers
     [ApiController]
     public class LinkDetailsController : ControllerBase
     {
-
         private readonly LinkDetailsService linkDetailsService;
 
         public LinkDetailsController(LinkDetailsService linkDetailsService)
