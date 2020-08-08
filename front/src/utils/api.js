@@ -4,6 +4,7 @@ import {
   GET_LINKS_BY_IDS,
   GET_USER_LINKS,
   SYNC_LINKS,
+  CUSTOMIZE,
 } from "./config";
 import { isAuthenticated, authToken } from "../auth0/auth0.store";
 
@@ -66,4 +67,11 @@ export async function syncLinksWithUser(links) {
   } catch (error) {
     return { ok: false };
   }
+}
+
+export async function customizeLink(link) {
+  return await fetch(CUSTOMIZE(link.id, link.shortURL), {
+    method: "PUT",
+    headers: buildHeader(),
+  });
 }

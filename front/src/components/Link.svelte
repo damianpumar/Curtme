@@ -2,6 +2,7 @@
   import { scale } from "svelte/transition";
   import { create_in_transition } from "svelte/internal";
   import { VISIT_LINK } from "../utils/config";
+  import { customizeLink } from "../utils/api";
   import { getDateParsed } from "../utils/date";
   import { copy } from "../utils/clipboard";
 
@@ -10,23 +11,32 @@
   let animationLink;
 
   let isEditing = false;
+  let currentShortURL;
 
   function copyClipboard() {
     copy(link);
 
     if (!animationLink) {
       animationLink = create_in_transition(element, scale, {
-        start: 0.5
+        start: 0.5,
       });
     }
     animationLink.start();
   }
 
   function customizeShortURL() {
+    currentShortURL = link.shortURL;
     isEditing = true;
   }
 
-  function saveCustomShortURL() {
+  async function saveCustomShortURL() {
+    try {
+      const response = await customizeLink(link);
+    } catch (error) {
+      link.shortURL = currentShortURL;
+      console.log(error);
+    }
+
     isEditing = false;
   }
 </script>
