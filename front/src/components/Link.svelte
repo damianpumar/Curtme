@@ -4,20 +4,27 @@
   import { VISIT_LINK } from "../utils/config";
   import { customizeLink } from "../utils/api";
   import { getDateParsed } from "../utils/date";
+  import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../utils/messages.js";
   import { copy } from "../utils/clipboard";
 
+  import Error from "./Error.svelte";
+
   export let link;
-  let element;
+  let linkSectionContainer;
   let animationLink;
+  let errorMessage;
+  let editLinkInput;
 
   let isEditing = false;
-  let currentShortURL;
+  let currentEditingShortURL;
+
+  $: isLinkEdited = link && link.shortURL === currentEditingShortURL;
 
   function copyClipboard() {
     copy(link);
 
     if (!animationLink) {
-      animationLink = create_in_transition(element, scale, {
+      animationLink = create_in_transition(linkSectionContainer, scale, {
         start: 0.5,
       });
     }
@@ -25,19 +32,28 @@
   }
 
   function customizeShortURL() {
-    currentShortURL = link.shortURL;
+    currentEditingShortURL = link.shortURL;
     isEditing = true;
+    editLinkInput.focus();
+  }
+
+  function closeEditable() {
+    isEditing = false;
   }
 
   async function saveCustomShortURL() {
     try {
       const response = await customizeLink(link);
+      if (response.ok) {
+        closeEditable();
+        errorMessage = LINK_CUSTOMIZED;
+      } else {
+        const data = await response.json();
+        errorMessage = data.error;
+      }
     } catch (error) {
-      link.shortURL = currentShortURL;
-      console.log(error);
+      errorMessage = INTERNET_CONNECTION;
     }
-
-    isEditing = false;
   }
 </script>
 
@@ -109,13 +125,19 @@
     padding-left: 6px !important;
   }
 
-  button:hover {
+  button:disabled {
     color: lightgray;
+    pointer-events: none;
+  }
+
+  button:hover {
+    color: #ff6232;
   }
 
   input[type="text"] {
     height: unset;
     margin-right: 5px;
+    margin-bottom: 5px;
     width: 90%;
   }
 
@@ -150,9 +172,13 @@
         </a>
       </p>
       <div class="row">
-        <p class="short-link" bind:this={element}>
+        <p class="short-link" bind:this={linkSectionContainer}>
           {#if isEditing}
-            <input type="text" bind:value={link.shortURL} />
+            <input
+              type="text"
+              bind:value={link.shortURL}
+              bind:this={editLinkInput}
+              on:keydown={(event) => event.key === 'Enter' && saveCustomShortURL()} />
           {:else}
             <a
               href={VISIT_LINK(link.shortURL)}
@@ -163,11 +189,22 @@
           {/if}
         </p>
         {#if isEditing}
-          <button class="icon fa-save" on:click={saveCustomShortURL} />
+          <button
+            class="icon fa-save"
+            on:click={saveCustomShortURL}
+            disabled={isLinkEdited}
+            alt="Save" />
+          <button
+            class="icon fa-times-circle"
+            on:click={closeEditable}
+            alt="Cancel" />
         {:else}
-          <button class="icon fa-edit" on:click={customizeShortURL} />
+          <button
+            class="icon fa-edit"
+            on:click={customizeShortURL}
+            alt="Edit" />
+          <button class="icon fa-copy" on:click={copyClipboard} alt="Copy" />
         {/if}
-        <button class="icon fa-copy" on:click={copyClipboard} />
         <div class="visited-link">
           <a href={`#/link/${link.id}`}>
             <span>
@@ -176,6 +213,7 @@
           </a>
         </div>
       </div>
+      <Error bind:error={errorMessage} />
     </div>
   </section>
 {/if}

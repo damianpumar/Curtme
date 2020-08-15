@@ -13,11 +13,13 @@
 <style>
   div {
     height: 20px;
+    margin-left: 10px;
+    margin-bottom: 5px;
   }
 </style>
 
-<div>
-  {#if error}
+{#if error}
+  <div>
     <span transition:fade>{error}</span>
-  {/if}
-</div>
+  </div>
+{/if}

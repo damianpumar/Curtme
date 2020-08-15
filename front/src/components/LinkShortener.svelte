@@ -3,19 +3,19 @@
   import {
     validURL,
     getLongURLFromParameter,
-    clearLinkParameter
+    clearLinkParameter,
   } from "../utils/url";
   import { gaEventUserCreateShortLink } from "../utils/ga.js";
   import {
     createLink,
     getLinks,
     getUserLinks,
-    syncLinksWithUser
+    syncLinksWithUser,
   } from "../utils/api";
   import {
     INTERNET_CONNECTION,
     URL_INVALID,
-    URL_MANDATORY
+    URL_MANDATORY,
   } from "../utils/messages.js";
   import { isAuthenticated, isLoading } from "../auth0/auth0.store";
 
@@ -119,7 +119,7 @@
     }
   }
 
-  const unsubscribe = isLoading.subscribe(newValue => {
+  const unsubscribe = isLoading.subscribe((newValue) => {
     if (!newValue) {
       loadLinks();
     }
@@ -223,7 +223,7 @@
         bind:value={longURL}
         placeholder="Paste long url and shorten it"
         bind:this={longInputElement}
-        on:keydown={event => event.key === 'Enter' && createShortURL()} />
+        on:keydown={(event) => event.key === 'Enter' && createShortURL()} />
     </div>
     <Error bind:error={errorMessage} />
   </div>

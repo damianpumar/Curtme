@@ -5,6 +5,7 @@ import {
   GET_USER_LINKS,
   SYNC_LINKS,
   CUSTOMIZE,
+  GET_DETAIL,
 } from "./config";
 import { isAuthenticated, authToken } from "../auth0/auth0.store";
 
@@ -74,4 +75,15 @@ export async function customizeLink(link) {
     method: "PUT",
     headers: buildHeader(),
   });
+}
+
+export async function getLinkDetail(id) {
+  try {
+    return await fetch(GET_DETAIL(id), {
+      method: "GET",
+      headers: buildHeader(),
+    });
+  } catch (error) {
+    return { ok: false };
+  }
 }

@@ -5,6 +5,7 @@ export const GET_USER_LINKS = `${BASE_URL}links`;
 export const SYNC_LINKS = `${BASE_URL}sync`;
 export const CUSTOMIZE = (linkId, shortURL) =>
   `${BASE_URL}${linkId}/${shortURL}`;
+export const GET_DETAIL = (linkId) => `${BASE_URL}details/${linkId}`;
 
 export const AUTH0 = {
   domain: "dev-6r8s11fz.eu.auth0.com",
