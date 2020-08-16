@@ -7,7 +7,8 @@ export const CUSTOMIZE = (linkId, shortURL) =>
   `${BASE_URL}${linkId}/${shortURL}`;
 export const GET_DETAIL = (linkId) => `${BASE_URL}details/${linkId}`;
 
-export const GET_ISP = (ip) => `http://ip-api.com/json/${ip}`;
+export const GET_ISP = (ip) =>
+  `https://api.ipgeolocation.io/ipgeo?apiKey=9addf6e0dce7449b9cccf53e8f9150bd&ip=${ip}`;
 
 export const AUTH0 = {
   domain: "dev-6r8s11fz.eu.auth0.com",
