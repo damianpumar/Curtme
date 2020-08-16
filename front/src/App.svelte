@@ -5,7 +5,7 @@
   const routes = {
     "/": Home,
 
-    "/link/:id": LinkDetail
+    "/link/:id": LinkDetail,
   };
 </script>
 

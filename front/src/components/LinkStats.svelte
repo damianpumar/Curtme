@@ -1,14 +1,23 @@
 <script>
   import { onMount } from "svelte";
   import { scale } from "svelte/transition";
-
-  import { getLinkDetail } from "../utils/api";
+  import { getLinkDetail, getISPData } from "../utils/api";
+  import {
+    LINK_VISITED_FEATURE,
+    CITY,
+    WHEN,
+    REGION,
+    CONTINENT,
+    COUNTRY,
+    USER_IP,
+    ISP,
+    LOADING_ISP_DATA,
+  } from "../utils/resources";
+  import { parseDate } from "../utils/date";
 
   export let linkId;
-
   let details = [];
-  const featureEnableMessage =
-    "This functionality was enabled on August 8, 2020";
+
   let emptyMessage = "This link is not visited yet.";
 
   onMount(async () => {
@@ -36,13 +45,20 @@
 
     return `https://www.google.com/maps/search/?api=1&query=${city},${region},${country}`;
   }
+
+  async function getISPName(detail) {
+    const response = await getISPData(detail.ip);
+
+    if (response.ok) {
+      return await response.json();
+    }
+  }
 </script>
 
 <style>
   .detail {
     background-color: white;
     border-radius: 5px;
-    height: 900px;
     margin-top: 1em;
     border: solid 1px lightgray;
     -webkit-box-shadow: 0px 0px 20px -5px rgba(214, 214, 214, 1);
@@ -64,6 +80,12 @@
   td {
     text-align: center;
   }
+
+  @media screen and (max-width: 480px) {
+    section {
+      padding: 0 1em 0 1em;
+    }
+  }
 </style>
 
 <section
@@ -74,18 +96,19 @@
     <table class="table">
       <thead>
         <tr>
-          <th>When</th>
-          <th>City</th>
-          <th>Region</th>
-          <th>Continent</th>
-          <th>Country</th>
-          <th>User IP</th>
+          <th>{WHEN}</th>
+          <th>{CITY}</th>
+          <th>{REGION}</th>
+          <th>{CONTINENT}</th>
+          <th>{COUNTRY}</th>
+          <th>{USER_IP}</th>
+          <th>{ISP}</th>
         </tr>
       </thead>
       <tbody>
         {#each details as detail}
           <tr>
-            <td>{new Date(detail.date).toLocaleDateString()}</td>
+            <td>{parseDate(detail.date).toLocaleDateString()}</td>
             <td>
               <a href={createGoogleMapsLink(detail)} target="_blank">
                 {detail.city}
@@ -94,13 +117,12 @@
             <td>{detail.regionName}</td>
             <td>{detail.continentName}</td>
             <td>{detail.countryName} {detail.countryEmoji}</td>
-            <td>
-              <a
-                href={`https://www.whoismyisp.org/ip/${detail.ip}`}
-                target="_blank">
-                {detail.ip}
-              </a>
-            </td>
+            <td>{detail.ip}</td>
+            {#await getISPName(detail)}
+              <p>{LOADING_ISP_DATA}</p>
+            {:then data}
+              <td>{data.isp}</td>
+            {/await}
           </tr>
         {:else}
           <tr>

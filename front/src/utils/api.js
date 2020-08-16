@@ -6,6 +6,7 @@ import {
   SYNC_LINKS,
   CUSTOMIZE,
   GET_DETAIL,
+  GET_ISP,
 } from "./config";
 import { isAuthenticated, authToken } from "../auth0/auth0.store";
 
@@ -80,6 +81,17 @@ export async function customizeLink(link) {
 export async function getLinkDetail(id) {
   try {
     return await fetch(GET_DETAIL(id), {
+      method: "GET",
+      headers: buildHeader(),
+    });
+  } catch (error) {
+    return { ok: false };
+  }
+}
+
+export async function getISPData(ip) {
+  try {
+    return await fetch(GET_ISP(ip), {
       method: "GET",
       headers: buildHeader(),
     });

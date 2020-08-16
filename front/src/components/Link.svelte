@@ -4,9 +4,15 @@
   import { VISIT_LINK } from "../utils/config";
   import { customizeLink } from "../utils/api";
   import { getDateParsed } from "../utils/date";
-  import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../utils/messages.js";
+  import {
+    INTERNET_CONNECTION,
+    LINK_CUSTOMIZED,
+    CLICK,
+    CLICKS,
+  } from "../utils/resources.js";
   import { copy } from "../utils/clipboard";
-
+  import { isEnterKeyDown } from "../utils/keyboard";
+  import { LINK_PATH } from "../utils/routeConfig";
   import Error from "./Error.svelte";
 
   export let link;
@@ -178,7 +184,7 @@
               type="text"
               bind:value={link.shortURL}
               bind:this={editLinkInput}
-              on:keydown={(event) => event.key === 'Enter' && saveCustomShortURL()} />
+              on:keydown={(event) => isEnterKeyDown(event) && saveCustomShortURL()} />
           {:else}
             <a
               href={VISIT_LINK(link.shortURL)}
@@ -206,10 +212,8 @@
           <button class="icon fa-copy" on:click={copyClipboard} alt="Copy" />
         {/if}
         <div class="visited-link">
-          <a href={`#/link/${link.id}`}>
-            <span>
-              {link.visited} {link.visited === 1 ? 'Click' : 'Clicks'}
-            </span>
+          <a href={`${LINK_PATH}${link.id}`}>
+            <span>{link.visited} {link.visited === 1 ? CLICK : CLICKS}</span>
           </a>
         </div>
       </div>

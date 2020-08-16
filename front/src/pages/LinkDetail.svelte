@@ -6,7 +6,8 @@
   import Footer from "../components/Footer.svelte";
   import Link from "../components/Link.svelte";
   import LinkStats from "../components/LinkStats.svelte";
-
+  import { BACK } from "../utils/resources";
+  import { HOME_PATH } from "../utils/routeConfig";
   import { getLinks } from "../utils/api";
 
   export let params = {};
@@ -51,7 +52,7 @@
 
   <div class="link">
     <div class="col-12 col-12-mobilep">
-      <button on:click={() => push('/')}>Back</button>
+      <button on:click={() => push(HOME_PATH)}>{BACK}</button>
     </div>
     <Link {link} />
     <LinkStats linkId={params.id} />

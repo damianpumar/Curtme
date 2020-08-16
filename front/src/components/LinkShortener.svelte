@@ -5,6 +5,7 @@
     getLongURLFromParameter,
     clearLinkParameter,
   } from "../utils/url";
+  import { isEnterKeyDown } from "../utils/keyboard";
   import { gaEventUserCreateShortLink } from "../utils/ga.js";
   import {
     createLink,
@@ -12,11 +13,16 @@
     getUserLinks,
     syncLinksWithUser,
   } from "../utils/api";
+  import { parseDate } from "../utils/date";
   import {
+    NAME,
+    TITLE,
+    SHORT,
+    PASTE_LONG_URL,
     INTERNET_CONNECTION,
     URL_INVALID,
     URL_MANDATORY,
-  } from "../utils/messages.js";
+  } from "../utils/resources.js";
   import { isAuthenticated, isLoading } from "../auth0/auth0.store";
 
   import Error from "./Error.svelte";
@@ -29,7 +35,7 @@
   let errorMessage = null;
   let links = [];
   $: orderedLinks = links.sort(
-    (l1, l2) => new Date(l2.date) - new Date(l1.date)
+    (l1, l2) => parseDate(l2.date) - parseDate(l1.date)
   );
 
   async function loadLinksWithoutUser() {
@@ -213,23 +219,23 @@
 </style>
 
 <section class="container medium">
-  <h2>Curtme.org</h2>
-  <p>Free open source and unlimited link shortener</p>
+  <h2>{NAME}</h2>
+  <p>{TITLE}</p>
   <div class="row">
     <div class="col-12 col-12-mobilep">
       <input
         type="text"
         autocomplete="false"
         bind:value={longURL}
-        placeholder="Paste long url and shorten it"
+        placeholder={PASTE_LONG_URL}
         bind:this={longInputElement}
-        on:keydown={(event) => event.key === 'Enter' && createShortURL()} />
+        on:keydown={(event) => isEnterKeyDown(event) && createShortURL()} />
     </div>
     <Error bind:error={errorMessage} />
   </div>
   <div class="row">
     <div class="col-12 col-12-mobilep">
-      <button on:click={createShortURL}>Short</button>
+      <button on:click={createShortURL}>{SHORT}</button>
     </div>
   </div>
 </section>
