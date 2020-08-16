@@ -12,8 +12,9 @@
 - Add login functionality :white_check_mark:
 - Add google analytics :white_check_mark:
 - Improve login styles (UI) :white_check_mark:
-- Allow user to create custom short URL
-- Track origin ip, user agent for each shorter link visited
+- Allow user to create custom short URL :white_check_mark:
+- Track origin ip, user agent for each shorter link visited :white_check_mark:
+- Change ip-stack to ip-geolocation (save the current isp into database recollected in front end right now
 
 ## Documentation
 
