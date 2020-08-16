@@ -1,4 +1,5 @@
 <script>
+  import { tick } from "svelte";
   import { scale } from "svelte/transition";
   import { create_in_transition } from "svelte/internal";
   import { VISIT_LINK } from "../utils/config";
@@ -37,9 +38,10 @@
     animationLink.start();
   }
 
-  function customizeShortURL() {
+  async function customizeShortURL() {
     currentEditingShortURL = link.shortURL;
     isEditing = true;
+    await tick();
     editLinkInput.focus();
   }
 

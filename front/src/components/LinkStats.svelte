@@ -13,7 +13,7 @@
     ISP,
     LOADING_ISP_DATA,
   } from "../utils/resources";
-  import { parseDate } from "../utils/date";
+  import { parseDateAndTime } from "../utils/date";
 
   export let linkId;
   let details = [];
@@ -108,7 +108,7 @@
       <tbody>
         {#each details as detail}
           <tr>
-            <td>{parseDate(detail.date).toLocaleDateString()}</td>
+            <td>{parseDateAndTime(detail.date)}</td>
             <td>
               <a href={createGoogleMapsLink(detail)} target="_blank">
                 {detail.city}

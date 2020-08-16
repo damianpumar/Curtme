@@ -1,7 +1,7 @@
 <script>
   import { fade } from "svelte/transition";
 
-  export let error;
+  export let error = null;
 
   $: if (error) {
     setTimeout(() => {
