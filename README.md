@@ -19,6 +19,7 @@
 - Allow to delete link
 - Add social media share buttons
 - Add expiration time to links
+- Add server from link was clicked
 
 ## :mag: API Documentation
 
