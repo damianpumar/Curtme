@@ -26,7 +26,7 @@
 
 ## :pick: Built Using
 
-- [netcore](https://dotnet.microsoft.com/download) - Server Environment
+- [netcore](https://dotnet.microsoft.com/download) - Backend
 - [Svelte](https://svelte.dev/) - Frontend
 
 ## :rocket: Build and Release backend
