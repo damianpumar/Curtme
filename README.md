@@ -2,6 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/damianpumar/Curtme.svg?style=svg)](https://circleci.com/gh/damianpumar/Curtme)
 ![CodeQL](https://github.com/damianpumar/Curtme/workflows/CodeQL/badge.svg)
+![CodeFactor](https://www.codefactor.io/repository/github/damianpumar/Curtme/badge)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D11NVC3)
 
