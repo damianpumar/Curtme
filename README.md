@@ -18,7 +18,7 @@
 - Track origin ip, user agent for each shorter link visited :white_check_mark:
 - Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now)
 - Allow to modify longURL
-- Allow to delete link
+- Allow to delete link (soft delete)
 - Add social media share buttons
 - Add expiration time to links
 - Add server from link was clicked
