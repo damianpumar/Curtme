@@ -21,7 +21,7 @@
 - Allow to delete link (soft delete)
 - Add social media share buttons
 - Add expiration time to links
-- Add server from link was clicked
+- Add server name or domain from link was clicked
 - Add operative system from link was clicked
 
 ## :mag: API Documentation
