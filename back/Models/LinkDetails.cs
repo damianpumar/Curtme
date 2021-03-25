@@ -39,5 +39,19 @@ namespace Curtme.Models
         public String CountryEmoji { get; set; }
 
         public DateTime Date { get; set; }
+
+        public String Host { get; set; }
+
+        public String Platform { get; set; }
+
+        public String PlatformVersion { get; set; }
+
+        public String Browser { get; set; }
+
+        public String BrowserVersion { get; set; }
+
+        public String Device { get; set; }
+
+        public String Engine { get; set; }
     }
 }

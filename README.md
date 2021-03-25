@@ -16,13 +16,13 @@
 - Improve login styles (UI) :white_check_mark:
 - Allow user to create custom short URL :white_check_mark:
 - Track origin ip, user agent for each shorter link visited :white_check_mark:
-- Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now)
+- Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now) :white_check_mark:
 - Allow to modify longURL
 - Allow to delete link (soft delete)
 - Add social media share buttons
 - Add expiration time to links
-- Add server name or domain from link was clicked
-- Add operative system from link was clicked
+- Add server name or domain from link was clicked :white_check_mark:
+- Add operative system from link was clicked :white_check_mark:
 
 ## :mag: API Documentation
 
@@ -35,11 +35,15 @@
 
 ## :rocket: Build and Release backend
 
-- dotnet publish ./back -c Release -o ./publish
+## Dev environment
+
+- Press F5 in vscode to debug the backend
+  - Don't forget to run `dotnet dev-certs https` to install ssl certs for dev environment.
+- `dotnet publish ./back -c Release -o ./publish`
 
 ## :rocket: Build and Release frontend
 
-- cd front && npm run build
+- `cd front && npm run build`
 
 ## :balance_scale: License
 

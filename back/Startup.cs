@@ -1,3 +1,4 @@
+using System;
 using Curtme.Extensions;
 using Curtme.Filters;
 using Curtme.Models;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Wangkanai.Detection.Services;
 
 namespace Curtme
 {
@@ -22,6 +24,8 @@ namespace Curtme
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDetection();
+
             services.Configure<CurtMeDatabaseSettings>(
                     Configuration.GetSection(nameof(CurtMeDatabaseSettings)));
 
@@ -30,11 +34,11 @@ namespace Curtme
 
             services.AddSingleton<MongoDBService>();
 
-            services.AddSingleton<LinkService>();
+            services.AddScoped<IpStackService>();
 
-            services.AddSingleton<LinkDetailsService>();
+            services.AddScoped<LinkService>();
 
-            services.AddSingleton<IpStackService>();
+            services.AddScoped<LinkDetailsService>();
 
             services.AddControllers();
 

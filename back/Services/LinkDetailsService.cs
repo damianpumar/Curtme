@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using Curtme.Models;
 using MongoDB.Driver;
+using Wangkanai.Detection.Services;
 
 namespace Curtme.Services
 {
@@ -12,14 +13,18 @@ namespace Curtme.Services
 
         private readonly IpStackService ipStackService;
 
-        public LinkDetailsService(MongoDBService mongoDBService, IpStackService ipStackService)
+        private readonly IDetectionService detectionService;
+
+        public LinkDetailsService(MongoDBService mongoDBService, IpStackService ipStackService, IDetectionService detectionService)
         {
             this.mongoDBService = mongoDBService;
 
             this.ipStackService = ipStackService;
+
+            this.detectionService = detectionService;
         }
-        
-        public void CreatePosition(Link link, IPAddress remoteIp)
+
+        public void Save(Link link, IPAddress remoteIp)
         {
             try
             {
@@ -38,6 +43,13 @@ namespace Curtme.Services
                     Longitude = ipStack.Longitude,
                     CountryEmoji = ipStack.Location.CountryFlagEmoji,
                     Date = DateTime.UtcNow,
+                    Host = this.detectionService.Crawler.Name.ToString(),
+                    Platform = this.detectionService.Platform.Name.ToString(),
+                    PlatformVersion = this.detectionService.Platform.Version.ToString(),
+                    Browser = this.detectionService.Browser.Name.ToString(),
+                    BrowserVersion = this.detectionService.Browser.Version.ToString(),
+                    Device = this.detectionService.Device.Type.ToString(),
+                    Engine = this.detectionService.Engine.Name.ToString()
                 };
 
                 this.mongoDBService.LinkDetails.InsertOne(detail);

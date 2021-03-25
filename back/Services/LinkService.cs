@@ -37,7 +37,7 @@ namespace Curtme.Services
         {
             linkIn.Visited++;
 
-            this.linkDetailsService.CreatePosition(linkIn, remoteIp);
+            this.linkDetailsService.Save(linkIn, remoteIp);
 
             this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
