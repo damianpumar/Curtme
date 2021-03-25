@@ -23,6 +23,7 @@
 - Add expiration time to links
 - Add server name or domain from link was clicked :white_check_mark:
 - Add operative system from link was clicked :white_check_mark:
+- Enable or disable preview link
 
 ## :mag: API Documentation
 
