@@ -34,7 +34,7 @@ namespace Curtme
 
             services.AddSingleton<MongoDBService>();
 
-            services.AddScoped<IpStackService>();
+            services.AddScoped<GeoLocationService>();
 
             services.AddScoped<LinkService>();
 

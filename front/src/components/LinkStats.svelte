@@ -1,24 +1,25 @@
 <script>
   import { onMount } from "svelte";
   import { scale } from "svelte/transition";
-  import { getLinkDetail, getISPData } from "../utils/api";
+  import { getLinkDetail } from "../utils/api";
   import {
-    LINK_VISITED_FEATURE,
     CITY,
     WHEN,
-    REGION,
+    BROWSER,
+    PLATFORM,
+    DEVICE,
     CONTINENT,
     COUNTRY,
     USER_IP,
     ISP,
-    LOADING_ISP_DATA,
+    LOADING,
   } from "../utils/resources";
   import { parseDateAndTime } from "../utils/date";
 
   export let linkId;
   let details = [];
 
-  let emptyMessage = "This link is not visited yet.";
+  let responseMessage = LOADING;
 
   onMount(async () => {
     await getDetail(linkId);
@@ -32,7 +33,7 @@
     if (response.ok) {
       details = data;
     } else {
-      emptyMessage = `${data.error}. ${featureEnableMessage}`;
+      responseMessage = data.error;
     }
   }
 
@@ -40,20 +41,62 @@
     const parse = (value) => value.replace(" ", "+");
 
     const city = parse(detail.city);
-    const region = parse(detail.regionName);
     const country = parse(detail.countryName);
 
-    return `https://www.google.com/maps/search/?api=1&query=${city},${region},${country}`;
-  }
-
-  async function getISPName(detail) {
-    const response = await getISPData(detail.ip);
-
-    if (response.ok) {
-      return await response.json();
-    }
+    return `https://www.google.com/maps/search/?api=1&query=${city},${country}`;
   }
 </script>
+
+<section
+  class="col-12 col-12-mobilep container medium"
+  transition:scale={{ start: 0.5 }}
+>
+  <div class="detail">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{WHEN}</th>
+          <th>{BROWSER}</th>
+          <th>{PLATFORM}</th>
+          <th>{DEVICE}</th>
+          <th>{CITY}</th>
+          <th>{CONTINENT}</th>
+          <th>{COUNTRY}</th>
+          <th>{USER_IP}</th>
+          <th>{ISP}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each details as detail}
+          <tr>
+            <td>{parseDateAndTime(detail.date)}</td>
+            <td>{detail.browser}</td>
+            <td>{detail.platform} {detail.platformVersion}</td>
+            <td>{detail.device}</td>
+            <td>
+              <a href={createGoogleMapsLink(detail)} target="_blank">
+                {detail.city}
+              </a>
+            </td>
+            <td>{detail.continentName}</td>
+            <td
+              >{detail.countryName}
+              <img src={detail.countryEmoji} alt={detail.countryName} />
+            </td>
+            <td>{detail.ip}</td>
+            <td>{detail.isp}</td>
+          </tr>
+        {:else}
+          <tr>
+            <td colspan="100%">
+              <h5 class="text-center">{responseMessage}</h5>
+            </td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
+</section>
 
 <style>
   .detail {
@@ -81,58 +124,13 @@
     text-align: center;
   }
 
+  img {
+    width: 1em;
+  }
+
   @media screen and (max-width: 480px) {
     section {
       padding: 0 1em 0 1em;
     }
   }
 </style>
-
-<section
-  class="col-12 col-12-mobilep container medium"
-  transition:scale={{ start: 0.5 }}>
-  <div class="detail">
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th>{WHEN}</th>
-          <th>{CITY}</th>
-          <th>{REGION}</th>
-          <th>{CONTINENT}</th>
-          <th>{COUNTRY}</th>
-          <th>{USER_IP}</th>
-          <th>{ISP}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each details as detail}
-          <tr>
-            <td>{parseDateAndTime(detail.date)}</td>
-            <td>
-              <a href={createGoogleMapsLink(detail)} target="_blank">
-                {detail.city}
-              </a>
-            </td>
-            <td>{detail.regionName}</td>
-            <td>{detail.continentName}</td>
-            <td>{detail.countryName} {detail.countryEmoji}</td>
-            <td>{detail.ip}</td>
-            {#await getISPName(detail)}
-              <p>{LOADING_ISP_DATA}</p>
-            {:then data}
-              <td>{data.isp}</td>
-            {/await}
-          </tr>
-        {:else}
-          <tr>
-            <td colspan="100%">
-              <h5 class="text-center">{emptyMessage}</h5>
-            </td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
-
-  </div>
-</section>

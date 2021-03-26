@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Net;
 using Curtme.Models;
 using MongoDB.Driver;
@@ -11,15 +12,15 @@ namespace Curtme.Services
     {
         private readonly MongoDBService mongoDBService;
 
-        private readonly IpStackService ipStackService;
+        private readonly GeoLocationService geolocationService;
 
         private readonly IDetectionService detectionService;
 
-        public LinkDetailsService(MongoDBService mongoDBService, IpStackService ipStackService, IDetectionService detectionService)
+        public LinkDetailsService(MongoDBService mongoDBService, GeoLocationService geolocationService, IDetectionService detectionService)
         {
             this.mongoDBService = mongoDBService;
 
-            this.ipStackService = ipStackService;
+            this.geolocationService = geolocationService;
 
             this.detectionService = detectionService;
         }
@@ -28,20 +29,20 @@ namespace Curtme.Services
         {
             try
             {
-                var ipStack = this.ipStackService.GetData(remoteIp);
+                var geoLocation = this.geolocationService.GetData(remoteIp);
 
                 var detail = new LinkDetails(link)
                 {
-                    Ip = ipStack.Ip,
-                    ContinentName = ipStack.ContinentName,
-                    CountryCode = ipStack.CountryCode,
-                    CountryName = ipStack.CountryName,
-                    RegionCode = ipStack.RegionCode,
-                    RegionName = ipStack.RegionName,
-                    City = ipStack.City,
-                    Latitude = ipStack.Latitude,
-                    Longitude = ipStack.Longitude,
-                    CountryEmoji = ipStack.Location.CountryFlagEmoji,
+                    Ip = geoLocation.GetIPAddress(),
+                    ISP = geoLocation.GetISP(),
+                    ContinentName = geoLocation.GetContinentName(),
+                    CountryCode = geoLocation.GetCountryCapital(),
+                    CountryName = geoLocation.GetCountryName(),
+                    ZipCode = geoLocation.GetZipCode(),
+                    City = geoLocation.GetCity(),
+                    Latitude = Double.Parse(geoLocation.GetLatitude()),
+                    Longitude = Double.Parse(geoLocation.GetLongitude()),
+                    CountryEmoji = geoLocation.GetCountryFlag(),
                     Date = DateTime.UtcNow,
                     Host = this.detectionService.Crawler.Name.ToString(),
                     Platform = this.detectionService.Platform.Name.ToString(),
@@ -63,6 +64,11 @@ namespace Curtme.Services
         public IEnumerable<LinkDetails> GetDetails(String linkId)
         {
             return this.mongoDBService.LinkDetails.Find<LinkDetails>(detail => detail.LinkId == linkId).ToList();
+        }
+
+        public IEnumerable<LinkDetails> Find(Expression<Func<LinkDetails, Boolean>> findQuery)
+        {
+            return this.mongoDBService.LinkDetails.Find<LinkDetails>(findQuery).ToList();
         }
     }
 }

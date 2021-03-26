@@ -11,12 +11,12 @@ export const INTERNET_CONNECTION = "Please check your internet connection.";
 export const URL_INVALID = "The url is not valid.";
 export const URL_MANDATORY = "Please enter the url.";
 export const LINK_CUSTOMIZED = "Link customized successfully.";
-export const LOADING_ISP_DATA = "...Loading ISP";
-
-export const LINK_VISITED_FEATURE =
-  "This functionality was enabled on August 8, 2020.";
+export const LOADING = "...Loading";
 
 export const WHEN = "When";
+export const BROWSER = "Browser";
+export const PLATFORM = "Platform";
+export const DEVICE = "Device";
 export const CITY = "City";
 export const REGION = "Region";
 export const CONTINENT = "Continent";

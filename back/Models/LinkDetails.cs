@@ -20,15 +20,15 @@ namespace Curtme.Models
 
         public String Ip { get; set; }
 
+        public String ISP { get; set; }
+
         public String ContinentName { get; set; }
 
         public String CountryCode { get; set; }
 
         public String CountryName { get; set; }
 
-        public String RegionCode { get; set; }
-
-        public String RegionName { get; set; }
+        public String ZipCode { get; set; }
 
         public String City { get; set; }
 

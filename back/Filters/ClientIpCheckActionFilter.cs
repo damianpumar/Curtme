@@ -25,7 +25,7 @@ namespace Curtme.Filters
 
             var safeIps = safeList.Split(';');
 
-            if(!safeIps.Any(ip=> ip == remoteIp.ToString()))
+            if (!safeIps.Any(ip => ip == remoteIp.ToString()))
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status403Forbidden);
             }
