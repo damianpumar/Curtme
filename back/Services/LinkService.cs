@@ -100,7 +100,6 @@ namespace Curtme.Services
             return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
         }
 
-
         private string CreateShortURL()
         {
             var shortURL = RandomExtensions.Create(7);
