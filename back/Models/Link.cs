@@ -32,5 +32,7 @@ namespace Curtme.Models
         public DateTime Date { get; set; }
 
         public Int32 Visited { get; set; }
+
+        public Boolean Deleted { get; set; }
     }
 }

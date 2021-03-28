@@ -44,32 +44,27 @@ namespace Curtme.Services
 
         public Link GetByShortURL(String shortURL)
         {
-            return this.mongoDBService.Links.Find<Link>(link => link.ShortURL == shortURL).SingleOrDefault();
+            return this.mongoDBService.Links.Find<Link>(link => !link.Deleted && link.ShortURL == shortURL).SingleOrDefault();
         }
 
         public Link GetById(String linkId)
         {
-            return this.mongoDBService.Links.Find<Link>(link => link.Id == linkId).SingleOrDefault();
+            return this.mongoDBService.Links.Find<Link>(link => !link.Deleted && link.Id == linkId).SingleOrDefault();
         }
 
         public IEnumerable<Link> GetByIds(String[] ids)
         {
-            return this.mongoDBService.Links.Find<Link>(link => ids.Contains(link.Id)).ToList();
+            return this.mongoDBService.Links.Find<Link>(link => !link.Deleted && ids.Contains(link.Id)).ToList();
         }
 
         public IEnumerable<Link> GetAll(String userId)
         {
-            return this.mongoDBService.Links.Find<Link>(link => link.UserId == userId).ToList();
-        }
-
-        public IEnumerable<Link> Find(Expression<Func<Link, Boolean>> findQuery)
-        {
-            return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
+            return this.mongoDBService.Links.Find<Link>(link => !link.Deleted && link.UserId == userId).ToList();
         }
 
         public Boolean ExistByShortURL(String shortURL)
         {
-            return this.mongoDBService.Links.Find<Link>(link => link.ShortURL == shortURL).Any();
+            return this.mongoDBService.Links.Find<Link>(link => !link.Deleted && link.ShortURL == shortURL).Any();
         }
 
         public void Update(String linkId, String userId)
@@ -91,6 +86,18 @@ namespace Curtme.Services
             linkIn.ShortURL = newShortURL;
 
             this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+        }
+
+        public void Delete(Link linkIn)
+        {
+            linkIn.Deleted = true;
+
+            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+        }
+
+        public IEnumerable<Link> Find(Expression<Func<Link, Boolean>> findQuery)
+        {
+            return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
         }
 
         private string CreateShortURL()
