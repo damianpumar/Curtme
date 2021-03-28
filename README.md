@@ -8,7 +8,7 @@
 
 ## :pencil: Pending requirements
 
-- Validate if longURL is a website :white_check_mark:
+- Validate if sourceURL is a website :white_check_mark:
 - Website for end users :white_check_mark:
 - Show clicks on the fronted :white_check_mark:
 - Add login functionality :white_check_mark:
@@ -17,7 +17,7 @@
 - Allow user to create custom short URL :white_check_mark:
 - Track origin ip, user agent for each shorter link visited :white_check_mark:
 - Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now) :white_check_mark:
-- Allow to modify longURL
+- Allow to modify sourceURL
 - Allow to delete link (soft delete)
 - Add social media share buttons
 - Add expiration time to links

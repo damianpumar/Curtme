@@ -65,6 +65,70 @@
   }
 </script>
 
+{#if link}
+  <section
+    class="col-12 col-12-mobilep container medium"
+    transition:scale={{ start: 0.5 }}
+  >
+    <div class="result">
+      <p class="date-link">{getDateParsed(link)}</p>
+      <p class="title-link">{link.title}</p>
+      <p class="long-link">
+        <a href={link.sourceURL} class="truncate" target="blank">
+          {link.sourceURL}
+        </a>
+      </p>
+      <div class="row">
+        <p class="short-link" bind:this={linkSectionContainer}>
+          {#if isEditing}
+            <input
+              type="text"
+              bind:value={link.shortURL}
+              bind:this={editLinkInput}
+              on:keydown={(event) =>
+                isEnterKeyDown(event) && saveCustomShortURL()}
+            />
+          {:else}
+            <a
+              href={VISIT_LINK(link.shortURL)}
+              class="short_url"
+              target="blank"
+            >
+              {VISIT_LINK(link.shortURL)}
+            </a>
+          {/if}
+        </p>
+        {#if isEditing}
+          <button
+            class="icon fa-save"
+            on:click={saveCustomShortURL}
+            disabled={isLinkEdited}
+            alt="Save"
+          />
+          <button
+            class="icon fa-times-circle"
+            on:click={closeEditable}
+            alt="Cancel"
+          />
+        {:else}
+          <button
+            class="icon fa-edit"
+            on:click={customizeShortURL}
+            alt="Edit"
+          />
+          <button class="icon fa-copy" on:click={copyClipboard} alt="Copy" />
+        {/if}
+        <div class="visited-link">
+          <a href={`${LINK_PATH}${link.id}`}>
+            <span>{link.visited} {link.visited === 1 ? CLICK : CLICKS}</span>
+          </a>
+        </div>
+      </div>
+      <Error bind:error={errorMessage} />
+    </div>
+  </section>
+{/if}
+
 <style>
   .result {
     background-color: white;
@@ -166,60 +230,3 @@
     }
   }
 </style>
-
-{#if link}
-  <section
-    class="col-12 col-12-mobilep container medium"
-    transition:scale={{ start: 0.5 }}>
-    <div class="result">
-      <p class="date-link">{getDateParsed(link)}</p>
-      <p class="title-link">{link.title}</p>
-      <p class="long-link">
-        <a href={link.longURL} class="truncate" target="blank">
-          {link.longURL}
-        </a>
-      </p>
-      <div class="row">
-        <p class="short-link" bind:this={linkSectionContainer}>
-          {#if isEditing}
-            <input
-              type="text"
-              bind:value={link.shortURL}
-              bind:this={editLinkInput}
-              on:keydown={(event) => isEnterKeyDown(event) && saveCustomShortURL()} />
-          {:else}
-            <a
-              href={VISIT_LINK(link.shortURL)}
-              class="short_url"
-              target="blank">
-              {VISIT_LINK(link.shortURL)}
-            </a>
-          {/if}
-        </p>
-        {#if isEditing}
-          <button
-            class="icon fa-save"
-            on:click={saveCustomShortURL}
-            disabled={isLinkEdited}
-            alt="Save" />
-          <button
-            class="icon fa-times-circle"
-            on:click={closeEditable}
-            alt="Cancel" />
-        {:else}
-          <button
-            class="icon fa-edit"
-            on:click={customizeShortURL}
-            alt="Edit" />
-          <button class="icon fa-copy" on:click={copyClipboard} alt="Copy" />
-        {/if}
-        <div class="visited-link">
-          <a href={`${LINK_PATH}${link.id}`}>
-            <span>{link.visited} {link.visited === 1 ? CLICK : CLICKS}</span>
-          </a>
-        </div>
-      </div>
-      <Error bind:error={errorMessage} />
-    </div>
-  </section>
-{/if}

@@ -7,9 +7,9 @@ namespace Curtme.Models
 {
     public class Link
     {
-        public Link(String longURL, String shortURL, String title, String userId = null)
+        public Link(String sourceURL, String shortURL, String title, String userId = null)
         {
-            this.LongURL = longURL;
+            this.SourceURL = sourceURL;
             this.ShortURL = shortURL;
             this.Date = DateTime.UtcNow;
             this.Title = title;
@@ -23,7 +23,7 @@ namespace Curtme.Models
         [JsonIgnore]
         public String UserId { get; set; }
 
-        public String LongURL { get; set; }
+        public String SourceURL { get; set; }
 
         public String ShortURL { get; set; }
 

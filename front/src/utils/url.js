@@ -1,17 +1,17 @@
 export function validURL(url) {
-	try {
-		new URL(url);
-	} catch (_) {
-		return false;
-	}
+  try {
+    new URL(url);
+  } catch (_) {
+    return false;
+  }
 
-	return true;
+  return true;
 }
 
-export function getLongURLFromParameter() {
-	return new URL(location.href).searchParams.get("longURL");
+export function getSourceURLFromParameter() {
+  return new URL(location.href).searchParams.get("sourceURL");
 }
 
 export function clearLinkParameter() {
-	window.history.replaceState({}, document.title, "/");
+  window.history.replaceState({}, document.title, "/");
 }

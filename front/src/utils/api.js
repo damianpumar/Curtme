@@ -21,9 +21,9 @@ function buildHeader() {
   return header;
 }
 
-export async function createLink(longURL) {
+export async function createLink(sourceURL) {
   const data = {
-    url: longURL,
+    url: sourceURL,
   };
 
   return await fetch(BASE_URL, {
