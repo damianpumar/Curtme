@@ -22,11 +22,11 @@ namespace Curtme.Services
             this.linkDetailsService = linkDetailsService;
         }
 
-        public Link Create(String longURL, String title, String userId = null)
+        public Link Create(String sourceURL, String title, String userId = null)
         {
             var shortURL = this.CreateShortURL();
 
-            var link = new Link(longURL, shortURL, title, userId);
+            var link = new Link(sourceURL, shortURL, title, userId);
 
             this.mongoDBService.Links.InsertOne(link);
 

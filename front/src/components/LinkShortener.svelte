@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import {
     validURL,
-    getLongURLFromParameter,
+    getSourceURLFromParameter,
     clearLinkParameter,
   } from "../utils/url";
   import { isEnterKeyDown } from "../utils/keyboard";
@@ -31,7 +31,7 @@
   const STORAGE_KEY = "links";
 
   let longInputElement;
-  let longURL = null;
+  let sourceURL = null;
   let errorMessage = null;
   let links = [];
   $: orderedLinks = links.sort(
@@ -87,12 +87,12 @@
   }
 
   async function createShortURL() {
-    if (!longURL) {
+    if (!sourceURL) {
       errorMessage = URL_MANDATORY;
       return;
     }
 
-    if (!validURL(longURL)) {
+    if (!validURL(sourceURL)) {
       errorMessage = URL_INVALID;
       return;
     }
@@ -100,12 +100,12 @@
     try {
       gaEventUserCreateShortLink();
 
-      const response = await createLink(longURL);
+      const response = await createLink(sourceURL);
 
       if (response.ok) {
         const link = await response.json();
 
-        longURL = null;
+        sourceURL = null;
 
         addLink(link);
       } else {
@@ -132,9 +132,9 @@
   });
 
   onMount(() => {
-    longURL = getLongURLFromParameter();
+    sourceURL = getSourceURLFromParameter();
 
-    if (longURL) {
+    if (sourceURL) {
       clearLinkParameter();
       createShortURL();
     } else {
@@ -144,6 +144,33 @@
 
   onDestroy(unsubscribe);
 </script>
+
+<section class="container medium">
+  <h2>{NAME}</h2>
+  <p>{TITLE}</p>
+  <div class="row">
+    <div class="col-12 col-12-mobilep">
+      <input
+        type="text"
+        autocomplete="false"
+        bind:value={sourceURL}
+        placeholder={PASTE_LONG_URL}
+        bind:this={longInputElement}
+        on:keydown={(event) => isEnterKeyDown(event) && createShortURL()}
+      />
+    </div>
+    <Error bind:error={errorMessage} />
+  </div>
+  <div class="row">
+    <div class="col-12 col-12-mobilep">
+      <button on:click={createShortURL}>{SHORT}</button>
+    </div>
+  </div>
+</section>
+
+{#each orderedLinks as link}
+  <Link {link} />
+{/each}
 
 <style>
   section {
@@ -217,29 +244,3 @@
     }
   }
 </style>
-
-<section class="container medium">
-  <h2>{NAME}</h2>
-  <p>{TITLE}</p>
-  <div class="row">
-    <div class="col-12 col-12-mobilep">
-      <input
-        type="text"
-        autocomplete="false"
-        bind:value={longURL}
-        placeholder={PASTE_LONG_URL}
-        bind:this={longInputElement}
-        on:keydown={(event) => isEnterKeyDown(event) && createShortURL()} />
-    </div>
-    <Error bind:error={errorMessage} />
-  </div>
-  <div class="row">
-    <div class="col-12 col-12-mobilep">
-      <button on:click={createShortURL}>{SHORT}</button>
-    </div>
-  </div>
-</section>
-
-{#each orderedLinks as link}
-  <Link {link} />
-{/each}

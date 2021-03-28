@@ -8,7 +8,7 @@
 
 ## :pencil: Pending requirements
 
-- Validate if longURL is a website :white_check_mark:
+- Validate if sourceURL is a website :white_check_mark:
 - Website for end users :white_check_mark:
 - Show clicks on the fronted :white_check_mark:
 - Add login functionality :white_check_mark:
@@ -19,11 +19,11 @@
 - Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now) :white_check_mark:
 - Collect platform, operative system/version, browser/version from link was clicked :white_check_mark:
 - Delete link (soft delete) :white_check_mark:
-- Modify longURL
+- Modify sourceURL
 - Social media share buttons
 - Link redirect expiration by date
 - Link redirect expiration by clicks
-- Link rotation (Change longURL after specific event)
+- Link rotation (Change sourceURL after specific event)
 - Password links
 - QR code
 - Link search by short and long link (front end)

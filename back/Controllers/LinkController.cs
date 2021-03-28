@@ -86,7 +86,7 @@ namespace Curtme.Controllers
 
             Task.Run(() => this.linkService.Visited(link, remoteIp));
 
-            return this.Redirect(link.LongURL);
+            return this.Redirect(link.SourceURL);
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace Curtme.Controllers
 
                 if (String.IsNullOrEmpty(link.Title))
                 {
-                    link.Title = link.LongURL.GetTitle();
+                    link.Title = link.SourceURL.GetTitle();
                 }
 
                 this.linkService.Update(link);
