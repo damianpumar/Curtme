@@ -17,13 +17,29 @@
 - Allow user to create custom short URL :white_check_mark:
 - Track origin ip, user agent for each shorter link visited :white_check_mark:
 - Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now) :white_check_mark:
-- Allow to modify longURL
-- Allow to delete link (soft delete)
-- Add social media share buttons
-- Add expiration time to links
-- Add server name or domain from link was clicked :white_check_mark:
-- Add operative system from link was clicked :white_check_mark:
+- Collect platform, operative system/version, browser/version from link was clicked :white_check_mark:
+- Delete link (soft delete) :white_check_mark:
+- Modify longURL
+- Social media share buttons
+- Link redirect expiration by date
+- Link redirect expiration by clicks
+- Link rotation (Change longURL after specific event)
+- Password links
+- QR code
+- Link search by short and long link (front end)
 - Enable or disable preview link
+- Bulk short links
+- Collect user agent language
+- Chart of clicks on a short link by type of devices
+- Chart of clicks on a short link by platform / version
+- Chart of clicks on a short link by browser
+- Chart of clicks on a short link by referrals
+- Chart of clicks on a short link by continent
+- Chart of clicks on a short link by country
+- Chart of clicks on a short link by language
+- Reset analytics for your short link
+- Share link stat with public url
+- Add select language dropdown (EN, ES)
 
 ## :mag: API Documentation
 
