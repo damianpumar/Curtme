@@ -169,6 +169,26 @@ namespace Curtme.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// The user can change the shortURL
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT /linkId/newShortURL
+        ///     {
+        ///        linkId, newShortURL
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="linkId"></param>
+        /// <param name="newShortURL"></param>
+        /// <returns>Status 200 OK</returns>
+        /// <response code="200">Always</response>
+        /// <response code="400">If linkId is empty</response>
+        /// <response code="404">If linkId does not exist</response>
+        /// <response code="400">If newShortURL is empty</response>
+        /// <response code="400">If newShortURL was assigned</response>
         [HttpPut]
         [Route("/{linkId}/{newShortURL}")]
         public IActionResult Customize(String linkId, String newShortURL)
@@ -188,6 +208,37 @@ namespace Curtme.Controllers
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
             this.linkService.Customize(linkIn, newShortURL);
+
+            return this.Ok();
+        }
+
+        /// <summary>
+        /// The user delete old link
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     DELETE /linkId
+        ///
+        /// </remarks>
+        /// <param name="linkId"></param>
+        /// <returns>Status 200 OK</returns>
+        /// <response code="200">Always</response>
+        /// <response code="400">If linkId is empty</response>
+        /// <response code="404">If linkId does not exist</response>
+        [HttpDelete]
+        [Route("/{linkId}")]
+        public IActionResult Delete(String linkId)
+        {
+            if (String.IsNullOrEmpty(linkId))
+                return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
+
+            var linkIn = this.linkService.GetById(linkId);
+
+            if (linkIn == null)
+                return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
+
+            this.linkService.Delete(linkIn);
 
             return this.Ok();
         }
