@@ -39,7 +39,7 @@ namespace Curtme.Services
 
             this.linkDetailsService.Save(linkIn, remoteIp);
 
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+            this.Update(linkIn);
         }
 
         public Link GetByShortURL(String shortURL)
@@ -73,7 +73,19 @@ namespace Curtme.Services
 
             linkIn.UserId = userId;
 
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+            this.Update(linkIn);
+        }
+
+        public void Delete(Link linkIn)
+        {
+            linkIn.Deleted = true;
+
+            this.Update(linkIn);
+        }
+
+        public IEnumerable<Link> Find(Expression<Func<Link, Boolean>> findQuery)
+        {
+            return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
         }
 
         public void Update(Link linkIn)
@@ -81,24 +93,6 @@ namespace Curtme.Services
             this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
 
-        public void Customize(Link linkIn, String newShortURL)
-        {
-            linkIn.ShortURL = newShortURL;
-
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
-        }
-
-        public void Delete(Link linkIn)
-        {
-            linkIn.Deleted = true;
-
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
-        }
-
-        public IEnumerable<Link> Find(Expression<Func<Link, Boolean>> findQuery)
-        {
-            return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
-        }
 
         private string CreateShortURL()
         {

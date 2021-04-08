@@ -28,11 +28,11 @@ namespace Curtme.Controllers
         ///
         ///     POST /
         ///     {
-        ///        "URL": "https://curtme.org"
+        ///        "sourceURL": "https://curtme.org"
         ///     }
         ///
         /// </remarks>
-        /// <param name="linkViewModel"></param>
+        /// <param name="sourceURL"></param>
         /// <returns>A newly shorted link</returns>
         /// <response code="200">Returns the newly shorted link</response>
         /// <response code="400">If the linkViewModel is null or is invalid URL or the url doesn't exist</response>
@@ -40,15 +40,15 @@ namespace Curtme.Controllers
         [Route("/")]
         [ProducesResponseType(typeof(Link), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Create(LinkViewModel linkViewModel)
+        public IActionResult Create(String sourceURL)
         {
-            if (linkViewModel == null)
+            if (String.IsNullOrEmpty(sourceURL))
                 return this.BadRequest(new { error = Constants.NO_BODY_ERROR });
 
-            if (!linkViewModel.IsValidURL())
+            if (!sourceURL.IsValidURL())
                 return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
 
-            var link = this.linkService.Create(linkViewModel.URL, linkViewModel.GetTitle(), this.HttpContext.User.GetId());
+            var link = this.linkService.Create(sourceURL, sourceURL.GetTitle(), this.HttpContext.User.GetId());
 
             return this.Ok(link);
         }
@@ -80,6 +80,7 @@ namespace Curtme.Controllers
             var link = this.linkService.GetByShortURL(shortURL);
 
             if (link == null)
+                // Remove this not found when implement the 404 links, or think other alternative.
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
             var remoteIp = this.HttpContext.Connection.RemoteIpAddress;
@@ -95,7 +96,7 @@ namespace Curtme.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /links-by-id?ids=AAA123 (shorts URL)
+        ///     GET /links-by-id?ids=AAA123
         ///
         /// </remarks>
         /// <param name="ids"></param>
@@ -157,7 +158,7 @@ namespace Curtme.Controllers
         [Route("/sync")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public IActionResult Sync(String[] linkIds)
+        public IActionResult SyncToUser(String[] linkIds)
         {
             var userId = this.HttpContext.User.GetId();
 
@@ -175,14 +176,15 @@ namespace Curtme.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT /linkId/newShortURL
+        ///     PUT /linkId
         ///     {
-        ///        linkId, newShortURL
+        ///        linkId
         ///     }
         ///
         /// </remarks>
         /// <param name="linkId"></param>
         /// <param name="newShortURL"></param>
+        /// <param name="newSourceURL"></param>
         /// <returns>Status 200 OK</returns>
         /// <response code="200">Always</response>
         /// <response code="400">If linkId is empty</response>
@@ -190,24 +192,38 @@ namespace Curtme.Controllers
         /// <response code="400">If newShortURL is empty</response>
         /// <response code="400">If newShortURL was assigned</response>
         [HttpPut]
-        [Route("/{linkId}/{newShortURL}")]
-        public IActionResult Customize(String linkId, String newShortURL)
+        [Route("/{linkId}")]
+        public IActionResult Customize(String linkId, [FromQuery] String newShortURL, [FromQuery] String newSourceURL)
         {
-            if (String.IsNullOrEmpty(newShortURL))
-                return this.BadRequest(new { error = Constants.NEW_SHORT_URL_REQUIRED_ERROR });
-
             if (String.IsNullOrEmpty(linkId))
                 return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
 
-            if (this.linkService.ExistByShortURL(newShortURL))
-                return this.BadRequest(new { error = $"{newShortURL} {Constants.LINK_ALREADY_EXIST} " });
+            if (String.IsNullOrEmpty(newShortURL) && String.IsNullOrEmpty(newSourceURL))
+                return this.BadRequest(new { error = Constants.NEW_SHORT_URL_OR_SOURCE_URL_REQUIRED_ERROR });
 
             var linkIn = this.linkService.GetById(linkId);
 
             if (linkIn == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            this.linkService.Customize(linkIn, newShortURL);
+            if (!String.IsNullOrEmpty(newShortURL))
+            {
+                if (this.linkService.ExistByShortURL(newShortURL))
+                    return this.BadRequest(new { error = $"{newShortURL} {Constants.LINK_ALREADY_EXIST} " });
+
+                linkIn.ShortURL = newShortURL;
+            }
+
+            if (!String.IsNullOrEmpty(newSourceURL))
+            {
+                if (!newSourceURL.IsValidURL())
+                    return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
+
+                linkIn.SourceURL = newSourceURL;
+                linkIn.Title = newSourceURL.GetTitle();
+            }
+
+            this.linkService.Update(linkIn);
 
             return this.Ok();
         }
@@ -241,32 +257,6 @@ namespace Curtme.Controllers
             this.linkService.Delete(linkIn);
 
             return this.Ok();
-        }
-
-        [HttpPut]
-        [Route("/consolidate")]
-        [ServiceFilter(typeof(ClientIpCheckActionFilter))]
-        public IActionResult Consolidate()
-        {
-            var links = this.linkService.Find(link => String.IsNullOrEmpty(link.Title) ||
-                                              link.Date == DateTime.MinValue);
-
-            foreach (var link in links)
-            {
-                if (link.Date == DateTime.MinValue)
-                {
-                    link.Date = DateTime.Now;
-                }
-
-                if (String.IsNullOrEmpty(link.Title))
-                {
-                    link.Title = link.SourceURL.GetTitle();
-                }
-
-                this.linkService.Update(link);
-            }
-
-            return this.Ok(links);
         }
     }
 }
