@@ -12,6 +12,16 @@
   });
 </script>
 
+<div>
+  <Cloud />
+
+  <Header />
+
+  <LinkShortener />
+
+  <Footer />
+</div>
+
 <style>
   @media screen and (max-width: 840px) {
     div {
@@ -28,15 +38,3 @@
     }
   }
 </style>
-
-<div>
-
-  <Cloud />
-
-  <Header />
-
-  <LinkShortener />
-
-  <Footer />
-
-</div>

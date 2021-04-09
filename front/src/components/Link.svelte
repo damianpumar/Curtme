@@ -3,14 +3,16 @@
   import { scale } from "svelte/transition";
   import { create_in_transition } from "svelte/internal";
   import { VISIT_LINK } from "../utils/config";
-  import { customizeLink } from "../utils/api";
+  import { customizeLink, remove } from "../utils/api";
   import { getDateParsed } from "../utils/date";
   import {
     INTERNET_CONNECTION,
     LINK_CUSTOMIZED,
     CLICK,
     CLICKS,
+    URL_INVALID,
   } from "../utils/resources.js";
+  import { validURL } from "../utils/url";
   import { copy } from "../utils/clipboard";
   import { isEnterKeyDown } from "../utils/keyboard";
   import { LINK_PATH } from "../utils/routeConfig";
@@ -19,13 +21,18 @@
   export let link;
   let linkSectionContainer;
   let animationLink;
-  let errorMessage;
+  let message;
   let editLinkInput;
 
-  let isEditing = false;
+  let isEditingShortURL = false;
+  let isEditingSourceURL = false;
   let currentEditingShortURL;
+  let currentEditingSourceURL;
 
-  $: isLinkEdited = link && link.shortURL === currentEditingShortURL;
+  $: isLinkEdited =
+    link &&
+    (link.shortURL === currentEditingShortURL ||
+      link.sourceURL === currentEditingSourceURL);
 
   function copyClipboard() {
     copy(link);
@@ -38,29 +45,69 @@
     animationLink.start();
   }
 
+  async function customizeSourceURL() {
+    currentEditingSourceURL = link.sourceURL;
+    isEditingSourceURL = true;
+    isEditingShortURL = false;
+    await tick();
+    editLinkInput.focus();
+  }
+
   async function customizeShortURL() {
     currentEditingShortURL = link.shortURL;
-    isEditing = true;
+    isEditingShortURL = true;
+    isEditingSourceURL = false;
     await tick();
     editLinkInput.focus();
   }
 
   function closeEditable() {
-    isEditing = false;
+    isEditingShortURL = false;
+    isEditingSourceURL = false;
+    if (currentEditingSourceURL) {
+      link.sourceURL = currentEditingSourceURL;
+    }
+    if (currentEditingShortURL) {
+      link.shortURL = currentEditingShortURL;
+    }
+
+    currentEditingSourceURL = null;
+    currentEditingShortURL = null;
   }
 
-  async function saveCustomShortURL() {
+  async function removeLink() {
+    try {
+      const response = await remove(link);
+
+      if (response.ok) {
+        link = null;
+      } else {
+        const data = await response.json();
+        message = data.error;
+      }
+    } catch (error) {
+      message = INTERNET_CONNECTION;
+    }
+  }
+
+  async function saveUpdatedLink() {
+    if (!validURL(link.sourceURL)) {
+      message = URL_INVALID;
+      return;
+    }
+
     try {
       const response = await customizeLink(link);
       if (response.ok) {
         closeEditable();
-        errorMessage = LINK_CUSTOMIZED;
+        message = LINK_CUSTOMIZED;
+        link = await response.json();
       } else {
         const data = await response.json();
-        errorMessage = data.error;
+        message = data.error;
       }
     } catch (error) {
-      errorMessage = INTERNET_CONNECTION;
+      message = INTERNET_CONNECTION;
     }
   }
 </script>
@@ -72,21 +119,55 @@
   >
     <div class="result">
       <p class="date-link">{getDateParsed(link)}</p>
-      <p class="title-link">{link.title}</p>
-      <p class="long-link">
-        <a href={link.sourceURL} class="truncate" target="blank">
-          {link.sourceURL}
-        </a>
+      <p class="title-link">
+        {link.title}
+        <button class="icon" on:click={removeLink} alt="Delete">
+          <i class="fa fa-trash" />
+        </button>
       </p>
+      <div>
+        <p class="long-link truncate">
+          {#if isEditingSourceURL}
+            <input
+              type="text"
+              bind:value={link.sourceURL}
+              bind:this={editLinkInput}
+              on:keydown={(event) => isEnterKeyDown(event) && saveUpdatedLink()}
+            />
+          {:else}
+            <a href={link.sourceURL} target="blank">
+              {link.sourceURL}
+            </a>
+          {/if}
+
+          {#if isEditingSourceURL}
+            <button
+              class="icon"
+              on:click={saveUpdatedLink}
+              disabled={isLinkEdited}
+              alt="Save"
+            >
+              <i class="fa fa-save" />
+            </button>
+            <button class="icon" on:click={closeEditable} alt="Cancel">
+              <i class="fa fa-times-circle" />
+            </button>
+          {:else}
+            <button class="icon" on:click={customizeSourceURL} alt="Edit"
+              ><i class="fa fa-edit" /></button
+            >
+          {/if}
+        </p>
+      </div>
+
       <div class="row">
         <p class="short-link" bind:this={linkSectionContainer}>
-          {#if isEditing}
+          {#if isEditingShortURL}
             <input
               type="text"
               bind:value={link.shortURL}
               bind:this={editLinkInput}
-              on:keydown={(event) =>
-                isEnterKeyDown(event) && saveCustomShortURL()}
+              on:keydown={(event) => isEnterKeyDown(event) && saveUpdatedLink()}
             />
           {:else}
             <a
@@ -98,25 +179,25 @@
             </a>
           {/if}
         </p>
-        {#if isEditing}
+        {#if isEditingShortURL}
           <button
-            class="icon fa-save"
-            on:click={saveCustomShortURL}
+            class="icon"
+            on:click={saveUpdatedLink}
             disabled={isLinkEdited}
             alt="Save"
-          />
-          <button
-            class="icon fa-times-circle"
-            on:click={closeEditable}
-            alt="Cancel"
-          />
+          >
+            <i class="fa fa-save" />
+          </button>
+          <button class="icon" on:click={closeEditable} alt="Cancel">
+            <i class="fa fa-times-circle" /></button
+          >
         {:else}
-          <button
-            class="icon fa-edit"
-            on:click={customizeShortURL}
-            alt="Edit"
-          />
-          <button class="icon fa-copy" on:click={copyClipboard} alt="Copy" />
+          <button class="icon" on:click={customizeShortURL} alt="Edit">
+            <i class="fa fa-edit" />
+          </button>
+          <button class="icon" on:click={copyClipboard} alt="Copy">
+            <i class="fa fa-copy" />
+          </button>
         {/if}
         <div class="visited-link">
           <a href={`${LINK_PATH}${link.id}`}>
@@ -124,7 +205,7 @@
           </a>
         </div>
       </div>
-      <Error bind:error={errorMessage} />
+      <Error bind:error={message} />
     </div>
   </section>
 {/if}
@@ -168,7 +249,6 @@
   }
 
   .visited-link {
-    align-self: flex-end;
     margin-right: 10px !important;
     margin-left: auto;
   }
@@ -180,6 +260,7 @@
   .long-link {
     text-align: left;
     color: gray;
+    margin-top: -10px;
   }
 
   .short-link {
@@ -193,8 +274,7 @@
     background-color: transparent;
     box-shadow: unset !important;
     color: #e89980;
-    padding-top: 10px;
-    padding-left: 6px !important;
+    padding-left: 15px !important;
   }
 
   button:disabled {
@@ -207,26 +287,22 @@
   }
 
   input[type="text"] {
-    height: unset;
+    height: unset !important;
+    line-height: normal !important;
     margin-right: 5px;
-    margin-bottom: 5px;
-    width: 90%;
+    width: 80%;
   }
 
   .truncate {
-    max-width: 50em;
+    margin-right: 5px;
+    width: auto;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block;
   }
 
   @media screen and (max-width: 480px) {
     section {
       padding: 0 1em 0 1em;
-    }
-
-    .truncate {
-      max-width: 25em;
     }
   }
 </style>
