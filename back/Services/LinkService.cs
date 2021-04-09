@@ -67,7 +67,7 @@ namespace Curtme.Services
             return this.mongoDBService.Links.Find<Link>(link => !link.Deleted && link.ShortURL == shortURL).Any();
         }
 
-        public void Update(String linkId, String userId)
+        public void SyncToUser(String linkId, String userId)
         {
             var linkIn = this.mongoDBService.Links.Find<Link>(link => link.Id == linkId).Single();
 
@@ -83,16 +83,10 @@ namespace Curtme.Services
             this.Update(linkIn);
         }
 
-        public IEnumerable<Link> Find(Expression<Func<Link, Boolean>> findQuery)
-        {
-            return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
-        }
-
         public void Update(Link linkIn)
         {
             this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
-
 
         private string CreateShortURL()
         {

@@ -32,23 +32,23 @@ namespace Curtme.Controllers
         ///     }
         ///
         /// </remarks>
-        /// <param name="sourceURL"></param>
+        /// <param name="createLinkDTO"></param>
         /// <returns>A newly shorted link</returns>
         /// <response code="200">Returns the newly shorted link</response>
-        /// <response code="400">If the linkViewModel is null or is invalid URL or the url doesn't exist</response>
+        /// <response code="400">If the sourceURL is null or empty or if sourceURL is not a valid URL</response>
         [HttpPost]
         [Route("/")]
         [ProducesResponseType(typeof(Link), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Create(String sourceURL)
+        public IActionResult Create(CreateLinkDTO createLinkDTO)
         {
-            if (String.IsNullOrEmpty(sourceURL))
+            if (!createLinkDTO.IsValid())
                 return this.BadRequest(new { error = Constants.NO_BODY_ERROR });
 
-            if (!sourceURL.IsValidURL())
+            if (!createLinkDTO.IsValidURL())
                 return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
 
-            var link = this.linkService.Create(sourceURL, sourceURL.GetTitle(), this.HttpContext.User.GetId());
+            var link = this.linkService.Create(createLinkDTO.SourceURL, createLinkDTO.GetTitle(), this.HttpContext.User.GetId());
 
             return this.Ok(link);
         }
@@ -164,14 +164,14 @@ namespace Curtme.Controllers
 
             foreach (var linkId in linkIds)
             {
-                this.linkService.Update(linkId, userId);
+                this.linkService.SyncToUser(linkId, userId);
             }
 
             return Ok();
         }
 
         /// <summary>
-        /// The user can change the shortURL
+        /// The user can change the shortURL or sourceURL
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -183,49 +183,49 @@ namespace Curtme.Controllers
         ///
         /// </remarks>
         /// <param name="linkId"></param>
-        /// <param name="newShortURL"></param>
-        /// <param name="newSourceURL"></param>
-        /// <returns>Status 200 OK</returns>
-        /// <response code="200">Always</response>
+        /// <param name="updateLinkDTO"></param>
+        /// <returns>Updated link</returns>
+        /// <response code="200">When the link was updated</response>
         /// <response code="400">If linkId is empty</response>
         /// <response code="404">If linkId does not exist</response>
-        /// <response code="400">If newShortURL is empty</response>
-        /// <response code="400">If newShortURL was assigned</response>
+        /// <response code="400">If sourceURL is empty and shortURL is empty</response>
+        /// <response code="400">If shortURL is not empty but shortURL was assigned</response>
+        /// <response code="400">If sourceURL is not empty but if sourceURL is not a valid URL</response>
         [HttpPut]
         [Route("/{linkId}")]
-        public IActionResult Customize(String linkId, [FromQuery] String newShortURL, [FromQuery] String newSourceURL)
+        public IActionResult Customize(String linkId, [FromBody] UpdateLinkDTO updateLinkDTO)
         {
             if (String.IsNullOrEmpty(linkId))
                 return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
 
-            if (String.IsNullOrEmpty(newShortURL) && String.IsNullOrEmpty(newSourceURL))
-                return this.BadRequest(new { error = Constants.NEW_SHORT_URL_OR_SOURCE_URL_REQUIRED_ERROR });
+            if (!updateLinkDTO.IsValid())
+                return this.BadRequest(new { error = Constants.NO_BODY_ERROR });
 
             var linkIn = this.linkService.GetById(linkId);
 
             if (linkIn == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            if (!String.IsNullOrEmpty(newShortURL))
+            if (updateLinkDTO.IsValidShortURL())
             {
-                if (this.linkService.ExistByShortURL(newShortURL))
-                    return this.BadRequest(new { error = $"{newShortURL} {Constants.LINK_ALREADY_EXIST} " });
+                if (this.linkService.ExistByShortURL(updateLinkDTO.ShortURL))
+                    return this.BadRequest(new { error = $"{updateLinkDTO.ShortURL} {Constants.LINK_ALREADY_EXIST} " });
 
-                linkIn.ShortURL = newShortURL;
+                linkIn.ShortURL = updateLinkDTO.ShortURL;
             }
 
-            if (!String.IsNullOrEmpty(newSourceURL))
+            if (updateLinkDTO.IsValidSourceURL())
             {
-                if (!newSourceURL.IsValidURL())
+                if (!updateLinkDTO.IsValidURL())
                     return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
 
-                linkIn.SourceURL = newSourceURL;
-                linkIn.Title = newSourceURL.GetTitle();
+                linkIn.SourceURL = updateLinkDTO.SourceURL;
+                linkIn.Title = updateLinkDTO.GetTitle();
             }
 
             this.linkService.Update(linkIn);
 
-            return this.Ok();
+            return this.Ok(linkIn);
         }
 
         /// <summary>
