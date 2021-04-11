@@ -23,7 +23,7 @@ function buildHeader() {
 
 export async function createLink(sourceURL) {
   const data = {
-    url: sourceURL,
+    sourceURL: sourceURL,
   };
 
   return await fetch(BASE_URL, {
@@ -70,10 +70,23 @@ export async function syncLinksWithUser(links) {
   }
 }
 
+export async function remove(link) {
+  return await fetch(CUSTOMIZE(link.id), {
+    method: "DELETE",
+    headers: buildHeader(),
+  });
+}
+
 export async function customizeLink(link) {
-  return await fetch(CUSTOMIZE(link.id, link.shortURL), {
+  const data = {
+    sourceURL: link.sourceURL,
+    shortURL: link.shortURL,
+  };
+
+  return await fetch(CUSTOMIZE(link.id), {
     method: "PUT",
     headers: buildHeader(),
+    body: JSON.stringify(data),
   });
 }
 

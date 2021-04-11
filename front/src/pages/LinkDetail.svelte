@@ -28,7 +28,27 @@
       return data[0];
     }
   }
+
+  async function goBack() {
+    push(HOME_PATH);
+  }
 </script>
+
+<div>
+  <Cloud />
+
+  <Header />
+
+  <div class="link">
+    <div class="col-12 col-12-mobilep">
+      <button on:click={goBack}>{BACK}</button>
+    </div>
+    <Link {link} on:delete={goBack} />
+    <LinkStats linkId={params.id} />
+  </div>
+
+  <Footer />
+</div>
 
 <style>
   .link {
@@ -43,22 +63,3 @@
     margin-left: calc(4%);
   }
 </style>
-
-<div>
-
-  <Cloud />
-
-  <Header />
-
-  <div class="link">
-    <div class="col-12 col-12-mobilep">
-      <button on:click={() => push(HOME_PATH)}>{BACK}</button>
-    </div>
-    <Link {link} />
-    <LinkStats linkId={params.id} />
-
-  </div>
-
-  <Footer />
-
-</div>

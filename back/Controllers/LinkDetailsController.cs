@@ -12,9 +12,13 @@ namespace Curtme.Controllers
     {
         private readonly LinkDetailsService linkDetailsService;
 
-        public LinkDetailsController(LinkDetailsService linkDetailsService)
+        private readonly LinkService linkService;
+
+        public LinkDetailsController(LinkDetailsService linkDetailsService, LinkService linkService)
         {
             this.linkDetailsService = linkDetailsService;
+
+            this.linkService = linkService;
         }
 
         /// <summary>
@@ -40,6 +44,11 @@ namespace Curtme.Controllers
         {
             if (String.IsNullOrEmpty(linkId))
                 return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
+
+            var linkIn = this.linkService.GetById(linkId);
+
+            if (linkIn == null)
+                return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
             var details = this.linkDetailsService.GetDetails(linkId);
 

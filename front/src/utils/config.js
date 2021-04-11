@@ -1,10 +1,9 @@
-export const BASE_URL = "https://curtme.org/";
+export const BASE_URL = process.env.BASE_URL;
 export const VISIT_LINK = (shortURL) => `${BASE_URL}${shortURL}`;
 export const GET_LINKS_BY_IDS = `${BASE_URL}links-by-id`;
 export const GET_USER_LINKS = `${BASE_URL}links`;
 export const SYNC_LINKS = `${BASE_URL}sync`;
-export const CUSTOMIZE = (linkId, shortURL) =>
-  `${BASE_URL}${linkId}/${shortURL}`;
+export const CUSTOMIZE = (linkId) => `${BASE_URL}${linkId}`;
 export const GET_DETAIL = (linkId) => `${BASE_URL}details/${linkId}`;
 
 export const AUTH0 = {

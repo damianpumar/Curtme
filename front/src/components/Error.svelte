@@ -10,16 +10,16 @@
   }
 </script>
 
-<style>
-  div {
-    height: 20px;
-    margin-left: 10px;
-    margin-bottom: 5px;
-  }
-</style>
-
 {#if error}
   <div>
     <span transition:fade>{error}</span>
   </div>
 {/if}
+
+<style>
+  div {
+    height: 30px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+</style>

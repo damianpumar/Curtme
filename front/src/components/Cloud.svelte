@@ -1,3 +1,14 @@
+<script>
+  const clouds = Array(7).fill("cloud");
+  const isEven = (value) => value % 2 === 0;
+</script>
+
+<div id="clouds">
+  {#each clouds as cloud, index}
+    <div class={`cloud ${isEven(index) ? "foreground" : "background"} `} />
+  {/each}
+</div>
+
 <style>
   #clouds {
     position: absolute;
@@ -258,16 +269,3 @@
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEoAAAAqCAYAAAAUJM0rAAACFUlEQVRo3u3aPSwDYRzH8UZEbAYiYrDYjLZGpIPBJLGwSKwi0k1iYBKDdFJsEiMxSZgsFZJGiGjqJWEhSKuaNKRUG8r5PfI8SXOud72+PH2eu2f47Ndv7+V5/nee/G6bh5MWmIV9iEMWvkGjfiADD7AHk9BU6+PSNK0kPAINwwXkC6KU6gvC4HVyKB/clhHHCDnbTqHbSaEaYIv+OK3KyBk274RQrXBXg0B6B/QPkTIUiZTiEIm5gkbZQjXTJ5nG2ZFsocJ1iMQEZQk1VcdIGl2L9Yoeitwj3uocirgRPVRAgEjMoMihkgKFStIzK063QVHYhKF6h/IKFMlKGpaNlhM8Qq1JFIp5gQHeoSIShmJPST/PUElJQ7FN9hivUGmJQxE56OQRKiN5qL/NNY9QKQeEIpdgR7VC9cEqHeGeUyEHXHrMUiWhyKx6BV4dEsNMtNxQI4Ls33h5LidUoEYjXKEXoXZDLbgsEBOzE8qne8fmJhE7oWIujUQcwhyMmy0VSKRRF0cyWlclYMYo1LEKZOgRugpDpVWUot5ZLI8LlwN23bNQKoY1vwpVmmsS6kOFsPRJQl2qENZIqGkVwnp9xb5nUksEcxm2hZlQMcy3OYXTgx0VpOi2pl8/jwqpMP9sF5twBl08ctE7I/dws5l5D5y4OBj51HvdzluYdlik0RL06cjkKpSlB1Span5x/AQb5Hfrxyy/oU5ISeVw53AAAAAASUVORK5CYII=);
   }
 </style>
-
-<div id="clouds">
-  <div class="cloud foreground" />
-  <div class="cloud background" />
-  <div class="cloud foreground" />
-  <div class="cloud background" />
-  <div class="cloud foreground" />
-  <div class="cloud background" />
-  <div class="cloud background" />
-  <div class="cloud foreground" />
-  <div class="cloud background" />
-  <div class="cloud background" />
-</div>

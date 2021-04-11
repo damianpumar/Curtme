@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using Curtme.Extensions;
 using Curtme.Models;
@@ -39,7 +38,7 @@ namespace Curtme.Services
 
             this.linkDetailsService.Save(linkIn, remoteIp);
 
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+            this.Update(linkIn);
         }
 
         public Link GetByShortURL(String shortURL)
@@ -67,37 +66,25 @@ namespace Curtme.Services
             return this.mongoDBService.Links.Find<Link>(link => !link.Deleted && link.ShortURL == shortURL).Any();
         }
 
-        public void Update(String linkId, String userId)
+        public void SyncToUser(String linkId, String userId)
         {
             var linkIn = this.mongoDBService.Links.Find<Link>(link => link.Id == linkId).Single();
 
             linkIn.UserId = userId;
 
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
-        }
-
-        public void Update(Link linkIn)
-        {
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
-        }
-
-        public void Customize(Link linkIn, String newShortURL)
-        {
-            linkIn.ShortURL = newShortURL;
-
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+            this.Update(linkIn);
         }
 
         public void Delete(Link linkIn)
         {
             linkIn.Deleted = true;
 
-            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
+            this.Update(linkIn);
         }
 
-        public IEnumerable<Link> Find(Expression<Func<Link, Boolean>> findQuery)
+        public void Update(Link linkIn)
         {
-            return this.mongoDBService.Links.Find<Link>(findQuery).ToList();
+            this.mongoDBService.Links.ReplaceOne(link => link.Id == linkIn.Id, linkIn);
         }
 
         private string CreateShortURL()

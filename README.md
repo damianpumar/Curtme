@@ -19,7 +19,7 @@
 - Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now) :white_check_mark:
 - Collect platform, operative system/version, browser/version from link was clicked :white_check_mark:
 - Delete link (soft delete) :white_check_mark:
-- Modify sourceURL
+- Modify sourceURL :white_check_mark:
 - Social media share buttons
 - Link redirect expiration by date
 - Link redirect expiration by clicks

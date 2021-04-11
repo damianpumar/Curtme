@@ -349,7 +349,7 @@ code {
   display: flex;
   flex-wrap: wrap;
   box-sizing: border-box;
-  align-items: stretch;
+  align-items: baseline;
 }
 
 .row > * {
@@ -538,6 +538,7 @@ code {
 .row {
   margin-top: 0;
   margin-left: -2em;
+  align-items: baseline;
 }
 
 .row > * {
@@ -591,7 +592,7 @@ code {
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    align-items: stretch;
+    align-items: baseline;
   }
 
   .row > * {
@@ -834,7 +835,7 @@ code {
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    align-items: stretch;
+    align-items: baseline;
   }
 
   .row > * {
@@ -1077,7 +1078,7 @@ code {
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    align-items: stretch;
+    align-items: baseline;
   }
 
   .row > * {
@@ -1320,7 +1321,7 @@ code {
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    align-items: stretch;
+    align-items: baseline;
   }
 
   .row > * {
@@ -1563,7 +1564,7 @@ code {
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    align-items: stretch;
+    align-items: baseline;
   }
 
   .row > * {
@@ -1806,7 +1807,7 @@ code {
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    align-items: stretch;
+    align-items: baseline;
   }
 
   .row > * {
@@ -2108,12 +2109,12 @@ textarea {
   border-radius: 6px;
   border: solid 1px #e5e5e5;
   color: #fd940a;
-  display: block;
   outline: 0;
   padding: 0 1em;
   text-decoration: none;
   width: 100%;
   font-weight: bold;
+  line-height: 2.65em;
 }
 
 input[type="text"]:invalid,
@@ -2131,12 +2132,6 @@ select:focus,
 textarea:focus {
   border-color: #e89980;
   box-shadow: 0 0 0 2px #e89980;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="email"] {
-  height: 3em;
 }
 
 textarea {
@@ -2386,9 +2381,7 @@ button {
   font-weight: 400;
   font-family: inherit;
   font-size: inherit;
-  height: 3em;
   line-height: 3em;
-  padding: 0 2em;
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
