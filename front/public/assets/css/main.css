@@ -2114,6 +2114,7 @@ textarea {
   text-decoration: none;
   width: 100%;
   font-weight: bold;
+  line-height: 2.65em;
 }
 
 input[type="text"]:invalid,

@@ -1,10 +1,10 @@
 <script>
-  import { tick } from "svelte";
+  import { tick, createEventDispatcher } from "svelte";
   import { scale } from "svelte/transition";
   import { create_in_transition } from "svelte/internal";
   import { VISIT_LINK } from "../utils/config";
   import { customizeLink, remove } from "../utils/api";
-  import { getDateParsed } from "../utils/date";
+  import { getDateParsed, useTimer } from "../utils/date";
   import {
     INTERNET_CONNECTION,
     LINK_CUSTOMIZED,
@@ -17,6 +17,9 @@
   import { isEnterKeyDown } from "../utils/keyboard";
   import { LINK_PATH } from "../utils/routeConfig";
   import Error from "./Error.svelte";
+
+  const dispatch = createEventDispatcher();
+  const { startTimer, cancelTimer, currentTimer } = useTimer(5);
 
   export let link;
   let linkSectionContainer;
@@ -75,12 +78,24 @@
     currentEditingShortURL = null;
   }
 
-  async function removeLink() {
+  let isDeleting = false;
+  async function removoLink() {
+    isDeleting = true;
+    startTimer(confirmDeleteLink);
+  }
+
+  async function cancelRemoveLink() {
+    isDeleting = false;
+    cancelTimer();
+  }
+
+  async function confirmDeleteLink() {
     try {
       const response = await remove(link);
 
       if (response.ok) {
         link = null;
+        dispatch("delete");
       } else {
         const data = await response.json();
         message = data.error;
@@ -121,9 +136,16 @@
       <p class="date-link">{getDateParsed(link)}</p>
       <p class="title-link">
         {link.title}
-        <button class="icon" on:click={removeLink} alt="Delete">
-          <i class="fa fa-trash" />
-        </button>
+        {#if !isDeleting}
+          <button class="icon" on:click={removoLink} alt="Delete">
+            <i class="fa fa-trash" />
+          </button>
+        {:else}
+          <span>{`Deleting in ${$currentTimer} seconds`}</span>
+          <button class="icon" on:click={cancelRemoveLink} alt="Cancel">
+            <i class="fa fa-times-circle" />
+          </button>
+        {/if}
       </p>
       <div>
         <p class="long-link truncate">
@@ -298,6 +320,10 @@
     width: auto;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  span {
+    margin-left: 10px;
   }
 
   @media screen and (max-width: 480px) {
