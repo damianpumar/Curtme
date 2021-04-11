@@ -6,6 +6,7 @@ import {
   SYNC_LINKS,
   CUSTOMIZE,
   GET_DETAIL,
+  UNLOCK_LINK,
 } from "./config";
 import { isAuthenticated, authToken } from "../auth0/auth0.store";
 
@@ -95,6 +96,34 @@ export async function getLinkDetail(id) {
     return await fetch(GET_DETAIL(id), {
       method: "GET",
       headers: buildHeader(),
+    });
+  } catch (error) {
+    return { ok: false };
+  }
+}
+
+export async function getUnlockLink(shortURL) {
+  try {
+    return await fetch(UNLOCK_LINK(shortURL), {
+      method: "GET",
+      headers: buildHeader(),
+    });
+  } catch (error) {
+    return { ok: false };
+  }
+}
+
+export async function unlockLink(shortURL, password) {
+  const data = {
+    password: password,
+  };
+
+  try {
+    return await fetch(UNLOCK_LINK(shortURL), {
+      mode: "cors",
+      method: "POST",
+      headers: buildHeader(),
+      body: JSON.stringify(data),
     });
   } catch (error) {
     return { ok: false };
