@@ -80,7 +80,6 @@ namespace Curtme.Controllers
             var link = this.linkService.GetByShortURL(shortURL);
 
             if (link == null)
-                // Remove this not found when implement the 404 links, or think other alternative.
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
             var remoteIp = this.HttpContext.Connection.RemoteIpAddress;

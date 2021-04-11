@@ -65,10 +65,5 @@ namespace Curtme.Services
         {
             return this.mongoDBService.LinkDetails.Find<LinkDetails>(detail => detail.LinkId == linkId).ToList();
         }
-
-        public IEnumerable<LinkDetails> Find(Expression<Func<LinkDetails, Boolean>> findQuery)
-        {
-            return this.mongoDBService.LinkDetails.Find<LinkDetails>(findQuery).ToList();
-        }
     }
 }
