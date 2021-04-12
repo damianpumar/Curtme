@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Curtme.Extensions;
 using Curtme.Models;
 using MongoDB.Driver;
@@ -32,13 +33,16 @@ namespace Curtme.Services
             return link;
         }
 
-        public void Visited(Link linkIn, IPAddress remoteIp)
+        public void Visited(Link linkIn)
         {
-            linkIn.Visited++;
+            Task.Run(() =>
+            {
+                linkIn.Visited++;
 
-            this.linkDetailsService.Save(linkIn, remoteIp);
+                this.linkDetailsService.Save(linkIn);
 
-            this.Update(linkIn);
+                this.Update(linkIn);
+            });
         }
 
         public Link GetByShortURL(String shortURL)

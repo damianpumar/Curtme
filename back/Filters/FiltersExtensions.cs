@@ -1,3 +1,5 @@
+using Curtme.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +15,15 @@ namespace Curtme.Filters
 
                 return new ClientIpCheckActionFilter(configuration["AdminSafeList"]);
             });
+
+            services.AddScoped<LinkLockedActionFilter>(container =>
+           {
+               var env = container.GetRequiredService<IWebHostEnvironment>();
+
+               var linkService = container.GetRequiredService<LinkService>();
+
+               return new LinkLockedActionFilter(env, linkService);
+           });
         }
     }
 }

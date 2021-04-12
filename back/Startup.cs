@@ -1,4 +1,3 @@
-using System;
 using Curtme.Extensions;
 using Curtme.Filters;
 using Curtme.Models;
@@ -9,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Wangkanai.Detection.Services;
 
 namespace Curtme
 {
@@ -47,6 +45,8 @@ namespace Curtme
             services.AddAuth0();
 
             services.AddFilters();
+
+            services.AddHttpContextAccessor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
