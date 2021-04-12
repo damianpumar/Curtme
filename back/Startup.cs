@@ -38,6 +38,8 @@ namespace Curtme
 
             services.AddScoped<LinkDetailsService>();
 
+            services.AddScoped<UserService>();
+
             services.AddControllers();
 
             services.AddSwagger();

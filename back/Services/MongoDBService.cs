@@ -9,6 +9,8 @@ namespace Curtme.Services
 
         public IMongoCollection<LinkDetails> LinkDetails { get; }
 
+        public IMongoCollection<User> Users { get; }
+
         public MongoDBService(ICurtMeDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
@@ -16,6 +18,7 @@ namespace Curtme.Services
 
             this.Links = database.GetCollection<Link>(settings.LinksCollectionName);
             this.LinkDetails = database.GetCollection<LinkDetails>(settings.LinkDetailsCollectionName);
+            this.Users = database.GetCollection<User>(settings.UsersCollectionName);
         }
     }
 }
