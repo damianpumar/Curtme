@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import { scale } from "svelte/transition";
   import { getLinkDetail } from "../utils/api";
@@ -15,17 +15,18 @@
     LOADING,
   } from "../utils/resources";
   import { parseDateAndTime } from "../utils/date";
+  import { GOOGLE_MAP_URL } from "../utils/config";
+  import type { LinkDetailModel } from "../model/link-model";
 
   export let linkId;
-  let details = [];
-
+  let details: LinkDetailModel[] = [];
   let responseMessage = LOADING;
 
-  onMount(async () => {
-    await getDetail(linkId);
+  onMount(() => {
+    loadLinkDetail(linkId);
   });
 
-  async function getDetail(id) {
+  const loadLinkDetail = async (id: string) => {
     const response = await getLinkDetail(id);
 
     const data = await response.json();
@@ -35,24 +36,24 @@
     } else {
       responseMessage = data.error;
     }
-  }
+  };
 
-  function createGoogleMapsLink(detail) {
-    const parse = (value) => value.replace(" ", "+");
+  const createGoogleMapsLink = (detail: LinkDetailModel) => {
+    const parse = (value: string) => value.replace(" ", "+");
 
     const city = parse(detail.city);
     const country = parse(detail.countryName);
 
-    return `https://www.google.com/maps/search/?api=1&query=${city},${country}`;
-  }
+    return `${GOOGLE_MAP_URL}${city},${country}`;
+  };
 </script>
 
 <section
   class="col-12 col-12-mobilep container medium"
   transition:scale={{ start: 0.5 }}
 >
-  <div class="detail">
-    <table class="table">
+  <div>
+    <table>
       <thead>
         <tr>
           <th>{WHEN}</th>
@@ -88,7 +89,7 @@
           </tr>
         {:else}
           <tr>
-            <td colspan="100%">
+            <td colspan="100">
               <h5 class="text-center">{responseMessage}</h5>
             </td>
           </tr>
@@ -99,7 +100,7 @@
 </section>
 
 <style>
-  .detail {
+  div {
     background-color: white;
     border-radius: 5px;
     margin-top: 1em;

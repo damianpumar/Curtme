@@ -24,10 +24,8 @@
     URL_MANDATORY,
   } from "../utils/resources.js";
   import { isAuthenticated, isLoading } from "../auth0/auth0.store";
-
   import Error from "./Error.svelte";
   import Link from "./Link.svelte";
-
   import type { LinkModel } from "../model/link-model";
 
   const STORAGE_KEY = "links";
@@ -42,7 +40,7 @@
       parseDate(l2.date).getTime() - parseDate(l1.date).getTime()
   );
 
-  async function loadLinksWithoutUser() {
+  const loadLinksWithoutUser = async () => {
     const linksStored = localStorage.getItem(STORAGE_KEY);
 
     if (linksStored) {
@@ -52,21 +50,20 @@
 
       if (response.ok) {
         links = await response.json();
-
         localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
       }
     }
-  }
+  };
 
-  async function loadLinkWithUser() {
+  const loadLinkWithUser = async () => {
     const response = await getUserLinks();
 
     if (response.ok) {
       links = await response.json();
     }
-  }
+  };
 
-  async function syncLinkWithoutUser() {
+  const syncLinkWithoutUser = async () => {
     const linksStored = localStorage.getItem(STORAGE_KEY);
 
     if (linksStored) {
@@ -80,17 +77,17 @@
         await loadLinksWithoutUser();
       }
     }
-  }
+  };
 
-  function addLink(link: LinkModel) {
+  const addLink = (link: LinkModel) => {
     links = [...links, link];
 
     if (!$isAuthenticated) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
     }
-  }
+  };
 
-  async function createShortURL() {
+  const createShortURL = async () => {
     if (!sourceURL) {
       errorMessage = URL_MANDATORY;
       return;
@@ -118,16 +115,16 @@
     } catch (exception) {
       errorMessage = INTERNET_CONNECTION;
     }
-  }
+  };
 
-  async function loadLinks() {
+  const loadLinks = async () => {
     if ($isAuthenticated) {
       await syncLinkWithoutUser();
-      loadLinkWithUser();
+      await loadLinkWithUser();
     } else {
-      loadLinksWithoutUser();
+      await loadLinksWithoutUser();
     }
-  }
+  };
 
   const unsubscribe = isLoading.subscribe((newValue) => {
     if (!newValue) {

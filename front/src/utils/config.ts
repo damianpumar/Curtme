@@ -8,6 +8,9 @@ export const GET_DETAIL = (linkId: string) => `${BASE_URL}details/${linkId}`;
 export const UNLOCK_LINK = (shortURL: string) =>
   `${BASE_URL}unlock/${shortURL}`;
 
+export const GOOGLE_MAP_URL =
+  "https://www.google.com/maps/search/?api=1&query=";
+
 export const AUTH0 = {
   domain: "dev-6r8s11fz.eu.auth0.com",
   client_id: "2l41JB9wG62TaX0BmIfILNq6GiTbt92b",

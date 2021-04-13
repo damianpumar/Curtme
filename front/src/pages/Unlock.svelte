@@ -1,13 +1,18 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import Error from "../components/Error.svelte";
   import { VISIT_LINK } from "../utils/config";
   import { getUnlockLink, unlockLink } from "../utils/api";
   import { isEnterKeyDown } from "../utils/keyboard";
   import { PASSWORD_TO_UNLOCK, UNLOCK } from "../utils/resources";
+  import type { LinkModel } from "../model/link-model";
 
-  export let params = {};
-  let link = null;
+  interface Params {
+    shortURL: string;
+  }
+
+  export let params: Params = null;
+  let link: LinkModel = null;
   let passwordLink = null;
   let errorMessage = null;
 
@@ -17,15 +22,15 @@
     link = await getLink(params.shortURL);
   });
 
-  async function getLink(shortURL) {
+  const getLink = async (shortURL: string) => {
     const response = await getUnlockLink(shortURL);
 
     if (response.ok) {
       return await response.json();
     }
-  }
+  };
 
-  async function sendPassword() {
+  const sendPassword = async () => {
     if (!passwordLink) {
       errorMessage = PASSWORD_TO_UNLOCK;
       return;
@@ -41,7 +46,7 @@
       const data = await response.json();
       errorMessage = data.error;
     }
-  }
+  };
 </script>
 
 <section class="container medium">

@@ -33,7 +33,7 @@
   }
 </script>
 
-<div class="link">
+<div class:link>
   <div class="col-12 col-12-mobilep">
     <button on:click={goBack}>{BACK}</button>
   </div>
