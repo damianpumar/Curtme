@@ -1,5 +1,6 @@
 <script>
   import { tick, createEventDispatcher } from "svelte";
+  import { link as routeLink } from "svelte-spa-router";
   import { scale } from "svelte/transition";
   import { create_in_transition } from "svelte/internal";
   import { VISIT_LINK } from "../utils/config";
@@ -15,7 +16,7 @@
   import { validURL } from "../utils/url";
   import { copy } from "../utils/clipboard";
   import { isEnterKeyDown } from "../utils/keyboard";
-  import { LINK_PATH } from "../utils/routeConfig";
+  import { RouteConfig } from "../utils/routeConfig";
   import Error from "./Error.svelte";
 
   const dispatch = createEventDispatcher();
@@ -222,7 +223,7 @@
           </button>
         {/if}
         <div class="visited-link">
-          <a href={`${LINK_PATH}${link.id}`}>
+          <a href={`${RouteConfig.LINK_PATH}${link.id}`} use:routeLink>
             <span>{link.visited} {link.visited === 1 ? CLICK : CLICKS}</span>
           </a>
         </div>
@@ -320,10 +321,6 @@
     width: auto;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  span {
-    margin-left: 10px;
   }
 
   @media screen and (max-width: 480px) {

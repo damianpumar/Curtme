@@ -1,8 +1,5 @@
 <script>
   import { onMount } from "svelte";
-  import Cloud from "../components/Cloud.svelte";
-  import Header from "../components/Header.svelte";
-  import Footer from "../components/Footer.svelte";
   import Error from "../components/Error.svelte";
   import { VISIT_LINK } from "../utils/config";
   import { getUnlockLink, unlockLink } from "../utils/api";
@@ -47,38 +44,30 @@
   }
 </script>
 
-<div>
-  <Cloud />
-
-  <Header />
-
-  <section class="container medium">
-    {#if link}
-      <p>{VISIT_LINK(link.shortURL)}</p>
-      <p>{link.title}</p>
-    {/if}
-    <div class="row">
-      <div class="col-12 col-12-mobilep">
-        <input
-          type="text"
-          autocomplete="false"
-          bind:value={passwordLink}
-          placeholder={PASSWORD_TO_UNLOCK}
-          on:keydown={(event) => isEnterKeyDown(event) && sendPassword()}
-          disabled={!link}
-        />
-      </div>
-      <Error bind:error={errorMessage} />
+<section class="container medium">
+  {#if link}
+    <p>{VISIT_LINK(link.shortURL)}</p>
+    <p>{link.title}</p>
+  {/if}
+  <div class="row">
+    <div class="col-12 col-12-mobilep">
+      <input
+        type="text"
+        autocomplete="false"
+        bind:value={passwordLink}
+        placeholder={PASSWORD_TO_UNLOCK}
+        on:keydown={(event) => isEnterKeyDown(event) && sendPassword()}
+        disabled={!link}
+      />
     </div>
-    <div class="row">
-      <div class="col-12 col-12-mobilep">
-        <button on:click={sendPassword} disabled={!link}>{UNLOCK}</button>
-      </div>
+    <Error bind:error={errorMessage} />
+  </div>
+  <div class="row">
+    <div class="col-12 col-12-mobilep">
+      <button on:click={sendPassword} disabled={!link}>{UNLOCK}</button>
     </div>
-  </section>
-
-  <Footer />
-</div>
+  </div>
+</section>
 
 <style>
   section {

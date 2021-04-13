@@ -1,11 +1,11 @@
-<script>
-  const clouds = Array(7).fill("cloud");
-  const isEven = (value) => value % 2 === 0;
+<script lang="ts">
+  const clouds: string[] = Array(7).fill("cloud");
+  const isEven = (value: number) => value % 2 === 0;
 </script>
 
 <div id="clouds">
   {#each clouds as cloud, index}
-    <div class={`cloud ${isEven(index) ? "foreground" : "background"} `} />
+    <div class={`${cloud} ${isEven(index) ? "foreground" : "background"} `} />
   {/each}
 </div>
 

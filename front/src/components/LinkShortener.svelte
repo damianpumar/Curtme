@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import {
     validURL,
@@ -28,14 +28,18 @@
   import Error from "./Error.svelte";
   import Link from "./Link.svelte";
 
+  import type { LinkModel } from "../model/link-model";
+
   const STORAGE_KEY = "links";
 
-  let longInputElement;
+  let longInputElement: HTMLElement;
   let sourceURL = null;
   let errorMessage = null;
-  let links = [];
+  let links: LinkModel[] = [];
+
   $: orderedLinks = links.sort(
-    (l1, l2) => parseDate(l2.date) - parseDate(l1.date)
+    (l1: LinkModel, l2: LinkModel) =>
+      parseDate(l2.date).getTime() - parseDate(l1.date).getTime()
   );
 
   async function loadLinksWithoutUser() {
@@ -78,7 +82,7 @@
     }
   }
 
-  function addLink(link) {
+  function addLink(link: LinkModel) {
     links = [...links, link];
 
     if (!$isAuthenticated) {

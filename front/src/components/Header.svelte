@@ -8,7 +8,6 @@
     isLoading,
     login,
     logout,
-    authToken,
     userInfo
   } = createAuth(AUTH0);
 </script>

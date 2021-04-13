@@ -1,4 +1,4 @@
-export function validURL(url) {
+export const validURL = (url: string) => {
   try {
     new URL(url);
   } catch (_) {
@@ -6,12 +6,12 @@ export function validURL(url) {
   }
 
   return true;
-}
+};
 
-export function getSourceURLFromParameter() {
+export const getSourceURLFromParameter = () => {
   return new URL(location.href).searchParams.get("sourceURL");
-}
+};
 
-export function clearLinkParameter() {
+export const clearLinkParameter = () => {
   window.history.replaceState({}, document.title, "/");
-}
+};

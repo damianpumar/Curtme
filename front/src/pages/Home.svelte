@@ -1,25 +1,16 @@
 <script>
   import { onMount } from "svelte";
   import { gaLoad } from "../utils/ga";
-  import Cloud from "../components/Cloud.svelte";
-  import Header from "../components/Header.svelte";
+
   import LinkShortener from "../components/LinkShortener.svelte";
-  import Footer from "../components/Footer.svelte";
 
   onMount(() => {
-    window.scrollTo(0, 0);
     gaLoad();
   });
 </script>
 
 <div>
-  <Cloud />
-
-  <Header />
-
   <LinkShortener />
-
-  <Footer />
 </div>
 
 <style>

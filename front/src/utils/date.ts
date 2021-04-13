@@ -1,23 +1,24 @@
 import { writable } from "svelte/store";
 import { get } from "svelte/store";
+import type { LinkModel } from "../model/link-model";
 
-export function getDateParsed(link) {
+export function getDateParsed(link: LinkModel) {
   const date = new Date(link.date);
   return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 }
 
-export function parseDate(dateString) {
-  return new Date(dateString);
+export function parseDate(date: string) {
+  return new Date(date);
 }
 
-export function parseDateAndTime(dateString) {
-  const date = parseDate(dateString);
+export function parseDateAndTime(date: string) {
+  const aDate = parseDate(date);
 
-  return `${date.toLocaleDateString()}, ${date.getHours()}:${date.getMinutes()}`;
+  return `${aDate.toLocaleDateString()}, ${aDate.getHours()}:${aDate.getMinutes()}`;
 }
 
-export function useTimer(seconds) {
-  let currentTimer = writable();
+export function useTimer(seconds: number) {
+  let currentTimer = writable(0);
   let downloadTimer = null;
 
   const startTimer = (finish) => {

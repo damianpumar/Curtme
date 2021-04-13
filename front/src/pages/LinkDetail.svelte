@@ -1,27 +1,26 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import { push } from "svelte-spa-router";
-  import Cloud from "../components/Cloud.svelte";
-  import Header from "../components/Header.svelte";
-  import Footer from "../components/Footer.svelte";
   import Link from "../components/Link.svelte";
   import LinkStats from "../components/LinkStats.svelte";
   import { BACK } from "../utils/resources";
-  import { HOME_PATH } from "../utils/routeConfig";
+  import { RouteConfig } from "../utils/routeConfig";
   import { getLinks } from "../utils/api";
 
-  export let params = {};
+  interface Params {
+    id: string;
+  }
+
+  export let params: Params = null;
 
   let link = null;
 
   onMount(async () => {
-    window.scrollTo(0, 0);
-
     link = await getLink(params.id);
   });
 
-  async function getLink(id) {
-    const response = await getLinks([{ id: id }]);
+  async function getLink(id: string) {
+    const response = await getLinks([id]);
 
     if (response.ok) {
       const data = await response.json();
@@ -30,24 +29,16 @@
   }
 
   async function goBack() {
-    push(HOME_PATH);
+    push(RouteConfig.HOME_PATH);
   }
 </script>
 
-<div>
-  <Cloud />
-
-  <Header />
-
-  <div class="link">
-    <div class="col-12 col-12-mobilep">
-      <button on:click={goBack}>{BACK}</button>
-    </div>
-    <Link {link} on:delete={goBack} />
-    <LinkStats linkId={params.id} />
+<div class="link">
+  <div class="col-12 col-12-mobilep">
+    <button on:click={goBack}>{BACK}</button>
   </div>
-
-  <Footer />
+  <Link {link} on:delete={goBack} />
+  <LinkStats linkId={params.id} />
 </div>
 
 <style>
