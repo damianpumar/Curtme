@@ -142,7 +142,7 @@
             <i class="fa fa-trash" />
           </button>
         {:else}
-          <span>{`Deleting in ${$currentTimer} seconds`}</span>
+          <span class="deleting">{`Deleting in ${$currentTimer} seconds`}</span>
           <button class="icon" on:click={cancelRemoveLink} alt="Cancel">
             <i class="fa fa-times-circle" />
           </button>
@@ -321,6 +321,10 @@
     width: auto;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .deleting {
+    margin-left: 10px;
   }
 
   @media screen and (max-width: 480px) {

@@ -8,13 +8,6 @@
   import { isEnterKeyDown } from "../utils/keyboard";
   import { gaEventUserCreateShortLink } from "../utils/ga.js";
   import {
-    createLink,
-    getLinks,
-    getUserLinks,
-    syncLinksWithUser,
-  } from "../utils/api";
-  import { parseDate } from "../utils/date";
-  import {
     NAME,
     TITLE,
     SHORT,
@@ -23,69 +16,14 @@
     URL_INVALID,
     URL_MANDATORY,
   } from "../utils/resources.js";
-  import { isAuthenticated, isLoading } from "../auth0/auth0.store";
+  import { initialized } from "../services/auth0/auth0.store";
   import Error from "./Error.svelte";
-  import Link from "./Link.svelte";
-  import type { LinkModel } from "../model/link-model";
 
-  const STORAGE_KEY = "links";
+  import { createNewLink, loadLinks } from "../services/link/link-service";
 
   let longInputElement: HTMLElement;
-  let sourceURL = null;
-  let errorMessage = null;
-  let links: LinkModel[] = [];
-
-  $: orderedLinks = links.sort(
-    (l1: LinkModel, l2: LinkModel) =>
-      parseDate(l2.date).getTime() - parseDate(l1.date).getTime()
-  );
-
-  const loadLinksWithoutUser = async () => {
-    const linksStored = localStorage.getItem(STORAGE_KEY);
-
-    if (linksStored) {
-      const linkStoredParsed = JSON.parse(linksStored);
-
-      const response = await getLinks(linkStoredParsed);
-
-      if (response.ok) {
-        links = await response.json();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
-      }
-    }
-  };
-
-  const loadLinkWithUser = async () => {
-    const response = await getUserLinks();
-
-    if (response.ok) {
-      links = await response.json();
-    }
-  };
-
-  const syncLinkWithoutUser = async () => {
-    const linksStored = localStorage.getItem(STORAGE_KEY);
-
-    if (linksStored) {
-      const linkStoredParsed = JSON.parse(linksStored);
-
-      const response = await syncLinksWithUser(linkStoredParsed);
-
-      if (response.ok) {
-        localStorage.removeItem(STORAGE_KEY);
-      } else {
-        await loadLinksWithoutUser();
-      }
-    }
-  };
-
-  const addLink = (link: LinkModel) => {
-    links = [...links, link];
-
-    if (!$isAuthenticated) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
-    }
-  };
+  let sourceURL: string = null;
+  let errorMessage: string = null;
 
   const createShortURL = async () => {
     if (!sourceURL) {
@@ -101,14 +39,10 @@
     try {
       gaEventUserCreateShortLink();
 
-      const response = await createLink(sourceURL);
+      const response = await createNewLink(sourceURL);
 
       if (response.ok) {
-        const link = await response.json();
-
         sourceURL = null;
-
-        addLink(link);
       } else {
         errorMessage = URL_INVALID;
       }
@@ -117,17 +51,8 @@
     }
   };
 
-  const loadLinks = async () => {
-    if ($isAuthenticated) {
-      await syncLinkWithoutUser();
-      await loadLinkWithUser();
-    } else {
-      await loadLinksWithoutUser();
-    }
-  };
-
-  const unsubscribe = isLoading.subscribe((newValue) => {
-    if (!newValue) {
+  const unsubscribe = initialized.subscribe((isInitialized) => {
+    if (isInitialized) {
       loadLinks();
     }
   });
@@ -168,10 +93,6 @@
     </div>
   </div>
 </section>
-
-{#each orderedLinks as link}
-  <Link {link} />
-{/each}
 
 <style>
   section {

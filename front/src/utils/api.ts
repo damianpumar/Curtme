@@ -8,7 +8,7 @@ import {
   GET_DETAIL,
   UNLOCK_LINK,
 } from "./config";
-import { isAuthenticated, authToken } from "../auth0/auth0.store";
+import { isAuthenticated, authToken } from "../services/auth0/auth0.store";
 import type { LinkModel } from "../model/link-model";
 
 const buildHeader = () => {

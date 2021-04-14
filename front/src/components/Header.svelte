@@ -1,16 +1,42 @@
 <script>
   import { blur } from "svelte/transition";
-  import { createAuth } from "../auth0";
+  import { createAuth } from "../services/auth0";
   import { AUTH0 } from "../utils/config";
 
-  const {
-    isAuthenticated,
-    isLoading,
-    login,
-    logout,
-    userInfo
-  } = createAuth(AUTH0);
+  const { isAuthenticated, isLoading, login, logout, userInfo } = createAuth(
+    AUTH0
+  );
 </script>
+
+<header>
+  <h1>
+    <a href="/">Curtme</a>
+  </h1>
+  {#if !$isLoading}
+    <nav>
+      <ul>
+        {#if $isAuthenticated}
+          <li>
+            <menu transition:blur={{ amount: 100 }}>
+              <span>
+                <img src={$userInfo.picture} alt={$userInfo.name} />
+                {$userInfo.name}
+                <i class="icon solid fa-angle-down" />
+              </span>
+              <menu-content>
+                <button on:click|preventDefault={() => logout()}>Logout</button>
+              </menu-content>
+            </menu>
+          </li>
+        {:else}
+          <li>
+            <button on:click|preventDefault={() => login()}>Login</button>
+          </li>
+        {/if}
+      </ul>
+    </nav>
+  {/if}
+</header>
 
 <style>
   header {
@@ -148,34 +174,3 @@
     }
   }
 </style>
-
-<header>
-  <h1>
-    <a href="/">Curtme</a>
-  </h1>
-  {#if !$isLoading}
-    <nav>
-      <ul>
-        {#if $isAuthenticated}
-          <li>
-            <menu transition:blur={{ amount: 100 }}>
-              <span>
-                <img src={$userInfo.picture} alt={$userInfo.name} />
-                {$userInfo.name}
-                <i class="icon solid fa-angle-down" />
-              </span>
-              <menu-content>
-                <button on:click|preventDefault={() => logout()}>Logout</button>
-              </menu-content>
-            </menu>
-          </li>
-        {:else}
-          <li>
-            <button on:click|preventDefault={() => login()}>Login</button>
-          </li>
-        {/if}
-      </ul>
-    </nav>
-  {/if}
-
-</header>

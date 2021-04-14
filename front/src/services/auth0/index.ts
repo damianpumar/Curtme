@@ -4,8 +4,9 @@ import {
   gaEventUserClickLogin,
   gaEventUserClickLogout,
   gaEventUserLoggedLogin,
-} from "../utils/ga";
+} from "../../utils/ga";
 import {
+  initialized,
   isLoading,
   isAuthenticated,
   authToken,
@@ -54,6 +55,7 @@ function createAuth(config) {
       }, refreshRate);
     }
     isLoading.set(false);
+    initialized.set(true);
 
     return () => {
       intervalId && clearInterval(intervalId);
