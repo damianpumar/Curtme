@@ -49,21 +49,21 @@
     animationLink.start();
   }
 
-  async function customizeSourceURL() {
+  const customizeSourceURL = async () => {
     currentEditingSourceURL = link.sourceURL;
     isEditingSourceURL = true;
     isEditingShortURL = false;
     await tick();
     editLinkInput.focus();
-  }
+  };
 
-  async function customizeShortURL() {
+  const customizeShortURL = async () => {
     currentEditingShortURL = link.shortURL;
     isEditingShortURL = true;
     isEditingSourceURL = false;
     await tick();
     editLinkInput.focus();
-  }
+  };
 
   function closeEditable() {
     isEditingShortURL = false;
@@ -80,17 +80,17 @@
   }
 
   let isDeleting = false;
-  async function removoLink() {
+  const removoLink = async () => {
     isDeleting = true;
     startTimer(confirmDeleteLink);
-  }
+  };
 
-  async function cancelRemoveLink() {
+  const cancelRemoveLink = async () => {
     isDeleting = false;
     cancelTimer();
-  }
+  };
 
-  async function confirmDeleteLink() {
+  const confirmDeleteLink = async () => {
     try {
       const response = await remove(link);
 
@@ -102,11 +102,12 @@
         message = data.error;
       }
     } catch (error) {
+      cancelRemoveLink();
       message = INTERNET_CONNECTION;
     }
-  }
+  };
 
-  async function saveUpdatedLink() {
+  const saveUpdatedLink = async () => {
     if (!validURL(link.sourceURL)) {
       message = URL_INVALID;
       return;
@@ -125,7 +126,7 @@
     } catch (error) {
       message = INTERNET_CONNECTION;
     }
-  }
+  };
 </script>
 
 {#if link}
