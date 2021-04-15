@@ -7,6 +7,7 @@ export const CUSTOMIZE = (linkId: string) => `${BASE_URL}${linkId}`;
 export const GET_DETAIL = (linkId: string) => `${BASE_URL}details/${linkId}`;
 export const UNLOCK_LINK = (shortURL: string) =>
   `${BASE_URL}unlock/${shortURL}`;
+export const LOCK_LINK = (linkId: string) => `${BASE_URL}lock/${linkId}`;
 
 export const GOOGLE_MAP_URL =
   "https://www.google.com/maps/search/?api=1&query=";

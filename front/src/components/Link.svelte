@@ -1,10 +1,10 @@
-<script>
-  import { tick, createEventDispatcher } from "svelte";
+<script lang="ts">
+  import { tick } from "svelte";
   import { link as routeLink } from "svelte-spa-router";
   import { scale } from "svelte/transition";
   import { create_in_transition } from "svelte/internal";
   import { VISIT_LINK } from "../utils/config";
-  import { customizeLink, remove } from "../utils/api";
+  import { customizeLink, remove, lockLink } from "../services/api-service";
   import { getDateParsed, useTimer } from "../utils/date";
   import {
     INTERNET_CONNECTION,
@@ -12,17 +12,19 @@
     CLICK,
     CLICKS,
     URL_INVALID,
+    SET_PASSWORD_PLACEHOLDER,
   } from "../utils/resources.js";
   import { validURL } from "../utils/url";
   import { copy } from "../utils/clipboard";
   import { isEnterKeyDown } from "../utils/keyboard";
   import { RouteConfig } from "../utils/routeConfig";
   import Error from "./Error.svelte";
+  import type { LinkModel } from "../model/link-model";
+  import { removeStoredLink } from "../services/link/link.store";
 
-  const dispatch = createEventDispatcher();
   const { startTimer, cancelTimer, currentTimer } = useTimer(5);
 
-  export let link;
+  export let link: LinkModel;
   let linkSectionContainer;
   let animationLink;
   let message;
@@ -80,7 +82,7 @@
   }
 
   let isDeleting = false;
-  const removoLink = async () => {
+  const removeLink = async () => {
     isDeleting = true;
     startTimer(confirmDeleteLink);
   };
@@ -95,8 +97,7 @@
       const response = await remove(link);
 
       if (response.ok) {
-        link = null;
-        dispatch("delete");
+        removeStoredLink(link);
       } else {
         const data = await response.json();
         message = data.error;
@@ -127,6 +128,38 @@
       message = INTERNET_CONNECTION;
     }
   };
+
+  let newPassword: string = null;
+  let isCustomizePassword = false;
+  const setNewPassword = async () => {
+    cancelRemoveLink();
+    newPassword = null;
+    isCustomizePassword = true;
+    await tick();
+    editLinkInput.focus();
+  };
+
+  const saveNewPassword = async () => {
+    try {
+      const response = await lockLink(link.id, newPassword);
+      if (response.ok) {
+        cleanUpPasswordVariables();
+        message = LINK_CUSTOMIZED;
+        link = await response.json();
+      } else {
+        const data = await response.json();
+        message = data.error;
+      }
+    } catch (error) {
+      console.log(error);
+      message = INTERNET_CONNECTION;
+    }
+  };
+
+  const cleanUpPasswordVariables = () => {
+    isCustomizePassword = false;
+    newPassword = null;
+  };
 </script>
 
 {#if link}
@@ -139,13 +172,37 @@
       <p class="title-link">
         {link.title}
         {#if !isDeleting}
-          <button class="icon" on:click={removoLink} alt="Delete">
+          <button class="icon" on:click={removeLink} alt="Delete">
             <i class="fa fa-trash" />
           </button>
         {:else}
           <span class="deleting">{`Deleting in ${$currentTimer} seconds`}</span>
           <button class="icon" on:click={cancelRemoveLink} alt="Cancel">
             <i class="fa fa-times-circle" />
+          </button>
+        {/if}
+        {#if isCustomizePassword}
+          <input
+            type="text"
+            class="small-input"
+            bind:value={newPassword}
+            bind:this={editLinkInput}
+            placeholder={SET_PASSWORD_PLACEHOLDER}
+            on:keydown={(event) => isEnterKeyDown(event) && saveNewPassword()}
+          />
+          <button class="icon" on:click={saveNewPassword} alt="Save">
+            <i class="fa fa-save" />
+          </button>
+          <button class="icon" on:click={cleanUpPasswordVariables} alt="Cancel">
+            <i class="fa fa-times-circle" />
+          </button>
+        {:else}
+          <button
+            class="icon"
+            on:click={setNewPassword}
+            alt="Customise Password"
+          >
+            <i class={link.hasPassword ? "fa fa-lock" : "fa fa-lock-open"} />
           </button>
         {/if}
       </p>
@@ -326,6 +383,10 @@
 
   .deleting {
     margin-left: 10px;
+  }
+
+  .small-input {
+    width: 30% !important;
   }
 
   @media screen and (max-width: 480px) {

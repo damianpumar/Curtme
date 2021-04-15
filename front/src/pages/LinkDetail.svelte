@@ -5,7 +5,7 @@
   import LinkStats from "../components/LinkStats.svelte";
   import { BACK } from "../utils/resources";
   import { RouteConfig } from "../utils/routeConfig";
-  import { getLinks } from "../utils/api";
+  import { getLinks } from "../services/api-service";
 
   interface Params {
     id: string;

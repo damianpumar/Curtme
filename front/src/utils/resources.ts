@@ -2,6 +2,7 @@ export const TITLE = "Free open source and unlimited link shortener";
 export const NAME = "Curtme.org";
 export const PASTE_LONG_URL = "Paste long url and shorten it.";
 export const PASSWORD_TO_UNLOCK = "Please enter password to unlock.";
+export const SET_PASSWORD_PLACEHOLDER = "Leave blank if you want to reset.";
 
 export const SHORT = "Short";
 export const UNLOCK = "Unlock";

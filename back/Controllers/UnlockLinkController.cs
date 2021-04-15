@@ -1,4 +1,5 @@
 using System;
+using Curtme.Extensions;
 using Curtme.Models;
 using Curtme.Services;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,50 @@ namespace Curtme.Controllers
         public UnlockLinkController(LinkDetailsService linkDetailsService, LinkService linkService)
         {
             this.linkService = linkService;
+        }
+
+        /// <summary>
+        /// The user can lock or unlock password
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT /linkId
+        ///     {
+        ///        linkId
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="linkId"></param>
+        /// <param name="updatePasswordDTO"></param>
+        /// <returns>Updated password link</returns>
+        /// <response code="200">When the link was updated</response>
+        /// <response code="400">If linkId is empty</response>
+        /// <response code="404">If linkId does not exist</response>
+        [HttpPut]
+        [Route("lock/{linkId}")]
+        public IActionResult Customize(String linkId, [FromBody] UpdatePasswordDTO updatePasswordDTO)
+        {
+            if (String.IsNullOrEmpty(linkId))
+                return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
+
+            var linkIn = this.linkService.GetById(linkId);
+
+            if (linkIn == null)
+                return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
+
+            if (!String.IsNullOrEmpty(updatePasswordDTO.Password))
+            {
+                linkIn.Password = updatePasswordDTO.Password.GetSHA512();
+            }
+            else
+            {
+                linkIn.Password = null;
+            }
+
+            this.linkService.Update(linkIn);
+
+            return this.Ok(linkIn);
         }
 
         /// <summary>
@@ -87,7 +132,7 @@ namespace Curtme.Controllers
             if (link == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            if (link.Password != linkToUnlockDTO.Password)
+            if (link.Password != linkToUnlockDTO.Password.GetSHA512())
                 return this.Unauthorized(new { error = Constants.PASSWORD_MISSMATCH });
 
             this.linkService.Visited(link);

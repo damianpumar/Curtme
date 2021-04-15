@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import Error from "../components/Error.svelte";
   import { VISIT_LINK } from "../utils/config";
-  import { getUnlockLink, unlockLink } from "../utils/api";
+  import { getUnlockLink, unlockLink } from "../services/api-service";
   import { isEnterKeyDown } from "../utils/keyboard";
   import { PASSWORD_TO_UNLOCK, UNLOCK } from "../utils/resources";
   import type { LinkModel } from "../model/link-model";
@@ -13,6 +13,7 @@
 
   export let params: Params = null;
   let link: LinkModel = null;
+  let unlockInput: HTMLElement = null;
   let passwordLink = null;
   let errorMessage = null;
 
@@ -20,6 +21,8 @@
     window.scrollTo(0, 0);
 
     link = await getLink(params.shortURL);
+    await tick();
+    unlockInput.focus();
   });
 
   const getLink = async (shortURL: string) => {
@@ -61,6 +64,7 @@
         autocomplete="false"
         bind:value={passwordLink}
         placeholder={PASSWORD_TO_UNLOCK}
+        bind:this={unlockInput}
         on:keydown={(event) => isEnterKeyDown(event) && sendPassword()}
         disabled={!link}
       />

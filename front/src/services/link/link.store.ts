@@ -11,6 +11,12 @@ export const orderedLinks = derived(links, ($links) =>
   )
 );
 
+export const removeStoredLink = (link: LinkModel) => {
+  links.update((linksValue) => [
+    ...linksValue.filter((linkStore) => linkStore.id !== link.id),
+  ]);
+};
+
 export const saveNewLink = (newLink: LinkModel) =>
   links.update((linksValue) => [...linksValue, newLink]);
 

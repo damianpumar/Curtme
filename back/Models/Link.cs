@@ -39,7 +39,6 @@ namespace Curtme.Models
         [JsonIgnore]
         public String Password { get; set; }
 
-        [JsonIgnore]
         public Boolean HasPassword
         {
             get

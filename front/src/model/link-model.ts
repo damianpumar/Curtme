@@ -4,6 +4,8 @@ export interface LinkModel {
   shortURL: string;
   sourceURL: string;
   title: string;
+  visited: number;
+  hasPassword: any;
 }
 
 export interface LinkDetailModel {

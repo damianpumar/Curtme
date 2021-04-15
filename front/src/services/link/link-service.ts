@@ -5,7 +5,7 @@ import {
   getLinks,
   getUserLinks,
   syncLinksWithUser,
-} from "../../utils/api";
+} from "../api-service";
 import type { LinkModel } from "../../model/link-model";
 import { get } from "svelte/store";
 import { initializeLinks, links, saveNewLink } from "./link.store";

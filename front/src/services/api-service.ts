@@ -7,7 +7,8 @@ import {
   CUSTOMIZE,
   GET_DETAIL,
   UNLOCK_LINK,
-} from "./config";
+  LOCK_LINK,
+} from "../utils/config";
 import { isAuthenticated, authToken } from "../services/auth0/auth0.store";
 import type { LinkModel } from "../model/link-model";
 
@@ -99,6 +100,22 @@ export async function customizeLink(link: LinkModel) {
 
   try {
     return await fetch(CUSTOMIZE(link.id), {
+      method: "PUT",
+      headers: buildHeader(),
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    return defaultResponse();
+  }
+}
+
+export async function lockLink(linkId: string, newPassword: string) {
+  const data = {
+    password: newPassword,
+  };
+
+  try {
+    return await fetch(LOCK_LINK(linkId), {
       method: "PUT",
       headers: buildHeader(),
       body: JSON.stringify(data),

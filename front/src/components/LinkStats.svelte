@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { scale } from "svelte/transition";
-  import { getLinkDetail } from "../utils/api";
+  import { getLinkDetail } from "../services/api-service";
   import {
     CITY,
     WHEN,
