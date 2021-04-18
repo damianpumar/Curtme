@@ -4,7 +4,6 @@
 
   import { getDateParsed } from "../utils/date";
   import { CLICK, CLICKS } from "../utils/resources.js";
-  import { errorMessageLinkShortener } from "./error.store";
   import { RouteConfig } from "../utils/routeConfig";
   import Error from "./Error.svelte";
   import type { LinkModel } from "../model/link-model";
@@ -14,6 +13,11 @@
   import LinkShortURL from "./LinkShortURL.svelte";
 
   export let link: LinkModel;
+  let errorMessage: string = null;
+
+  const handleError = (event) => {
+    errorMessage = event.detail.message;
+  };
 </script>
 
 {#if link}
@@ -25,22 +29,22 @@
       <p class="date-link">{getDateParsed(link)}</p>
       <p class="title-link">
         {link.title}
-        <LinkDelete {link} />
-        <LinkLock {link} />
+        <LinkDelete {link} on:error={handleError} />
+        <LinkLock {link} on:error={handleError} />
       </p>
       <div>
-        <LinkSourceURL {link} />
+        <LinkSourceURL {link} on:error={handleError} />
       </div>
 
       <div class="row">
-        <LinkShortURL {link} />
+        <LinkShortURL {link} on:error={handleError} />
         <div class="visited-link">
           <a href={`${RouteConfig.LINK_PATH}${link.id}`} use:routeLink>
             <span>{link.visited} {link.visited === 1 ? CLICK : CLICKS}</span>
           </a>
         </div>
       </div>
-      <Error bind:error={$errorMessageLinkShortener} />
+      <Error bind:error={errorMessage} />
     </div>
   </section>
 {/if}

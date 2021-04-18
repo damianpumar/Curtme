@@ -1,8 +1,5 @@
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Curtme.Models;
 using Curtme.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -36,41 +33,6 @@ namespace Curtme.Extensions
                        ClockSkew = TimeSpan.FromMinutes(5)
                    };
                    options.SaveToken = true;
-                   options.Events = new JwtBearerEvents()
-                   {
-                       OnTokenValidated = context =>
-                       {
-                           Task.Run(() =>
-                             {
-                                 var accessToken = context.SecurityToken as JwtSecurityToken;
-
-                                 if (accessToken != null)
-                                 {
-                                     ClaimsIdentity identity = context.Principal.Identity as ClaimsIdentity;
-
-                                     if (identity != null)
-                                     {
-                                         var user = userService.GetUserById(context.Principal.Identity.Name);
-
-                                         if (user == null)
-                                         {
-                                             user = new User()
-                                             {
-                                                 Id = context.Principal.GetId(),
-                                                 Plan = "Free"
-                                             };
-
-                                             userService.CreateUser(user);
-                                         }
-
-                                         identity.AddClaim(new Claim("plan", user.Plan));
-                                     }
-                                 }
-                             });
-
-                           return Task.CompletedTask;
-                       }
-                   };
                });
         }
 

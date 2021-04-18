@@ -7,7 +7,9 @@
   import { customizeLink } from "../services/api-service";
   import { scale } from "svelte/transition";
   import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../utils/resources";
-  import { errorMessageLinkShortener } from "./error.store";
+  import { useError } from "../utils/use-error";
+
+  const { dispatchError } = useError();
 
   export let link: LinkModel = null;
 
@@ -51,14 +53,14 @@
       const response = await customizeLink(link);
       if (response.ok) {
         closeEditable();
-        errorMessageLinkShortener.set(LINK_CUSTOMIZED);
+        dispatchError(LINK_CUSTOMIZED);
         link = await response.json();
       } else {
         const data = await response.json();
-        errorMessageLinkShortener.set(data.error);
+        dispatchError(data.error);
       }
     } catch (error) {
-      errorMessageLinkShortener.set(INTERNET_CONNECTION);
+      dispatchError(INTERNET_CONNECTION);
     }
   };
 </script>

@@ -9,7 +9,9 @@
     URL_INVALID,
   } from "../utils/resources";
   import { validURL } from "../utils/url";
-  import { errorMessageLinkShortener } from "./error.store";
+  import { useError } from "../utils/use-error";
+
+  const { dispatchError } = useError();
 
   export let link: LinkModel = null;
   let sourceURLInput: HTMLElement = null;
@@ -20,7 +22,7 @@
 
   const saveUpdatedLink = async () => {
     if (!validURL(link.sourceURL)) {
-      errorMessageLinkShortener.set(URL_INVALID);
+      dispatchError(URL_INVALID);
       return;
     }
 
@@ -28,14 +30,14 @@
       const response = await customizeLink(link);
       if (response.ok) {
         closeEditable();
-        errorMessageLinkShortener.set(LINK_CUSTOMIZED);
+        dispatchError(LINK_CUSTOMIZED);
         link = await response.json();
       } else {
         const data = await response.json();
-        errorMessageLinkShortener.set(data.error);
+        dispatchError(data.error);
       }
     } catch (error) {
-      errorMessageLinkShortener.set(INTERNET_CONNECTION);
+      dispatchError(INTERNET_CONNECTION);
     }
   };
 

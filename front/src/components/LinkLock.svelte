@@ -8,7 +8,9 @@
   } from "../utils/resources";
   import { isEnterKeyDown } from "../utils/keyboard";
   import type { LinkModel } from "../model/link-model";
-  import { errorMessageLinkShortener } from "./error.store";
+  import { useError } from "../utils/use-error";
+
+  const { dispatchError } = useError();
 
   export let link: LinkModel = null;
   let passwordInput: HTMLElement = null;
@@ -28,14 +30,14 @@
       const response = await lockLink(link.id, newPassword);
       if (response.ok) {
         cleanUpPasswordVariables();
-        errorMessageLinkShortener.set(LINK_CUSTOMIZED);
+        dispatchError(LINK_CUSTOMIZED);
         link = await response.json();
       } else {
         const data = await response.json();
-        errorMessageLinkShortener.set(data.error);
+        dispatchError(data.error);
       }
     } catch (error) {
-      errorMessageLinkShortener.set(INTERNET_CONNECTION);
+      dispatchError(INTERNET_CONNECTION);
     }
   };
 
@@ -46,20 +48,22 @@
 </script>
 
 {#if isCustomizingPassword}
-  <input
-    type="text"
-    class="small-input"
-    bind:value={newPassword}
-    bind:this={passwordInput}
-    placeholder={SET_PASSWORD_PLACEHOLDER}
-    on:keydown={(event) => isEnterKeyDown(event) && saveNewPassword()}
-  />
-  <button class="icon" on:click={saveNewPassword} alt="Save">
-    <i class="fa fa-save" />
-  </button>
-  <button class="icon" on:click={cleanUpPasswordVariables} alt="Cancel">
-    <i class="fa fa-times-circle" />
-  </button>
+  <div>
+    <input
+      type="text"
+      class="small-input"
+      bind:value={newPassword}
+      bind:this={passwordInput}
+      placeholder={SET_PASSWORD_PLACEHOLDER}
+      on:keydown={(event) => isEnterKeyDown(event) && saveNewPassword()}
+    />
+    <button class="icon" on:click={saveNewPassword} alt="Save">
+      <i class="fa fa-save" />
+    </button>
+    <button class="icon" on:click={cleanUpPasswordVariables} alt="Cancel">
+      <i class="fa fa-times-circle" />
+    </button>
+  </div>
 {:else}
   <button class="icon" on:click={setNewPassword} alt="Customise Password">
     <i class={link.hasPassword ? "fa fa-lock" : "fa fa-lock-open"} />

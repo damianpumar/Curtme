@@ -1,15 +1,17 @@
 <script lang="ts">
   import type { LinkModel } from "../model/link-model";
   import { remove } from "../services/api-service";
-  import { useTimer } from "../utils/date";
+  import { useTimer } from "../utils/use-timer";
   import { removeStoredLink } from "../services/link/link.store";
   import { INTERNET_CONNECTION } from "../utils/resources";
-
-  const { startTimer, cancelTimer, currentTimer } = useTimer(5);
+  import { useError } from "../utils/use-error";
 
   export let link: LinkModel = null;
-
   let isDeleting = false;
+
+  const { startTimer, cancelTimer, currentTimer } = useTimer(5);
+  const { dispatchError } = useError();
+
   const removeLink = async () => {
     isDeleting = true;
     startTimer(confirmDeleteLink);
@@ -28,11 +30,11 @@
         removeStoredLink(link);
       } else {
         const data = await response.json();
-        message = data.error;
+        dispatchError(data.error);
       }
     } catch (error) {
       cancelRemoveLink();
-      message = INTERNET_CONNECTION;
+      dispatchError(INTERNET_CONNECTION);
     }
   };
 </script>
