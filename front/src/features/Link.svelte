@@ -12,13 +12,9 @@
   import LinkLock from "./LinkLock.svelte";
   import LinkSourceURL from "./LinkSourceURL.svelte";
   import LinkShortURL from "./LinkShortURL.svelte";
+  import { errorMessage } from "./link.store";
 
   export let link: LinkModel;
-  let errorMessage: string = null;
-
-  const handleError = (event) => {
-    errorMessage = event.detail.message;
-  };
 </script>
 
 {#if link}
@@ -30,22 +26,22 @@
       <p class="date-link">{getDateParsed(link)}</p>
       <p class="title-link">
         {link.title}
-        <LinkDelete {link} on:error={handleError} />
-        <LinkLock {link} on:error={handleError} />
+        <LinkDelete {link} />
+        <LinkLock {link} />
       </p>
       <div>
-        <LinkSourceURL {link} on:error={handleError} />
+        <LinkSourceURL {link} />
       </div>
 
       <div class="row">
-        <LinkShortURL {link} on:error={handleError} />
+        <LinkShortURL {link} />
         <div class="visited-link">
           <a href={`${RouteConfig.LINK_PATH}${link.id}`} use:routeLink>
             <span>{link.visited} {link.visited === 1 ? CLICK : CLICKS}</span>
           </a>
         </div>
       </div>
-      <Error bind:error={errorMessage} />
+      <Error bind:error={$errorMessage} />
     </div>
   </section>
 {/if}

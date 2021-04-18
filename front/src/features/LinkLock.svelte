@@ -8,19 +8,21 @@
   } from "../utils/resources";
   import { isEnterKeyDown } from "../utils/keyboard";
   import type { LinkModel } from "../model/link-model";
-  import { useError } from "../utils/use-error";
-
-  const { dispatchError } = useError();
+  import { currentEditing, EDIT, errorMessage } from "./link.store";
 
   export let link: LinkModel = null;
   let passwordInput: HTMLElement = null;
   let newPassword: string = null;
-  let isCustomizingPassword = false;
+
+  $: isEditing = $currentEditing === EDIT.PASSWORD;
+
+  $: if (!isEditing) {
+    cleanUpPasswordVariables();
+  }
 
   const setNewPassword = async () => {
-    // cancelRemoveLink();
+    currentEditing.set(EDIT.PASSWORD);
     newPassword = null;
-    isCustomizingPassword = true;
     await tick();
     passwordInput.focus();
   };
@@ -30,24 +32,24 @@
       const response = await lockLink(link.id, newPassword);
       if (response.ok) {
         cleanUpPasswordVariables();
-        dispatchError(LINK_CUSTOMIZED);
+        errorMessage.set(LINK_CUSTOMIZED);
         link = await response.json();
       } else {
         const data = await response.json();
-        dispatchError(data.error);
+        errorMessage.set(data.error);
       }
     } catch (error) {
-      dispatchError(INTERNET_CONNECTION);
+      errorMessage.set(INTERNET_CONNECTION);
     }
   };
 
   const cleanUpPasswordVariables = () => {
-    isCustomizingPassword = false;
+    currentEditing.set(EDIT.NONE);
     newPassword = null;
   };
 </script>
 
-{#if isCustomizingPassword}
+{#if isEditing}
   <input
     type="text"
     class="small-input"

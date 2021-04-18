@@ -4,20 +4,25 @@
   import { useTimer } from "../utils/use-timer";
   import { removeStoredLink } from "../services/link/link.store";
   import { INTERNET_CONNECTION } from "../utils/resources";
-  import { useError } from "../utils/use-error";
+  import { currentEditing, EDIT, errorMessage } from "./link.store";
 
   export let link: LinkModel = null;
   let isDeleting = false;
 
   const { startTimer, cancelTimer, currentTimer } = useTimer(5);
-  const { dispatchError } = useError();
 
-  const removeLink = async () => {
+  $: isUserTryToModify = $currentEditing !== EDIT.NONE;
+
+  $: if (isUserTryToModify) {
+    cancelRemoveLink();
+  }
+
+  const removeLink = () => {
     isDeleting = true;
     startTimer(confirmDeleteLink);
   };
 
-  const cancelRemoveLink = async () => {
+  const cancelRemoveLink = () => {
     isDeleting = false;
     cancelTimer();
   };
@@ -30,11 +35,11 @@
         removeStoredLink(link);
       } else {
         const data = await response.json();
-        dispatchError(data.error);
+        errorMessage.set(data.error);
       }
     } catch (error) {
       cancelRemoveLink();
-      dispatchError(INTERNET_CONNECTION);
+      errorMessage.set(INTERNET_CONNECTION);
     }
   };
 </script>

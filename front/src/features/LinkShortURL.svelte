@@ -7,19 +7,22 @@
   import { customizeLink } from "../services/api-service";
   import { scale } from "svelte/transition";
   import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../utils/resources";
-  import { useError } from "../utils/use-error";
-
-  const { dispatchError } = useError();
+  import { currentEditing, EDIT, errorMessage } from "./link.store";
 
   export let link: LinkModel = null;
 
   let shortURLInput: HTMLElement = null;
-  let isEditingShortURL: boolean = false;
   let currentEditingShortURL: string = null;
   let linkSectionContainer = null;
   let animationLink: any;
 
   $: isLinkEdited = link && link.shortURL === currentEditingShortURL;
+
+  $: isEditing = $currentEditing === EDIT.SHORT_URL;
+
+  $: if (!isEditing) {
+    closeEditable();
+  }
 
   function copyClipboard() {
     copy(link);
@@ -33,19 +36,18 @@
   }
 
   const customizeShortURL = async () => {
+    currentEditing.set(EDIT.SHORT_URL);
     currentEditingShortURL = link.shortURL;
-    isEditingShortURL = true;
     await tick();
     shortURLInput.focus();
   };
 
   function closeEditable() {
-    isEditingShortURL = false;
     if (currentEditingShortURL) {
       link.shortURL = currentEditingShortURL;
     }
-
     currentEditingShortURL = null;
+    currentEditing.set(EDIT.NONE);
   }
 
   const saveUpdatedLink = async () => {
@@ -53,20 +55,20 @@
       const response = await customizeLink(link);
       if (response.ok) {
         closeEditable();
-        dispatchError(LINK_CUSTOMIZED);
+        errorMessage.set(LINK_CUSTOMIZED);
         link = await response.json();
       } else {
         const data = await response.json();
-        dispatchError(data.error);
+        errorMessage.set(data.error);
       }
     } catch (error) {
-      dispatchError(INTERNET_CONNECTION);
+      errorMessage.set(INTERNET_CONNECTION);
     }
   };
 </script>
 
 <p class="short-link" bind:this={linkSectionContainer}>
-  {#if isEditingShortURL}
+  {#if isEditing}
     <input
       type="text"
       bind:value={link.shortURL}
@@ -79,7 +81,7 @@
     </a>
   {/if}
 </p>
-{#if isEditingShortURL}
+{#if isEditing}
   <button
     class="icon"
     on:click={saveUpdatedLink}
