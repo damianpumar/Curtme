@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { push } from "svelte-spa-router";
-  import Link from "../components/Link.svelte";
-  import LinkStats from "../components/LinkStats.svelte";
+  import LinkStats from "../features/LinkStats.svelte";
+  import Link from "../features/Link.svelte";
   import { BACK } from "../utils/resources";
   import { RouteConfig } from "../utils/routeConfig";
   import { getLinks } from "../services/api-service";

@@ -125,6 +125,13 @@
     text-align: left;
   }
 
+  input[type="text"] {
+    height: unset !important;
+    line-height: normal !important;
+    margin-right: 5px;
+    width: 80%;
+  }
+
   .short-link {
     color: gray;
     min-width: 14em;

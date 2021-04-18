@@ -41,14 +41,14 @@
     }
   };
 
-  function closeEditable() {
+  const closeEditable = () => {
     isEditingSourceURL = false;
     if (currentEditingSourceURL) {
       link.sourceURL = currentEditingSourceURL;
     }
 
     currentEditingSourceURL = null;
-  }
+  };
 
   const customizeSourceURL = async () => {
     currentEditingSourceURL = link.sourceURL;
@@ -114,6 +114,13 @@
     margin-bottom: 0 !important;
     margin-left: 10px;
     text-align: left;
+  }
+
+  input[type="text"] {
+    height: unset !important;
+    line-height: normal !important;
+    margin-right: 5px;
+    width: 80%;
   }
 
   .truncate {

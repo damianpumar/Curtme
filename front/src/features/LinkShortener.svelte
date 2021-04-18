@@ -17,7 +17,7 @@
     URL_MANDATORY,
   } from "../utils/resources.js";
   import { initialized } from "../services/auth0/auth0.store";
-  import Error from "./Error.svelte";
+  import Error from "../components/Error.svelte";
 
   import { createNewLink, loadLinks } from "../services/link/link-service";
 

@@ -3,8 +3,8 @@
   import { gaLoad } from "../utils/ga";
   import { orderedLinks } from "../services/link/link.store";
 
-  import LinkShortener from "../components/LinkShortener.svelte";
-  import Link from "../components/Link.svelte";
+  import LinkShortener from "../features/LinkShortener.svelte";
+  import Link from "../features/Link.svelte";
 
   onMount(() => {
     gaLoad();

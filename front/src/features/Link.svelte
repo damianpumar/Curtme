@@ -5,8 +5,9 @@
   import { getDateParsed } from "../utils/date";
   import { CLICK, CLICKS } from "../utils/resources.js";
   import { RouteConfig } from "../utils/routeConfig";
-  import Error from "./Error.svelte";
+  import Error from "../components/Error.svelte";
   import type { LinkModel } from "../model/link-model";
+
   import LinkDelete from "./LinkDelete.svelte";
   import LinkLock from "./LinkLock.svelte";
   import LinkSourceURL from "./LinkSourceURL.svelte";
@@ -94,13 +95,6 @@
 
   .title-link {
     font-weight: bold;
-  }
-
-  input[type="text"] {
-    height: unset !important;
-    line-height: normal !important;
-    margin-right: 5px;
-    width: 80%;
   }
 
   @media screen and (max-width: 480px) {

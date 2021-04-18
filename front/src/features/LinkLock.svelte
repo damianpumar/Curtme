@@ -48,22 +48,20 @@
 </script>
 
 {#if isCustomizingPassword}
-  <div>
-    <input
-      type="text"
-      class="small-input"
-      bind:value={newPassword}
-      bind:this={passwordInput}
-      placeholder={SET_PASSWORD_PLACEHOLDER}
-      on:keydown={(event) => isEnterKeyDown(event) && saveNewPassword()}
-    />
-    <button class="icon" on:click={saveNewPassword} alt="Save">
-      <i class="fa fa-save" />
-    </button>
-    <button class="icon" on:click={cleanUpPasswordVariables} alt="Cancel">
-      <i class="fa fa-times-circle" />
-    </button>
-  </div>
+  <input
+    type="text"
+    class="small-input"
+    bind:value={newPassword}
+    bind:this={passwordInput}
+    placeholder={SET_PASSWORD_PLACEHOLDER}
+    on:keydown={(event) => isEnterKeyDown(event) && saveNewPassword()}
+  />
+  <button class="icon" on:click={saveNewPassword} alt="Save">
+    <i class="fa fa-save" />
+  </button>
+  <button class="icon" on:click={cleanUpPasswordVariables} alt="Cancel">
+    <i class="fa fa-times-circle" />
+  </button>
 {:else}
   <button class="icon" on:click={setNewPassword} alt="Customise Password">
     <i class={link.hasPassword ? "fa fa-lock" : "fa fa-lock-open"} />
@@ -85,6 +83,13 @@
 
   button:hover {
     color: #ff6232;
+  }
+
+  input[type="text"] {
+    height: unset !important;
+    line-height: normal !important;
+    margin-right: 5px;
+    width: 80%;
   }
 
   .small-input {
