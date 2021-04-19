@@ -7,3 +7,11 @@ export const authToken = writable("");
 export const userInfo = writable({});
 export const authError = writable(null);
 export const AUTH_KEY = {};
+
+export interface Auth0Config {
+  domain: string;
+  client_id: string;
+  audience: string;
+  redirect_uri: string;
+  useRefreshTokens: boolean;
+}

@@ -1,5 +1,5 @@
 import { onMount, setContext, getContext } from "svelte";
-import createAuth0Client from "@auth0/auth0-spa-js";
+import createAuth0Client, { Auth0Client } from "@auth0/auth0-spa-js";
 import {
   gaEventUserClickLogin,
   gaEventUserClickLogout,
@@ -13,6 +13,7 @@ import {
   userInfo,
   authError,
   AUTH_KEY,
+  Auth0Config,
 } from "./auth0.store";
 
 // Default Auth0 expiration time is 10 hours or something like that.
@@ -20,12 +21,12 @@ import {
 // token's actual expiration time.
 const refreshRate = 10 * 60 * 60 * 1000;
 
-function createAuth(config) {
-  let auth0 = null;
-  let intervalId = undefined;
+const createAuth = (config: Auth0Config) => {
+  let auth0Client: Auth0Client = null;
+  let intervalId: number = null;
 
   onMount(async () => {
-    auth0 = await createAuth0Client(config);
+    auth0Client = await createAuth0Client(config);
 
     const params = new URLSearchParams(window.location.search);
 
@@ -34,24 +35,24 @@ function createAuth(config) {
     }
 
     if (params.has("code")) {
-      await auth0.handleRedirectCallback();
+      await auth0Client.handleRedirectCallback();
       window.history.replaceState({}, document.title, "/");
       authError.set(null);
     }
 
-    const _isAuthenticated = await auth0.isAuthenticated();
-    isAuthenticated.set(_isAuthenticated);
+    const isUserAuthenticated = await auth0Client.isAuthenticated();
+    isAuthenticated.set(isUserAuthenticated);
 
-    if (_isAuthenticated) {
+    if (isUserAuthenticated) {
       gaEventUserLoggedLogin();
 
-      userInfo.set(await auth0.getUser());
+      userInfo.set(await auth0Client.getUser());
 
-      const token = await auth0.getTokenSilently();
+      const token = await auth0Client.getTokenSilently();
       authToken.set(token);
 
       intervalId = setInterval(async () => {
-        authToken.set(await auth0.getTokenSilently());
+        authToken.set(await auth0Client.getTokenSilently());
       }, refreshRate);
     }
     isLoading.set(false);
@@ -64,14 +65,14 @@ function createAuth(config) {
 
   const login = async (redirectPage) => {
     gaEventUserClickLogin();
-    await auth0.loginWithRedirect({
+    await auth0Client.loginWithRedirect({
       redirect_uri: redirectPage || window.location.origin,
       prompt: "login",
     });
   };
 
   const logout = () => {
-    auth0.logout({
+    auth0Client.logout({
       returnTo: window.location.origin,
     });
 
@@ -91,10 +92,10 @@ function createAuth(config) {
   setContext(AUTH_KEY, auth);
 
   return auth;
-}
+};
 
-function getAuth() {
+const getAuth = () => {
   return getContext(AUTH_KEY);
-}
+};
 
 export { createAuth, getAuth };
