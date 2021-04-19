@@ -5,11 +5,13 @@
   import { removeStoredLink } from "../services/link/link.store";
   import { INTERNET_CONNECTION } from "../utils/resources";
   import { currentAction, ACTION, errorMessage } from "./link.store";
+  import { useDelete } from "../utils/use-error";
 
   export let link: LinkModel = null;
   let isDeleting = false;
 
   const { startTimer, cancelTimer, currentTimer } = useTimer(5);
+  const { dispatchDelete } = useDelete();
 
   currentAction.subscribe((newMode) => {
     if (isDeleting && newMode !== ACTION.DELETE) {
@@ -34,6 +36,7 @@
       const response = await remove(link);
 
       if (response.ok) {
+        dispatchDelete();
         removeStoredLink(link);
       } else {
         const data = await response.json();

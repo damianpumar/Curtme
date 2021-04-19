@@ -13,6 +13,9 @@
   import LinkSourceURL from "./LinkSourceURL.svelte";
   import LinkShortURL from "./LinkShortURL.svelte";
   import { errorMessage } from "./link.store";
+  import { useDelete } from "../utils/use-error";
+
+  const { dispatchDelete } = useDelete();
 
   export let link: LinkModel;
 </script>
@@ -26,7 +29,7 @@
       <p class="date-link">{getDateParsed(link)}</p>
       <p class="title-link">
         {link.title}
-        <LinkDelete {link} />
+        <LinkDelete {link} on:delete={dispatchDelete} />
         <LinkLock {link} />
       </p>
       <div>

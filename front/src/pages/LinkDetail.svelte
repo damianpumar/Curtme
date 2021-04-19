@@ -19,18 +19,18 @@
     link = await getLink(params.id);
   });
 
-  async function getLink(id: string) {
+  const getLink = async (id: string) => {
     const response = await getLinks([id]);
 
     if (response.ok) {
       const data = await response.json();
       return data[0];
     }
-  }
+  };
 
-  async function goBack() {
+  const goBack = () => {
     push(RouteConfig.HOME_PATH);
-  }
+  };
 </script>
 
 <div class:link>

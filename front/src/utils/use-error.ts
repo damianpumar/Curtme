@@ -1,13 +1,11 @@
 import { createEventDispatcher } from "svelte";
 
-export const useError = () => {
+export const useDelete = () => {
   const dispatch = createEventDispatcher();
 
-  const dispatchError = (errorMessage: string) => {
-    dispatch("error", {
-      message: errorMessage,
-    });
+  const dispatchDelete = () => {
+    dispatch("delete");
   };
 
-  return { dispatchError };
+  return { dispatchDelete };
 };
