@@ -4,25 +4,27 @@
   import { useTimer } from "../utils/use-timer";
   import { removeStoredLink } from "../services/link/link.store";
   import { INTERNET_CONNECTION } from "../utils/resources";
-  import { currentEditing, EDIT, errorMessage } from "./link.store";
+  import { currentAction, ACTION, errorMessage } from "./link.store";
 
   export let link: LinkModel = null;
   let isDeleting = false;
 
   const { startTimer, cancelTimer, currentTimer } = useTimer(5);
 
-  $: isUserTryToModify = $currentEditing !== EDIT.NONE;
-
-  $: if (isUserTryToModify) {
-    cancelRemoveLink();
-  }
+  currentAction.subscribe((newMode) => {
+    if (isDeleting && newMode !== ACTION.DELETE) {
+      cancelRemoveLink();
+    }
+  });
 
   const removeLink = () => {
+    currentAction.set(ACTION.DELETE);
     isDeleting = true;
     startTimer(confirmDeleteLink);
   };
 
   const cancelRemoveLink = () => {
+    currentAction.set(ACTION.NONE);
     isDeleting = false;
     cancelTimer();
   };

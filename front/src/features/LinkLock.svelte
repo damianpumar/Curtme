@@ -8,20 +8,22 @@
   } from "../utils/resources";
   import { isEnterKeyDown } from "../utils/keyboard";
   import type { LinkModel } from "../model/link-model";
-  import { currentEditing, EDIT, errorMessage } from "./link.store";
+  import { currentAction, ACTION, errorMessage } from "./link.store";
 
   export let link: LinkModel = null;
   let passwordInput: HTMLElement = null;
   let newPassword: string = null;
+  let isModifyingPassword: boolean = false;
 
-  $: isEditing = $currentEditing === EDIT.PASSWORD;
-
-  $: if (!isEditing) {
-    cleanUpPasswordVariables();
-  }
+  currentAction.subscribe((newMode) => {
+    if (isModifyingPassword && newMode !== ACTION.PASSWORD) {
+      cleanUpPasswordVariables();
+    }
+  });
 
   const setNewPassword = async () => {
-    currentEditing.set(EDIT.PASSWORD);
+    currentAction.set(ACTION.PASSWORD);
+    isModifyingPassword = true;
     newPassword = null;
     await tick();
     passwordInput.focus();
@@ -44,12 +46,13 @@
   };
 
   const cleanUpPasswordVariables = () => {
-    currentEditing.set(EDIT.NONE);
+    currentAction.set(ACTION.NONE);
+    isModifyingPassword = false;
     newPassword = null;
   };
 </script>
 
-{#if isEditing}
+{#if isModifyingPassword}
   <input
     type="text"
     class="small-input"

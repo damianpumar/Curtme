@@ -9,19 +9,20 @@
     URL_INVALID,
   } from "../utils/resources";
   import { validURL } from "../utils/url";
-  import { currentEditing, EDIT, errorMessage } from "./link.store";
+  import { currentAction, ACTION, errorMessage } from "./link.store";
 
   export let link: LinkModel = null;
+  let isModifyingSourceURL: boolean = false;
   let sourceURLInput: HTMLElement = null;
   let currentEditingSourceURL: string = null;
 
   $: isLinkEdited = link && link.sourceURL === currentEditingSourceURL;
 
-  $: isEditing = $currentEditing === EDIT.SOURCE_URL;
-
-  $: if (!isEditing) {
-    closeEditable();
-  }
+  currentAction.subscribe((newMode) => {
+    if (isModifyingSourceURL && newMode !== ACTION.SOURCE_URL) {
+      closeEditable();
+    }
+  });
 
   const saveUpdatedLink = async () => {
     if (!validURL(link.sourceURL)) {
@@ -45,15 +46,19 @@
   };
 
   const closeEditable = () => {
+    currentAction.set(ACTION.NONE);
+
     if (currentEditingSourceURL) {
       link.sourceURL = currentEditingSourceURL;
     }
+
     currentEditingSourceURL = null;
-    currentEditing.set(EDIT.NONE);
+    isModifyingSourceURL = false;
   };
 
   const customizeSourceURL = async () => {
-    currentEditing.set(EDIT.SOURCE_URL);
+    currentAction.set(ACTION.SOURCE_URL);
+    isModifyingSourceURL = true;
     currentEditingSourceURL = link.sourceURL;
     await tick();
     sourceURLInput.focus();
@@ -61,7 +66,7 @@
 </script>
 
 <p class="long-link truncate">
-  {#if isEditing}
+  {#if isModifyingSourceURL}
     <input
       type="text"
       bind:value={link.sourceURL}
@@ -74,7 +79,7 @@
     </a>
   {/if}
 
-  {#if isEditing}
+  {#if isModifyingSourceURL}
     <button
       class="icon"
       on:click={saveUpdatedLink}

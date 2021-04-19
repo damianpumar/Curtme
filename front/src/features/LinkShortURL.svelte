@@ -7,22 +7,23 @@
   import { customizeLink } from "../services/api-service";
   import { scale } from "svelte/transition";
   import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../utils/resources";
-  import { currentEditing, EDIT, errorMessage } from "./link.store";
+  import { currentAction, ACTION, errorMessage } from "./link.store";
 
   export let link: LinkModel = null;
 
   let shortURLInput: HTMLElement = null;
+  let isModifyingShortURL: boolean = false;
   let currentEditingShortURL: string = null;
   let linkSectionContainer = null;
   let animationLink: any;
 
   $: isLinkEdited = link && link.shortURL === currentEditingShortURL;
 
-  $: isEditing = $currentEditing === EDIT.SHORT_URL;
-
-  $: if (!isEditing) {
-    closeEditable();
-  }
+  currentAction.subscribe((newMode) => {
+    if (isModifyingShortURL && newMode !== ACTION.SHORT_URL) {
+      closeEditable();
+    }
+  });
 
   function copyClipboard() {
     copy(link);
@@ -36,18 +37,22 @@
   }
 
   const customizeShortURL = async () => {
-    currentEditing.set(EDIT.SHORT_URL);
+    currentAction.set(ACTION.SHORT_URL);
+    isModifyingShortURL = true;
     currentEditingShortURL = link.shortURL;
     await tick();
     shortURLInput.focus();
   };
 
   function closeEditable() {
+    currentAction.set(ACTION.NONE);
+
     if (currentEditingShortURL) {
       link.shortURL = currentEditingShortURL;
     }
+
     currentEditingShortURL = null;
-    currentEditing.set(EDIT.NONE);
+    isModifyingShortURL = false;
   }
 
   const saveUpdatedLink = async () => {
@@ -68,7 +73,7 @@
 </script>
 
 <p class="short-link" bind:this={linkSectionContainer}>
-  {#if isEditing}
+  {#if isModifyingShortURL}
     <input
       type="text"
       bind:value={link.shortURL}
@@ -81,7 +86,7 @@
     </a>
   {/if}
 </p>
-{#if isEditing}
+{#if isModifyingShortURL}
   <button
     class="icon"
     on:click={saveUpdatedLink}

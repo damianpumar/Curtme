@@ -1,11 +1,12 @@
 import { writable } from "svelte/store";
 
-export enum EDIT {
+export enum ACTION {
   SOURCE_URL,
   SHORT_URL,
   PASSWORD,
+  DELETE,
   NONE,
 }
 
-export const currentEditing = writable<EDIT>(EDIT.NONE);
+export const currentAction = writable<ACTION>(ACTION.NONE);
 export const errorMessage = writable(null);
