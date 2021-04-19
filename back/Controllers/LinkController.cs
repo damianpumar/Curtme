@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Curtme.Extensions;
 using Curtme.Filters;
 using Curtme.Models;
@@ -100,12 +101,19 @@ namespace Curtme.Controllers
         /// <param name="ids"></param>
         /// <returns>Get all links for that ids</returns>
         /// <response code="200">Always</response>
+        /// <response code="403">If user tries to get links from other user</response>
         [HttpGet]
         [Route("/links-by-id")]
         [ProducesResponseType(typeof(Link[]), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetLinksById([FromQuery] String[] ids)
         {
             var links = this.linkService.GetByIds(ids);
+
+            if (links.Any(link => link.UserId != this.HttpContext.User.GetId()))
+            {
+                return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
+            }
 
             return Ok(links);
         }

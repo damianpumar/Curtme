@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Curtme.Extensions;
 using Curtme.Models;
 using Curtme.Services;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +35,7 @@ namespace Curtme.Controllers
         /// <returns>Link details</returns>
         /// <response code="200">With link details</response>
         /// <response code="400">If short url is null</response>
-        /// <response code="404">If does not exist a link with that id</response>
+        /// <response code="404">If does not exist a link with that id or if current link is not from this logged in user</response>
         [HttpGet]
         [Route("/details/{linkId}")]
         [ProducesResponseType(StatusCodes.Status302Found)]
@@ -45,9 +46,9 @@ namespace Curtme.Controllers
             if (String.IsNullOrEmpty(linkId))
                 return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
 
-            var linkIn = this.linkService.GetById(linkId);
+            var link = this.linkService.GetById(linkId);
 
-            if (linkIn == null)
+            if (link == null || link.UserId != this.HttpContext.User.GetId())
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
             var details = this.linkDetailsService.GetDetails(linkId);
