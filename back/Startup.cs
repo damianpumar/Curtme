@@ -47,8 +47,6 @@ namespace Curtme
             services.AddAuth0();
 
             services.AddFilters();
-
-            services.AddHttpContextAccessor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

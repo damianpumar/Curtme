@@ -83,7 +83,7 @@ namespace Curtme.Controllers
             if (link == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            this.linkService.Visited(link);
+            this.linkService.Visited(link, this.HttpContext.Connection.RemoteIpAddress);
 
             return this.Redirect(link.SourceURL);
         }

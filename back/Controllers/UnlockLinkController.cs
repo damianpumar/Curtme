@@ -135,7 +135,7 @@ namespace Curtme.Controllers
             if (link.Password != linkToUnlockDTO.Password.GetSHA512())
                 return this.Unauthorized(new { error = Constants.PASSWORD_MISSMATCH });
 
-            this.linkService.Visited(link);
+            this.linkService.Visited(link, this.HttpContext.Connection.RemoteIpAddress);
 
             return this.Ok(new GetLinkUnlockedDTO(link));
         }

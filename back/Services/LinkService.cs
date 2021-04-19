@@ -33,13 +33,13 @@ namespace Curtme.Services
             return link;
         }
 
-        public void Visited(Link linkIn)
+        public void Visited(Link linkIn, IPAddress ipAddress)
         {
             Task.Run(() =>
             {
                 linkIn.Visited++;
 
-                this.linkDetailsService.Save(linkIn);
+                this.linkDetailsService.Save(linkIn, ipAddress);
 
                 this.Update(linkIn);
             });

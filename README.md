@@ -24,7 +24,7 @@
 - Link redirect expiration by date
 - Link redirect expiration by clicks
 - Link rotation (Change sourceURL after specific event)
-- Password links
+- Password links :white_check_mark:
 - QR code
 - Link search by short and long link (front end)
 - Enable or disable preview link

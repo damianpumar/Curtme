@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Net;
 using Curtme.Models;
 using Microsoft.AspNetCore.Http;
@@ -17,12 +16,10 @@ namespace Curtme.Services
 
         private readonly IDetectionService detectionService;
 
-        private readonly IHttpContextAccessor httpContextAccessor;
 
         public LinkDetailsService(MongoDBService mongoDBService,
                                     GeoLocationService geolocationService,
-                                    IDetectionService detectionService,
-                                    IHttpContextAccessor httpContextAccessor
+                                    IDetectionService detectionService
         )
         {
             this.mongoDBService = mongoDBService;
@@ -31,15 +28,12 @@ namespace Curtme.Services
 
             this.detectionService = detectionService;
 
-            this.httpContextAccessor = httpContextAccessor;
         }
 
-        public void Save(Link link)
+        public void Save(Link link, IPAddress ipAddress)
         {
             try
             {
-                var ipAddress = this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress;
-
                 var geoLocation = this.geolocationService.GetData(ipAddress);
 
                 var detail = new LinkDetails(link)
