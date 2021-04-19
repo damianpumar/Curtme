@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Net;
 using Curtme.Models;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
 using Wangkanai.Detection.Services;
 
@@ -16,20 +17,30 @@ namespace Curtme.Services
 
         private readonly IDetectionService detectionService;
 
-        public LinkDetailsService(MongoDBService mongoDBService, GeoLocationService geolocationService, IDetectionService detectionService)
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        public LinkDetailsService(MongoDBService mongoDBService,
+                                    GeoLocationService geolocationService,
+                                    IDetectionService detectionService,
+                                    IHttpContextAccessor httpContextAccessor
+        )
         {
             this.mongoDBService = mongoDBService;
 
             this.geolocationService = geolocationService;
 
             this.detectionService = detectionService;
+
+            this.httpContextAccessor = httpContextAccessor;
         }
 
-        public void Save(Link link, IPAddress remoteIp)
+        public void Save(Link link)
         {
             try
             {
-                var geoLocation = this.geolocationService.GetData(remoteIp);
+                var ipAddress = this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress;
+
+                var geoLocation = this.geolocationService.GetData(ipAddress);
 
                 var detail = new LinkDetails(link)
                 {

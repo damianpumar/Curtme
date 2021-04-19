@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Curtme.Extensions;
 using Curtme.Filters;
 using Curtme.Models;
@@ -72,6 +71,8 @@ namespace Curtme.Controllers
         [ProducesResponseType(StatusCodes.Status302Found)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ServiceFilter(typeof(LinkLockedActionFilter))]
+
         public IActionResult Visit(String shortURL)
         {
             if (String.IsNullOrEmpty(shortURL))
@@ -82,9 +83,7 @@ namespace Curtme.Controllers
             if (link == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            var remoteIp = this.HttpContext.Connection.RemoteIpAddress;
-
-            Task.Run(() => this.linkService.Visited(link, remoteIp));
+            this.linkService.Visited(link);
 
             return this.Redirect(link.SourceURL);
         }
@@ -104,7 +103,7 @@ namespace Curtme.Controllers
         [HttpGet]
         [Route("/links-by-id")]
         [ProducesResponseType(typeof(Link[]), StatusCodes.Status200OK)]
-        public IActionResult Get([FromQuery] String[] ids)
+        public IActionResult GetLinksById([FromQuery] String[] ids)
         {
             var links = this.linkService.GetByIds(ids);
 

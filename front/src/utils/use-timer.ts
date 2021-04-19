@@ -1,23 +1,8 @@
 import { writable } from "svelte/store";
 import { get } from "svelte/store";
 
-export function getDateParsed(link) {
-  const date = new Date(link.date);
-  return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-}
-
-export function parseDate(dateString) {
-  return new Date(dateString);
-}
-
-export function parseDateAndTime(dateString) {
-  const date = parseDate(dateString);
-
-  return `${date.toLocaleDateString()}, ${date.getHours()}:${date.getMinutes()}`;
-}
-
-export function useTimer(seconds) {
-  let currentTimer = writable();
+export function useTimer(seconds: number) {
+  let currentTimer = writable(0);
   let downloadTimer = null;
 
   const startTimer = (finish) => {

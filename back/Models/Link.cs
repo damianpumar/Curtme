@@ -33,6 +33,18 @@ namespace Curtme.Models
 
         public Int32 Visited { get; set; }
 
+        [JsonIgnore]
         public Boolean Deleted { get; set; }
+
+        [JsonIgnore]
+        public String Password { get; set; }
+
+        public Boolean HasPassword
+        {
+            get
+            {
+                return !String.IsNullOrEmpty(this.Password);
+            }
+        }
     }
 }

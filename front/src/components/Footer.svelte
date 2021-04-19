@@ -1,3 +1,54 @@
+<footer>
+  <ul class="icons">
+    <li>
+      <a
+        href="https://github.com/damianpumar/Curtme"
+        title="Repository open source"
+        class="icon brands fa-github"
+      >
+        <span class="label">Github</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://curtme.org/developer/"
+        target="_blank"
+        title="Developer site"
+        class="icon brands fa-connectdevelop"
+      >
+        <span class="label">Swagger</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://github.com/damianpumar/Curtme/issues/new/"
+        target="_blank"
+        title="you found an error?"
+        class="icon solid fa-bug"
+      >
+        <span class="label">Bug</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://ko-fi.com/D1D11NVC3"
+        title="Buy me a coffee"
+        target="_blank"
+        class="icon solid fa-coffee"
+      >
+        <span class="label">Buy me a Coffee</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="copyright">
+    <li>&copy; Curtme.org</li>
+    <li>|</li>
+    <li>
+      <a href="https://damianpumar.com" target="_blank">Damián Pumar</a>
+    </li>
+  </ul>
+</footer>
+
 <style>
   footer {
     padding: 4em 0 6em 0;
@@ -56,50 +107,3 @@
     }
   }
 </style>
-
-<footer>
-  <ul class="icons">
-    <li>
-      <a
-        href="https://github.com/damianpumar/Curtme"
-        title="Repository open source"
-        class="icon brands fa-github">
-        <span class="label">Github</span>
-      </a>
-    </li>
-    <li>
-      <a
-        href="https://curtme.org/developer/"
-        target="_blank"
-        title="Developer site"
-        class="icon brands fa-connectdevelop">
-        <span class="label">Swagger</span>
-      </a>
-    </li>
-    <li>
-      <a
-        href="https://github.com/damianpumar/Curtme/issues/new/"
-        target="_blank"
-        title="you found an error?"
-        class="icon solid fa-bug">
-        <span class="label">Bug</span>
-      </a>
-    </li>
-    <li>
-      <a
-        href="https://ko-fi.com/D1D11NVC3"
-        title="Buy me a coffee"
-        target="_blank"
-        class="icon solid fa-coffee">
-        <span class="label">Buy me a Coffee</span>
-      </a>
-    </li>
-  </ul>
-  <ul class="copyright">
-    <li>&copy; Curtme.org</li>
-    <li>|</li>
-    <li>
-      <a href="https://damianpumar.com" target="_blank">Damián Pumar</a>
-    </li>
-  </ul>
-</footer>
