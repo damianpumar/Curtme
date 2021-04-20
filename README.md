@@ -8,38 +8,38 @@
 
 ## :pencil: Pending requirements
 
-- Validate if sourceURL is a website :white_check_mark:
-- Website for end users :white_check_mark:
-- Show clicks on the fronted :white_check_mark:
-- Add login functionality :white_check_mark:
-- Add google analytics :white_check_mark:
-- Improve login styles (UI) :white_check_mark:
-- Allow user to create custom short URL :white_check_mark:
-- Track origin ip, user agent for each shorter link visited :white_check_mark:
-- Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now) :white_check_mark:
-- Collect platform, operative system/version, browser/version from link was clicked :white_check_mark:
-- Delete link (soft delete) :white_check_mark:
-- Modify sourceURL :white_check_mark:
-- Social media share buttons
-- Link redirect expiration by date
-- Link redirect expiration by clicks
-- Link rotation (Change sourceURL after specific event)
-- Password links :white_check_mark:
-- QR code
-- Link search by short and long link (front end)
-- Enable or disable preview link
-- Bulk short links
-- Collect user agent language
-- Chart of clicks on a short link by type of devices
-- Chart of clicks on a short link by platform / version
-- Chart of clicks on a short link by browser
-- Chart of clicks on a short link by referrals
-- Chart of clicks on a short link by continent
-- Chart of clicks on a short link by country
-- Chart of clicks on a short link by language
-- Reset analytics for your short link
-- Share link stat with public url
-- Add select language dropdown (EN, ES)
+- [x] Validate if sourceURL is a website
+- [x] Website for end users
+- [x] Show clicks on the fronted
+- [x] Add login functionality
+- [x] Add google analytics
+- [x] Improve login styles (UI)
+- [x] Allow user to create custom short URL
+- [x] Track origin ip, user agent for each shorter link visited
+- [x] Change ip-stack to ip-geolocation (save the current isp into database recollected in frontend right now)
+- [x] Collect platform, operative system/version, browser/version from link was clicked
+- [x] Delete link (soft delete)
+- [x] Modify sourceURL
+- [x] Password links
+- [ ] Social media share buttons
+- [ ] Link redirect expiration by date
+- [ ] Link redirect expiration by clicks
+- [ ] Link rotation (Change sourceURL after specific event)
+- [ ] QR code
+- [ ] Link search by short and long link (front end)
+- [ ] Enable or disable preview link
+- [ ] Bulk short links
+- [ ] Collect user agent language
+- [ ] Chart of clicks on a short link by type of devices
+- [ ] Chart of clicks on a short link by platform / version
+- [ ] Chart of clicks on a short link by browser
+- [ ] Chart of clicks on a short link by referrals
+- [ ] Chart of clicks on a short link by continent
+- [ ] Chart of clicks on a short link by country
+- [ ] Chart of clicks on a short link by language
+- [ ] Reset analytics for your short link
+- [ ] Share link stat with public url
+- [ ] Add select language dropdown (EN, ES)
 
 ## :mag: API Documentation
 
