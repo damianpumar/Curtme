@@ -18,6 +18,7 @@ export const AUTH0 = {
   audience: "https://dev-6r8s11fz.eu.auth0.com/api/v2/",
   redirect_uri: window.location.origin,
   useRefreshTokens: true,
+  cacheLocation: "localstorage",
 };
 
 export const GA_KEY = "UA-164923051-1";

@@ -14,4 +14,5 @@ export interface Auth0Config {
   audience: string;
   redirect_uri: string;
   useRefreshTokens: boolean;
+  cacheLocation: "localstorage" | "memory";
 }
