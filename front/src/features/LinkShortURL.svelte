@@ -7,7 +7,8 @@
   import { customizeLink } from "../services/api-service";
   import { scale } from "svelte/transition";
   import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../utils/resources";
-  import { currentAction, ACTION, errorMessage } from "./link.store";
+  import { currentAction, ACTION } from "./link.store";
+  import { useMessage } from "../utils/use-event";
 
   export let link: LinkModel = null;
 
@@ -16,6 +17,8 @@
   let currentEditingShortURL: string = null;
   let linkSectionContainer = null;
   let animationLink: any;
+
+  const dispatchMessage = useMessage();
 
   $: isLinkEdited = link && link.shortURL === currentEditingShortURL;
 
@@ -60,14 +63,14 @@
       const response = await customizeLink(link);
       if (response.ok) {
         closeEditable();
-        errorMessage.set(LINK_CUSTOMIZED);
+        dispatchMessage(LINK_CUSTOMIZED);
         link = await response.json();
       } else {
         const data = await response.json();
-        errorMessage.set(data.error);
+        dispatchMessage(data.error);
       }
     } catch (error) {
-      errorMessage.set(INTERNET_CONNECTION);
+      dispatchMessage(INTERNET_CONNECTION);
     }
   };
 </script>

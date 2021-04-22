@@ -17,22 +17,22 @@
     URL_MANDATORY,
   } from "../utils/resources.js";
   import { initialized } from "../services/auth0/auth0.store";
-  import Error from "../components/Error.svelte";
+  import Message from "../components/Message.svelte";
 
   import { createNewLink, loadLinks } from "../services/link/link-service";
 
   let longInputElement: HTMLElement;
   let sourceURL: string = null;
-  let errorMessage: string = null;
+  let message: string = null;
 
   const createShortURL = async () => {
     if (!sourceURL) {
-      errorMessage = URL_MANDATORY;
+      message = URL_MANDATORY;
       return;
     }
 
     if (!validURL(sourceURL)) {
-      errorMessage = URL_INVALID;
+      message = URL_INVALID;
       return;
     }
 
@@ -44,10 +44,10 @@
       if (response.ok) {
         sourceURL = null;
       } else {
-        errorMessage = URL_INVALID;
+        message = URL_INVALID;
       }
     } catch (exception) {
-      errorMessage = INTERNET_CONNECTION;
+      message = INTERNET_CONNECTION;
     }
   };
 
@@ -85,7 +85,7 @@
         on:keydown={(event) => isEnterKeyDown(event) && createShortURL()}
       />
     </div>
-    <Error bind:error={errorMessage} />
+    <Message bind:message={message} />
   </div>
   <div class="row">
     <div class="col-12 col-12-mobilep">

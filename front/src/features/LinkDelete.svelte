@@ -4,14 +4,14 @@
   import { useTimer } from "../utils/use-timer";
   import { removeStoredLink } from "../services/link/link.store";
   import { INTERNET_CONNECTION } from "../utils/resources";
-  import { currentAction, ACTION, errorMessage } from "./link.store";
-  import { useDelete } from "../utils/use-error";
-
+  import { currentAction, ACTION } from "./link.store";
+  import { useDelete, useMessage } from "../utils/use-event";
   export let link: LinkModel = null;
   let isDeleting = false;
 
   const { startTimer, cancelTimer, currentTimer } = useTimer(5);
-  const { dispatchDelete } = useDelete();
+  const dispatchDelete = useDelete();
+  const dispatchMessage = useMessage();
 
   currentAction.subscribe((newMode) => {
     if (isDeleting && newMode !== ACTION.DELETE) {
@@ -40,11 +40,11 @@
         removeStoredLink(link);
       } else {
         const data = await response.json();
-        errorMessage.set(data.error);
+        dispatchMessage(data.error);
       }
     } catch (error) {
       cancelRemoveLink();
-      errorMessage.set(INTERNET_CONNECTION);
+      dispatchMessage(INTERNET_CONNECTION);
     }
   };
 </script>

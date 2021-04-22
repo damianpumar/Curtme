@@ -9,12 +9,15 @@
     URL_INVALID,
   } from "../utils/resources";
   import { validURL } from "../utils/url";
-  import { currentAction, ACTION, errorMessage } from "./link.store";
+  import { currentAction, ACTION } from "./link.store";
+  import { useMessage } from "../utils/use-event";
 
   export let link: LinkModel = null;
   let isModifyingSourceURL: boolean = false;
   let sourceURLInput: HTMLElement = null;
   let currentEditingSourceURL: string = null;
+
+  const dispatchMessage = useMessage();
 
   $: isLinkEdited = link && link.sourceURL === currentEditingSourceURL;
 
@@ -26,7 +29,7 @@
 
   const saveUpdatedLink = async () => {
     if (!validURL(link.sourceURL)) {
-      errorMessage.set(URL_INVALID);
+      dispatchMessage(URL_INVALID);
       return;
     }
 
@@ -34,14 +37,14 @@
       const response = await customizeLink(link);
       if (response.ok) {
         closeEditable();
-        errorMessage.set(LINK_CUSTOMIZED);
+        dispatchMessage(LINK_CUSTOMIZED);
         link = await response.json();
       } else {
         const data = await response.json();
-        errorMessage.set(data.error);
+        dispatchMessage(data.error);
       }
     } catch (error) {
-      errorMessage.set(INTERNET_CONNECTION);
+      dispatchMessage(INTERNET_CONNECTION);
     }
   };
 

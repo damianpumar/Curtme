@@ -9,4 +9,3 @@ export enum ACTION {
 }
 
 export const currentAction = writable<ACTION>(ACTION.NONE);
-export const errorMessage = writable(null);

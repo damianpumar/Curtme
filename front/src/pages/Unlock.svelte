@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
-  import Error from "../components/Error.svelte";
+  import Message from "../components/Message.svelte";
   import { VISIT_LINK } from "../utils/config";
   import { getUnlockLink, unlockLink } from "../services/api-service";
   import { isEnterKeyDown } from "../utils/keyboard";
@@ -14,8 +14,8 @@
   export let params: Params = null;
   let link: LinkModel = null;
   let unlockInput: HTMLElement = null;
-  let passwordLink = null;
-  let errorMessage = null;
+  let passwordLink: string = null;
+  let message: string = null;
 
   onMount(async () => {
     window.scrollTo(0, 0);
@@ -35,7 +35,7 @@
 
   const sendPassword = async () => {
     if (!passwordLink) {
-      errorMessage = PASSWORD_TO_UNLOCK;
+      message = PASSWORD_TO_UNLOCK;
       return;
     }
 
@@ -47,7 +47,7 @@
       window.open(data.sourceURL);
     } else {
       const data = await response.json();
-      errorMessage = data.error;
+      message = data.error;
     }
   };
 </script>
@@ -69,7 +69,7 @@
         disabled={!link}
       />
     </div>
-    <Error bind:error={errorMessage} />
+    <Message bind:message={message} />
   </div>
   <div class="row">
     <div class="col-12 col-12-mobilep">

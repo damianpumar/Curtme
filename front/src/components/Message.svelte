@@ -1,18 +1,18 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  export let error: string = null;
+  export let message: string = null;
 
-  $: if (error) {
+  $: if (message) {
     setTimeout(() => {
-      error = null;
+      message = null;
     }, 1500);
   }
 </script>
 
-{#if error}
+{#if message}
   <div>
-    <span transition:fade>{error}</span>
+    <span transition:fade>{message}</span>
   </div>
 {/if}
 
