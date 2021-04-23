@@ -21,6 +21,7 @@
 - [x] Delete link (soft delete)
 - [x] Modify sourceURL
 - [x] Password links
+- [x] Collect user agent language
 - [ ] Social media share buttons
 - [ ] Link redirect expiration by date
 - [ ] Link redirect expiration by clicks
@@ -29,7 +30,6 @@
 - [ ] Link search by short and long link (front end)
 - [ ] Enable or disable preview link
 - [ ] Bulk short links
-- [ ] Collect user agent language
 - [ ] Chart of clicks on a short link by type of devices
 - [ ] Chart of clicks on a short link by platform / version
 - [ ] Chart of clicks on a short link by browser
