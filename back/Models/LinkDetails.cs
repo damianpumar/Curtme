@@ -18,6 +18,8 @@ namespace Curtme.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public String LinkId { get; set; }
 
+        public String Language { get; set; }
+
         public String Ip { get; set; }
 
         public String ISP { get; set; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Curtme.Extensions
 {
-    public static class Crypto
+    public static class CryptoExtensions
     {
         public static String GetSHA512(this string value)
         {
