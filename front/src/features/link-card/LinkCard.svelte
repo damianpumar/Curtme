@@ -2,17 +2,17 @@
   import { link as routeLink } from "svelte-spa-router";
   import { scale } from "svelte/transition";
 
-  import { getDateParsed } from "../utils/date";
-  import { CLICK, CLICKS } from "../utils/resources.js";
-  import { RouteConfig } from "../utils/routeConfig";
-  import Message from "../components/Message.svelte";
-  import type { LinkModel } from "../model/link-model";
+  import { getDateParsed } from "../../utils/date";
+  import { CLICK, CLICKS } from "../../utils/resources.js";
+  import { RouteConfig } from "../../utils/routeConfig";
+  import Message from "../../components/Message.svelte";
+  import type { LinkModel } from "../../model/link-model";
 
   import LinkDelete from "./LinkDelete.svelte";
   import LinkLock from "./LinkLock.svelte";
   import LinkSourceURL from "./LinkSourceURL.svelte";
   import LinkShortURL from "./LinkShortURL.svelte";
-  import { useDelete } from "../utils/use-event";
+  import { useDelete } from "../../utils/use-event";
 
   export let link: LinkModel;
   let message: string = null;

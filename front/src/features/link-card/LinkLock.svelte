@@ -1,15 +1,15 @@
 <script lang="ts">
   import { tick } from "svelte";
-  import { lockLink } from "../services/api-service";
+  import { lockLink } from "../../services/api-service";
   import {
     INTERNET_CONNECTION,
     LINK_CUSTOMIZED,
     SET_PASSWORD_PLACEHOLDER,
-  } from "../utils/resources";
-  import { isEnterKeyDown } from "../utils/keyboard";
-  import type { LinkModel } from "../model/link-model";
+  } from "../../utils/resources";
+  import { isEnterKeyDown } from "../../utils/keyboard";
+  import type { LinkModel } from "../../model/link-model";
   import { currentAction, ACTION } from "./link.store";
-  import { useMessage } from "../utils/use-event";
+  import { useMessage } from "../../utils/use-event";
 
   export let link: LinkModel = null;
   let passwordInput: HTMLElement = null;

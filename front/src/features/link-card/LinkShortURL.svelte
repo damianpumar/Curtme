@@ -1,14 +1,14 @@
 <script lang="ts">
   import { create_in_transition, tick } from "svelte/internal";
-  import type { LinkModel } from "../model/link-model";
-  import { copy } from "../utils/clipboard";
-  import { isEnterKeyDown } from "../utils/keyboard";
-  import { VISIT_LINK } from "../utils/config";
-  import { customizeLink } from "../services/api-service";
+  import type { LinkModel } from "../../model/link-model";
+  import { copy } from "../../utils/clipboard";
+  import { isEnterKeyDown } from "../../utils/keyboard";
+  import { VISIT_LINK } from "../../utils/config";
+  import { customizeLink } from "../../services/api-service";
   import { scale } from "svelte/transition";
-  import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../utils/resources";
+  import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../../utils/resources";
   import { currentAction, ACTION } from "./link.store";
-  import { useMessage } from "../utils/use-event";
+  import { useMessage } from "../../utils/use-event";
 
   export let link: LinkModel = null;
 

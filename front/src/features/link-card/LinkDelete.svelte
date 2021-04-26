@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { LinkModel } from "../model/link-model";
-  import { remove } from "../services/api-service";
-  import { useTimer } from "../utils/use-timer";
-  import { removeStoredLink } from "../services/link/link.store";
-  import { INTERNET_CONNECTION } from "../utils/resources";
+  import type { LinkModel } from "../../model/link-model";
+  import { remove } from "../../services/api-service";
+  import { useTimer } from "../../utils/use-timer";
+  import { removeStoredLink } from "../../services/link/link.store";
+  import { INTERNET_CONNECTION } from "../../utils/resources";
   import { currentAction, ACTION } from "./link.store";
-  import { useDelete, useMessage } from "../utils/use-event";
+  import { useDelete, useMessage } from "../../utils/use-event";
   export let link: LinkModel = null;
   let isDeleting = false;
 

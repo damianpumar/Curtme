@@ -3,8 +3,8 @@
   import { gaLoad } from "../utils/ga";
   import { orderedLinks } from "../services/link/link.store";
 
-  import LinkShortener from "../features/LinkShortener.svelte";
-  import Link from "../features/Link.svelte";
+  import LinkShortener from "../features/link-shortener/LinkShortener.svelte";
+  import LinkCard from "../features/link-card/LinkCard.svelte";
 
   onMount(() => {
     gaLoad();
@@ -15,7 +15,7 @@
   <LinkShortener />
 
   {#each $orderedLinks as link (link.id)}
-    <Link {link} />
+    <LinkCard {link} />
   {/each}
 </div>
 

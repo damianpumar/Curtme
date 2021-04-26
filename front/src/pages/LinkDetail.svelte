@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { push } from "svelte-spa-router";
   import LinkStats from "../features/LinkStats.svelte";
-  import Link from "../features/Link.svelte";
+  import LinkCard from "../features/link-card/LinkCard.svelte";
   import { BACK } from "../utils/resources";
   import { RouteConfig } from "../utils/routeConfig";
   import { getLinks } from "../services/api-service";
@@ -37,7 +37,7 @@
   <div class="col-12 col-12-mobilep">
     <button on:click={goBack}>{BACK}</button>
   </div>
-  <Link {link} on:delete={goBack} />
+  <LinkCard {link} on:delete={goBack} />
   <LinkStats linkId={params.id} />
 </div>
 

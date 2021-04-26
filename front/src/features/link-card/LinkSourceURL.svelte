@@ -1,16 +1,16 @@
 <script lang="ts">
   import { tick } from "svelte";
-  import { isEnterKeyDown } from "../utils/keyboard";
-  import type { LinkModel } from "../model/link-model";
-  import { customizeLink } from "../services/api-service";
+  import { isEnterKeyDown } from "../../utils/keyboard";
+  import type { LinkModel } from "../../model/link-model";
+  import { customizeLink } from "../../services/api-service";
   import {
     INTERNET_CONNECTION,
     LINK_CUSTOMIZED,
     URL_INVALID,
-  } from "../utils/resources";
-  import { validURL } from "../utils/url";
+  } from "../../utils/resources";
+  import { validURL } from "../../utils/url";
   import { currentAction, ACTION } from "./link.store";
-  import { useMessage } from "../utils/use-event";
+  import { useMessage } from "../../utils/use-event";
 
   export let link: LinkModel = null;
   let isModifyingSourceURL: boolean = false;

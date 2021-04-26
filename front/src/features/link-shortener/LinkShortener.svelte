@@ -4,9 +4,9 @@
     validURL,
     getSourceURLFromParameter,
     clearLinkParameter,
-  } from "../utils/url";
-  import { isEnterKeyDown } from "../utils/keyboard";
-  import { gaEventUserCreateShortLink } from "../utils/ga.js";
+  } from "../../utils/url";
+  import { isEnterKeyDown } from "../../utils/keyboard";
+  import { gaEventUserCreateShortLink } from "../../utils/ga.js";
   import {
     NAME,
     TITLE,
@@ -15,11 +15,11 @@
     INTERNET_CONNECTION,
     URL_INVALID,
     URL_MANDATORY,
-  } from "../utils/resources.js";
-  import { initialized } from "../services/auth0/auth0.store";
-  import Message from "../components/Message.svelte";
+  } from "../../utils/resources.js";
+  import { initialized } from "../../services/auth0/auth0.store";
+  import Message from "../../components/Message.svelte";
 
-  import { createNewLink, loadLinks } from "../services/link/link-service";
+  import { createNewLink, loadLinks } from "../../services/link/link-service";
 
   let longInputElement: HTMLElement;
   let sourceURL: string = null;
