@@ -44,7 +44,8 @@
       if (response.ok) {
         sourceURL = null;
       } else {
-        message = URL_INVALID;
+        const data = await response.json();
+        message = data.error;
       }
     } catch (exception) {
       message = INTERNET_CONNECTION;
@@ -85,7 +86,7 @@
         on:keydown={(event) => isEnterKeyDown(event) && createShortURL()}
       />
     </div>
-    <Message bind:message={message} />
+    <Message bind:message />
   </div>
   <div class="row">
     <div class="col-12 col-12-mobilep">
