@@ -1,14 +1,25 @@
 <script>
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { gaLoad } from "../utils/ga";
   import { orderedLinks } from "../services/link/link.store";
 
   import LinkShortener from "../features/link-shortener/LinkShortener.svelte";
   import LinkCard from "../features/link-card/LinkCard.svelte";
 
+  import { initialized } from "../services/auth0/auth0.store";
+  import { loadLinks } from "../services/link/link-service";
+
+  const unsubscribe = initialized.subscribe((isInitialized) => {
+    if (isInitialized) {
+      loadLinks();
+    }
+  });
+
   onMount(() => {
     gaLoad();
   });
+
+  onDestroy(unsubscribe);
 </script>
 
 <div>

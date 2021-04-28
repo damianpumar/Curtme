@@ -1,11 +1,13 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { push } from "svelte-spa-router";
   import LinkStats from "../features/LinkStats.svelte";
   import LinkCard from "../features/link-card/LinkCard.svelte";
   import { BACK } from "../utils/resources";
   import { RouteConfig } from "../utils/routeConfig";
-  import { getLinks } from "../services/api-service";
+  import { getLinkDetail, getLinks } from "../services/api-service";
+  import { initialized } from "../services/auth0/auth0.store";
+  import type { LinkDetailModel, LinkModel } from "../model/link-model";
 
   interface Params {
     id: string;
@@ -13,18 +15,38 @@
 
   export let params: Params = null;
 
-  let link = null;
+  let link: LinkModel = null;
+  let details: LinkDetailModel[];
+  let message: string;
 
-  onMount(async () => {
-    link = await getLink(params.id);
+  let mounted: boolean = false;
+  $: if ($initialized && mounted) {
+    loadLink(params.id);
+    loadLinkDetail(params.id);
+  }
+
+  onMount(() => {
+    mounted = true;
   });
 
-  const getLink = async (id: string) => {
+  const loadLink = async (id: string) => {
     const response = await getLinks([id]);
 
     if (response.ok) {
       const data = await response.json();
-      return data[0];
+      link = data[0];
+    }
+  };
+
+  const loadLinkDetail = async (id: string) => {
+    const response = await getLinkDetail(id);
+
+    const data = await response.json();
+
+    if (response.ok) {
+      details = data;
+    } else {
+      message = data.error;
     }
   };
 
@@ -38,7 +60,7 @@
     <button on:click={goBack}>{BACK}</button>
   </div>
   <LinkCard {link} on:delete={goBack} />
-  <LinkStats linkId={params.id} />
+  <LinkStats {details} {message} />
 </div>
 
 <style>

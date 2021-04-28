@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
+  import { onMount } from "svelte";
   import {
     validURL,
     getSourceURLFromParameter,
@@ -16,10 +16,9 @@
     URL_INVALID,
     URL_MANDATORY,
   } from "../../utils/resources.js";
-  import { initialized } from "../../services/auth0/auth0.store";
   import Message from "../../components/Message.svelte";
 
-  import { createNewLink, loadLinks } from "../../services/link/link-service";
+  import { createNewLink } from "../../services/link/link-service";
 
   let longInputElement: HTMLElement;
   let sourceURL: string = null;
@@ -52,12 +51,6 @@
     }
   };
 
-  const unsubscribe = initialized.subscribe((isInitialized) => {
-    if (isInitialized) {
-      loadLinks();
-    }
-  });
-
   onMount(() => {
     sourceURL = getSourceURLFromParameter();
 
@@ -68,8 +61,6 @@
       longInputElement.focus();
     }
   });
-
-  onDestroy(unsubscribe);
 </script>
 
 <section class="container medium">
