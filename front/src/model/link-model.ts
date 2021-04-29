@@ -5,19 +5,20 @@ export interface LinkModel {
   sourceURL: string;
   title: string;
   visited: number;
-  hasPassword: any;
+  hasPassword: boolean;
 }
 
 export interface LinkDetailModel {
-  ip: any;
-  isp: any;
+  ip: string;
+  isp: string;
   countryEmoji: string;
-  continentName: any;
-  device: any;
-  browser: any;
-  platform: any;
-  platformVersion: any;
+  continentName: string;
+  device: string;
+  browser: string;
+  platform: string;
+  platformVersion: string;
   date: string;
   city: string;
   countryName: string;
+  host: string;
 }
