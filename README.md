@@ -30,12 +30,12 @@
 - [ ] Link search by short and long link (front end)
 - [ ] Enable or disable preview link
 - [ ] Bulk short links
-- [ ] Chart of clicks on a short link by type of devices
-- [ ] Chart of clicks on a short link by platform / version
-- [ ] Chart of clicks on a short link by browser
-- [ ] Chart of clicks on a short link by referrals
-- [ ] Chart of clicks on a short link by continent
-- [ ] Chart of clicks on a short link by country
+- [x] Chart of clicks on a short link by type of devices
+- [x] Chart of clicks on a short link by platform / version
+- [x] Chart of clicks on a short link by browser
+- [x] Chart of clicks on a short link by referrals
+- [x] Chart of clicks on a short link by city
+- [x] Chart of clicks on a short link by country
 - [ ] Chart of clicks on a short link by language
 - [ ] Reset analytics for your short link
 - [ ] Share link stat with public url
