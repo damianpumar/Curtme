@@ -5,19 +5,20 @@ using Curtme.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Curtme.Filters
 {
     public class LinkLockedActionFilter : ActionFilterAttribute
     {
-        private readonly IWebHostEnvironment env;
+        private readonly IConfiguration configuration;
 
         private readonly LinkService linkService;
 
-        public LinkLockedActionFilter(IWebHostEnvironment env, LinkService linkService)
+        public LinkLockedActionFilter(IConfiguration configuration, LinkService linkService)
         {
-            this.env = env;
+            this.configuration = configuration;
 
             this.linkService = linkService;
         }
@@ -41,12 +42,7 @@ namespace Curtme.Filters
 
         private String GetRedirectURL(Link link)
         {
-            var baseURL = ".";
-
-            if (this.env.IsDevelopment())
-            {
-                baseURL = "http://localhost:5555";
-            }
+            var baseURL = this.configuration["FrontEnd:URL"];
 
             return $"{baseURL}/#/unlock/{link.ShortURL}";
         }
