@@ -19,6 +19,7 @@ namespace Curtme.Controllers
 
         /// <summary>
         /// The user can lock or unlock password
+        /// The password used to lock this link is stored hashed with sha512.
         /// </summary>
         /// <remarks>
         /// Sample request:
