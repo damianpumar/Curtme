@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Curtme.Extensions;
 using Curtme.Models;
@@ -93,7 +92,7 @@ namespace Curtme.Services
 
         private string CreateShortURL()
         {
-            var shortURL = RandomExtensions.Create(7);
+            var shortURL = RandomExtensions.Create();
 
             if (this.ExistByShortURL(shortURL))
                 return this.CreateShortURL();

@@ -1,5 +1,4 @@
 using Curtme.Services;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,11 +17,11 @@ namespace Curtme.Filters
 
             services.AddScoped<LinkLockedActionFilter>(container =>
            {
-               var env = container.GetRequiredService<IWebHostEnvironment>();
+               var configuration = container.GetRequiredService<IConfiguration>();
 
                var linkService = container.GetRequiredService<LinkService>();
 
-               return new LinkLockedActionFilter(env, linkService);
+               return new LinkLockedActionFilter(configuration, linkService);
            });
         }
     }

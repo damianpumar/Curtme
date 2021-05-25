@@ -215,10 +215,13 @@ namespace Curtme.Controllers
             if (linkIn == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            if (updateLinkDTO.IsValidShortURL() && linkIn.ShortURL != updateLinkDTO.ShortURL)
+            if (linkIn.ShortURL != updateLinkDTO.ShortURL)
             {
+                if (!updateLinkDTO.IsValidShortURL())
+                    return this.BadRequest(new { error = $"{updateLinkDTO.ShortURL} {Constants.SHORT_URL_INVALID}" });
+
                 if (this.linkService.ExistByShortURL(updateLinkDTO.ShortURL))
-                    return this.BadRequest(new { error = $"{updateLinkDTO.ShortURL} {Constants.LINK_ALREADY_EXIST} " });
+                    return this.BadRequest(new { error = $"{updateLinkDTO.ShortURL} {Constants.LINK_ALREADY_EXIST}" });
 
                 linkIn.ShortURL = updateLinkDTO.ShortURL;
             }
