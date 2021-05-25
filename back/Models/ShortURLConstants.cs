@@ -8,6 +8,6 @@ namespace Curtme.Models
 
         public static int LengthUpdateMax = 10;
 
-        public static string validCharactersShortURL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public static string validCharactersShortURL = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     }
 }
