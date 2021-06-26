@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using Curtme.Extensions;
 using Curtme.Models;
 using MongoDB.Driver;
@@ -48,7 +47,7 @@ namespace Curtme.Services
                     Longitude = Double.Parse(geoLocation.GetLongitude()),
                     CountryEmoji = geoLocation.GetCountryFlag(),
                     Date = DateTime.UtcNow,
-                    Host = this.detectionService.Crawler.Name.ToString(),
+                    Host = requestInfo.Origin,
                     Platform = this.detectionService.Platform.Name.ToString(),
                     PlatformVersion = this.detectionService.Platform.Version.ToString(),
                     Browser = this.detectionService.Browser.Name.ToString(),

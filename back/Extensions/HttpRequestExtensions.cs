@@ -19,7 +19,25 @@ namespace Curtme.Extensions
 
             requestInfo.IpAddress = context.Connection.RemoteIpAddress;
 
+            requestInfo.Origin = context.GetDomainReferer();
+
             return requestInfo;
+        }
+
+        private static String GetDomainReferer(this HttpContext context)
+        {
+            var refererUrl = context.Request.Headers["Referer"].FirstOrDefault();
+
+            if (!String.IsNullOrEmpty(refererUrl))
+            {
+                var refererUri = new Uri(refererUrl);
+                var uriSplitted = refererUri.Host.Split('.');
+                var domain = uriSplitted[uriSplitted.Length - 2];
+
+                return $"{domain[0].ToString().ToUpper()}{domain.Substring(1, domain.Length - 1)}";
+            }
+
+            return "Unknown";
         }
     }
 
@@ -28,5 +46,7 @@ namespace Curtme.Extensions
         public String Language { get; set; }
 
         public IPAddress IpAddress { get; set; }
+
+        public String Origin { get; set; }
     }
 }

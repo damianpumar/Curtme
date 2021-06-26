@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Curtme.Extensions;
 using Curtme.Models;
 using MongoDB.Driver;
+using Wangkanai.Detection.Services;
 
 namespace Curtme.Services
 {
@@ -14,11 +15,17 @@ namespace Curtme.Services
 
         private readonly LinkDetailsService linkDetailsService;
 
-        public LinkService(MongoDBService mongoDBService, LinkDetailsService linkDetailsService)
+        private readonly IDetectionService detectionService;
+
+        public LinkService(MongoDBService mongoDBService,
+                           LinkDetailsService linkDetailsService,
+                           IDetectionService detectionService)
         {
             this.mongoDBService = mongoDBService;
 
             this.linkDetailsService = linkDetailsService;
+
+            this.detectionService = detectionService;
         }
 
         public Link Create(String sourceURL, String title, String userId = null)
@@ -34,14 +41,17 @@ namespace Curtme.Services
 
         public void Visited(Link linkIn, RequestInfo requestInfo)
         {
-            Task.Run(() =>
+            if (!this.detectionService.Crawler.IsCrawler)
             {
-                linkIn.Visited++;
+                Task.Run(() =>
+                {
+                    linkIn.Visited++;
 
-                this.linkDetailsService.Save(linkIn, requestInfo);
+                    this.linkDetailsService.Save(linkIn, requestInfo);
 
-                this.Update(linkIn);
-            });
+                    this.Update(linkIn);
+                });
+            }
         }
 
         public Link GetByShortURL(String shortURL)
