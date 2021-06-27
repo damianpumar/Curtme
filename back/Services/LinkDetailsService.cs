@@ -47,7 +47,7 @@ namespace Curtme.Services
                     Longitude = Double.Parse(geoLocation.GetLongitude()),
                     CountryEmoji = geoLocation.GetCountryFlag(),
                     Date = DateTime.UtcNow,
-                    Host = requestInfo.Origin,
+                    Host = requestInfo.ReferrerDomain,
                     Platform = this.detectionService.Platform.Name.ToString(),
                     PlatformVersion = this.detectionService.Platform.Version.ToString(),
                     Browser = this.detectionService.Browser.Name.ToString(),

@@ -48,8 +48,8 @@ namespace Curtme.Controllers
             if (!createLinkDTO.IsValidURL())
                 return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
 
-            if (createLinkDTO.SourceURL.IsSameDomain(this.HttpContext))
-                return this.BadRequest(new { error = Constants.CURTME_LINKS_ARE_NOT_ALLOWED });
+            if (createLinkDTO.SourceURL.IsRecursiveURL(this.HttpContext))
+                return this.BadRequest(new { error = Constants.SOURCE_URL_IS_ALREADY_SHORTENED_URL });
 
             var link = this.linkService.Create(createLinkDTO.SourceURL, createLinkDTO.GetTitle(), this.HttpContext.User.GetId());
 
@@ -87,7 +87,7 @@ namespace Curtme.Controllers
             if (link == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            this.linkService.Visited(link, this.HttpContext.GetRequestInfo());
+            this.linkService.Visit(link, this.HttpContext.GetRequestInfo());
 
             return this.Redirect(link.SourceURL);
         }
@@ -231,8 +231,8 @@ namespace Curtme.Controllers
                 if (!updateLinkDTO.IsValidURL())
                     return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
 
-                if (updateLinkDTO.SourceURL.IsSameDomain(this.HttpContext))
-                    return this.BadRequest(new { error = Constants.CURTME_LINKS_ARE_NOT_ALLOWED });
+                if (updateLinkDTO.SourceURL.IsRecursiveURL(this.HttpContext))
+                    return this.BadRequest(new { error = Constants.SOURCE_URL_IS_ALREADY_SHORTENED_URL });
 
                 linkIn.SourceURL = updateLinkDTO.SourceURL;
                 linkIn.Title = updateLinkDTO.GetTitle();

@@ -19,7 +19,7 @@ namespace Curtme.Extensions
 
             requestInfo.IpAddress = context.Connection.RemoteIpAddress;
 
-            requestInfo.Origin = context.GetDomainReferer();
+            requestInfo.ReferrerDomain = context.GetDomainReferer();
 
             return requestInfo;
         }
@@ -28,16 +28,24 @@ namespace Curtme.Extensions
         {
             var refererUrl = context.Request.Headers["Referer"].FirstOrDefault();
 
-            if (!String.IsNullOrEmpty(refererUrl))
-            {
-                var refererUri = new Uri(refererUrl);
-                var uriSplitted = refererUri.Host.Split('.');
-                var domain = uriSplitted[uriSplitted.Length - 2];
+            return refererUrl.GetDomainName() ?? "Unknown";
+        }
 
-                return $"{domain[0].ToString().ToUpper()}{domain.Substring(1, domain.Length - 1)}";
-            }
+        public static Boolean IsRecursiveURL(this String url, HttpContext context)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out var uriResult) &&
+                   uriResult.Authority == context.GetAbsoluteUri().Authority;
+        }
 
-            return "Unknown";
+        private static Uri GetAbsoluteUri(this HttpContext context)
+        {
+            UriBuilder uriBuilder = new UriBuilder();
+            uriBuilder.Scheme = context.Request.Scheme;
+            uriBuilder.Host = context.Request.Host.Host;
+            uriBuilder.Path = context.Request.Path.ToString();
+            uriBuilder.Query = context.Request.QueryString.ToString();
+
+            return uriBuilder.Uri;
         }
     }
 
@@ -47,6 +55,6 @@ namespace Curtme.Extensions
 
         public IPAddress IpAddress { get; set; }
 
-        public String Origin { get; set; }
+        public String ReferrerDomain { get; set; }
     }
 }

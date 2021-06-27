@@ -14,21 +14,18 @@ namespace Curtme.Extensions
                     !uriResult.IsLoopback;
         }
 
-        public static Boolean IsSameDomain(this String url, HttpContext context)
+        public static String GetDomainName(this String refererUrl)
         {
-            return Uri.TryCreate(url, UriKind.Absolute, out var uriResult) &&
-                   uriResult.Authority == context.GetAbsoluteUri().Authority;
-        }
+            if (!String.IsNullOrEmpty(refererUrl))
+            {
+                var refererUri = new Uri(refererUrl);
+                var uriSplitted = refererUri.Host.Split('.');
+                var domain = uriSplitted[uriSplitted.Length - 2];
 
-        private static Uri GetAbsoluteUri(this HttpContext context)
-        {
-            UriBuilder uriBuilder = new UriBuilder();
-            uriBuilder.Scheme = context.Request.Scheme;
-            uriBuilder.Host = context.Request.Host.Host;
-            uriBuilder.Path = context.Request.Path.ToString();
-            uriBuilder.Query = context.Request.QueryString.ToString();
+                return $"{domain[0].ToString().ToUpper()}{domain.Substring(1, domain.Length - 1)}";
+            }
 
-            return uriBuilder.Uri;
+            return null;
         }
     }
 }

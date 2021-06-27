@@ -39,7 +39,7 @@ namespace Curtme.Services
             return link;
         }
 
-        public void Visited(Link linkIn, RequestInfo requestInfo)
+        public void Visit(Link linkIn, RequestInfo requestInfo)
         {
             if (!this.detectionService.Crawler.IsCrawler)
             {
