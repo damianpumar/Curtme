@@ -56,7 +56,7 @@
 
 - Press F5 in vscode to debug the backend
   - Don't forget to run `dotnet dev-certs https` to install ssl certs for dev environment.
-- `dotnet publish ./back -c Release -o ./publish`
+- `dotnet publish ./back/Api -c Release -o ./publish`
 
 ## :rocket: Build and Release frontend
 
