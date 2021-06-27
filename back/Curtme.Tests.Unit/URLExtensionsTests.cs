@@ -1,7 +1,7 @@
 using Xunit;
 using Curtme.Extensions;
 
-namespace Api.Tests
+namespace Curtme.Tests.Unit
 {
     public class URLExtensionsTests
     {

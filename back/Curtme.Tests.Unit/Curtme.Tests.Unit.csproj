@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Api\Curtme.csproj" />
+    <ProjectReference Include="..\Curtme\Curtme.csproj" />
   </ItemGroup>
 
 </Project>

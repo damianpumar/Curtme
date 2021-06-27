@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DBfyhfa6LQ1IxVA6X+05XxEx1lsISx1SXu5eOPWmkWrDzlwrKHE0MwBNOzQK3JTYbILBVX0NvWFVT6DPmem1TQ==",
+  "dgSpecHash": "y0n8fW6s8jho0OPID7VQM3Sykmyry4ltVcVG/yGQpSIFIc42GfrGPMb4wKK9ktnvoFRBrd76OxsEWOa4PGt85w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Api.Tests\\Api.Tests.csproj",
+  "projectFilePath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\damian.alberto.exter\\.nuget\\packages\\coverlet.collector\\1.3.0\\coverlet.collector.1.3.0.nupkg.sha512",
     "C:\\Users\\damian.alberto.exter\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",

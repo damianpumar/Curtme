@@ -7678,8 +7678,8 @@
     },
     "Curtme/1.0.0": {
       "type": "project",
-      "path": "../Api/Curtme.csproj",
-      "msbuildProject": "../Api/Curtme.csproj"
+      "path": "../Curtme/Curtme.csproj",
+      "msbuildProject": "../Curtme/Curtme.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7698,11 +7698,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Api.Tests\\Api.Tests.csproj",
-      "projectName": "Api.Tests",
-      "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Api.Tests\\Api.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
+      "projectName": "Curtme.Tests.Unit",
+      "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
       "packagesPath": "C:\\Users\\damian.alberto.exter\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Api.Tests\\obj\\",
+      "outputPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -7722,8 +7722,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Api\\Curtme.csproj": {
-              "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Api\\Curtme.csproj"
+            "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj": {
+              "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj"
             }
           }
         }
