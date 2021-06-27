@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Curtme</name>
+    </assembly>
+    <members>
+        <member name="M:Curtme.Controllers.LinkController.Create(Curtme.Models.CreateLinkDTO)">
+             <summary>
+             Create your short link.
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /
+                 {
+                    "sourceURL": "https://curtme.org"
+                 }
+            
+             </remarks>
+             <param name="createLinkDTO"></param>
+             <returns>A newly shorted link</returns>
+             <response code="200">Returns the newly shorted link</response>
+             <response code="400">If the sourceURL is null or empty or if sourceURL is not a valid URL</response>
+        </member>
+        <member name="M:Curtme.Controllers.LinkController.Visit(System.String)">
+             <summary>
+             This is the endpoint that people use when they click on a link
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET /AAA123 (short URL)
+            
+             </remarks>
+             <param name="shortURL"></param>
+             <returns>Redirect to long URL</returns>
+             <response code="302">Redirect to long url</response>
+             <response code="400">If short url is null</response>
+             <response code="404">If does not exist a link with that shortURL</response>
+        </member>
+        <member name="M:Curtme.Controllers.LinkController.GetLinksById(System.String[])">
+             <summary>
+             Get links
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET /links-by-id?ids=AAA123
+            
+             </remarks>
+             <param name="ids"></param>
+             <returns>Get all links for that ids</returns>
+             <response code="200">Always</response>
+             <response code="403">If user tries to get links from other user</response>
+        </member>
+        <member name="M:Curtme.Controllers.LinkController.GetUserLinks">
+             <summary>
+             Get all links for user logged
+             If user is not logged in return 403
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET /links
+            
+             </remarks>
+             <returns>Get all links for current user</returns>
+             <response code="200">Always</response>
+             <response code="403">If user not logged in</response>
+        </member>
+        <member name="M:Curtme.Controllers.LinkController.SyncToUser(System.String[])">
+             <summary>
+             Set user in their links
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 PUT /sync
+                 {
+                    [id1, id2, id3]
+                 }
+            
+             </remarks>
+             <param name="linkIds"></param>
+             <returns>Status 200 OK</returns>
+             <response code="200">Always</response>
+             <response code="403">If user not logged in</response>
+        </member>
+        <member name="M:Curtme.Controllers.LinkController.Customize(System.String,Curtme.Models.UpdateLinkDTO)">
+             <summary>
+             The user can change the shortURL or sourceURL
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 PUT /linkId
+                 {
+                    linkId
+                 }
+            
+             </remarks>
+             <param name="linkId"></param>
+             <param name="updateLinkDTO"></param>
+             <returns>Updated link</returns>
+             <response code="200">When the link was updated</response>
+             <response code="400">If linkId is empty</response>
+             <response code="404">If linkId does not exist</response>
+             <response code="400">If sourceURL is empty and shortURL is empty</response>
+             <response code="400">If shortURL is not empty but shortURL was assigned</response>
+             <response code="400">If sourceURL is not empty but if sourceURL is not a valid URL</response>
+        </member>
+        <member name="M:Curtme.Controllers.LinkController.Delete(System.String)">
+             <summary>
+             The user delete old link
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 DELETE /linkId
+            
+             </remarks>
+             <param name="linkId"></param>
+             <returns>Status 200 OK</returns>
+             <response code="200">Always</response>
+             <response code="400">If linkId is empty</response>
+             <response code="404">If linkId does not exist</response>
+        </member>
+        <member name="M:Curtme.Controllers.LinkDetailsController.GetDetails(System.String)">
+             <summary>
+             This endpoint is used to get detail for some link
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET /details/linkId
+            
+             </remarks>
+             <param name="linkId"></param>
+             <returns>Link details</returns>
+             <response code="200">With link details</response>
+             <response code="400">If short url is null</response>
+             <response code="404">If does not exist a link with that id or if current link is not from this logged in user</response>
+        </member>
+        <member name="M:Curtme.Controllers.UnlockLinkController.Customize(System.String,Curtme.Models.UpdatePasswordDTO)">
+             <summary>
+             The user can lock or unlock password
+             The password used to lock this link is stored hashed with sha512.
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 PUT /linkId
+                 {
+                    linkId
+                 }
+            
+             </remarks>
+             <param name="linkId"></param>
+             <param name="updatePasswordDTO"></param>
+             <returns>Updated password link</returns>
+             <response code="200">When the link was updated</response>
+             <response code="400">If linkId is empty</response>
+             <response code="404">If linkId does not exist</response>
+        </member>
+        <member name="M:Curtme.Controllers.UnlockLinkController.UnlockInfo(System.String)">
+             <summary>
+             This is the endpoint provide the information to unlock link
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET unlock/AAA123 (short URL)
+            
+             </remarks>
+             <param name="shortURL"></param>
+             <returns>Get link info to unlock</returns>
+             <response code="200">Link info to unlock</response>
+             <response code="400">If short url is null</response>
+             <response code="404">If does not exist a link with that shortURL</response>
+        </member>
+        <member name="M:Curtme.Controllers.UnlockLinkController.Unlock(System.String,Curtme.Models.LinkToUnlockDTO)">
+             <summary>
+             This endpoint provide longURL to redirect user.
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET unlock/AAA123 (short URL)
+                 {
+                    password: xxx
+                 }
+            
+             </remarks>
+             <param name="shortURL"></param>
+             <param name="linkToUnlockDTO"></param>
+             <returns>Get long url to redirect</returns>
+             <response code="200">longURL to redirect</response>
+             <response code="400">If short url is null</response>
+             <response code="404">If does not exist a link with that shortURL</response>
+             <response code="400">If password is null</response>
+             <response code="401">If password do not match with link password</response>
+        </member>
+    </members>
+</doc>
