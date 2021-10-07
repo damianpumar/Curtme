@@ -19,16 +19,16 @@ namespace Curtme.Extensions
 
             requestInfo.IpAddress = context.Connection.RemoteIpAddress;
 
-            requestInfo.ReferrerDomain = context.GetDomainReferer();
+            requestInfo.ReferrerDomain = context.GetDomainReferrer();
 
             return requestInfo;
         }
 
-        private static String GetDomainReferer(this HttpContext context)
+        private static String GetDomainReferrer(this HttpContext context)
         {
-            var refererUrl = context.Request.Headers["Referer"].FirstOrDefault();
+            var referrerUrl = context.Request.Headers["Referer"].FirstOrDefault();
 
-            return refererUrl.GetDomainName() ?? "Unknown";
+            return referrerUrl.GetDomainName();
         }
 
         public static Boolean IsRecursiveURL(this String url, HttpContext context)

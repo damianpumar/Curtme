@@ -1,6 +1,4 @@
 using System;
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
 
 namespace Curtme.Extensions
 {
@@ -15,25 +13,18 @@ namespace Curtme.Extensions
                     !uriResult.IsLoopback;
         }
 
-        public static String GetDomainName(this String refererUrl)
+        public static String GetDomainName(this String referrerUrl)
         {
-            try
+            if (Uri.IsWellFormedUriString(referrerUrl, UriKind.Absolute))
             {
-                if (!String.IsNullOrEmpty(refererUrl))
-                {
-                    var refererUri = new Uri(refererUrl);
+                var referrerUri = new Uri(referrerUrl);
 
-                    var domain = refererUri.Host.Replace("www.", "");
+                var domain = referrerUri.Host.Replace("www.", "");
 
-                    return $"{domain[0].ToString().ToUpper()}{domain.Substring(1, domain.Length - 1)}";
-                }
-            }
-            catch (System.Exception)
-            {
-
+                return $"{domain[0].ToString().ToUpper()}{domain.Substring(1, domain.Length - 1)}";
             }
 
-            return null;
+            return "Unknown";
         }
     }
 }
