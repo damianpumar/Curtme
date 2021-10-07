@@ -26,7 +26,7 @@ namespace Curtme.Models
 
         private Boolean HasShortURLValidCharacters()
         {
-            foreach (char character in this.ShortURL.ToCharArray())
+            foreach (char character in this.ShortURL)
             {
                 if (!ShortURLConstants.validCharactersShortURL.Contains(character))
                     return false;
