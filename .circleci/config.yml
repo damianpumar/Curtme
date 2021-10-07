@@ -2,6 +2,8 @@ version: 2.1
 
 orbs:
   win: circleci/windows@2.2.0
+  sonarcloud: sonarsource/sonarcloud@1.0.1
+
 jobs:
   build:
     working_directory: ~/repo
@@ -13,3 +15,10 @@ jobs:
           working_directory: ~/repo/back/Curtme
           command: |
             dotnet build
+      - sonarcloud/scan
+
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud
