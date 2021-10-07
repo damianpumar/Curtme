@@ -11,6 +11,6 @@ namespace Curtme.Models
         public const string NOT_FOUND_LINK_DETAILS_ERROR = "This link has not visited yet.";
         public const string LINK_ALREADY_EXIST = "already exists, please take other custom short url";
         public const string PASSWORD_MISSMATCH = "Password missmatch.";
-        public static string SHORT_URL_INVALID = $"must have only alphanumeric characters, and has a length between {ShortURLConstants.LengthUpdateMin} and {ShortURLConstants.LengthUpdateMax}.";
+        public readonly static string SHORT_URL_INVALID = $"must have only alphanumeric characters, and has a length between {ShortURLConstants.LengthUpdateMin} and {ShortURLConstants.LengthUpdateMax}.";
     }
 }
