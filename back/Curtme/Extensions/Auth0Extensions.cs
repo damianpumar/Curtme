@@ -1,6 +1,5 @@
 using System;
 using System.Security.Claims;
-using Curtme.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,8 +12,6 @@ namespace Curtme.Extensions
         public static void AddAuth0(this IServiceCollection services)
         {
             var configuration = (IConfiguration)services.BuildServiceProvider().GetService(typeof(IConfiguration));
-
-            var userService = (UserService)services.BuildServiceProvider().GetService(typeof(UserService));
 
             services.AddAuthentication(options =>
                {
