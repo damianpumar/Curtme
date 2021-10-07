@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: jetcipher/circleci-dotnet-core:3.0
+      - image: jetcipher/circleci-dotnet-core:3.1
     working_directory: ~/repo
 
     steps:
