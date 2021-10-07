@@ -10,6 +10,6 @@ jobs:
     steps:
       - checkout
       - run:
-          working_directory: ~/repo/back/Api
+          working_directory: ~/repo/back/Curtme
           command: |
             dotnet build
