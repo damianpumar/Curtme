@@ -108,6 +108,31 @@
   <button class="icon" on:click={copyClipboard} alt="Copy">
     <i class="fa fa-copy" />
   </button>
+  <div
+    class="fb-share-button"
+    data-href={VISIT_LINK(link.shortURL)}
+    data-layout="button"
+    data-size="small"
+  >
+    <a
+      target="_blank"
+      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(VISIT_LINK(link.shortURL))}%2F&amp;src=sdkpreparse`}
+      class="fb-xfbml-parse-ignore share-button icon brands fa-facebook"
+    >&nbsp;</a>
+  </div>
+  <a class="twitter-share-button share-button share-button-with-padding icon brands fa-twitter"
+    target="_blank"
+    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(VISIT_LINK(link.shortURL))}`}
+  >&nbsp;</a>
+  <a class="whatsapp-share-button share-button share-button-with-padding icon brands fa-whatsapp"
+    href={`whatsapp://send?text=${encodeURIComponent(VISIT_LINK(link.shortURL))}`}
+    target="_blank"
+    data-action="share/whatsapp/share"
+  >&nbsp;</a>
+  <a class="whatsapp-web-share-button share-button share-button-with-padding icon brands fa-whatsapp"
+    href={`https://web.whatsapp.com/send?text=${encodeURIComponent(VISIT_LINK(link.shortURL))}`}
+    target="_blank"
+  >&nbsp;</a>
 {/if}
 
 <style>
@@ -147,5 +172,35 @@
     min-width: 14em;
     margin-top: 20px !important;
     margin-right: 5px !important;
+  }
+
+  .fb-share-button {
+    padding-left: 15px !important;
+  }
+
+  .share-button:hover {
+    color: #ff6232;
+  }
+
+  .share-button-with-padding {
+    padding-left: 15px !important;
+  }
+
+  .whatsapp-share-button {
+    display: none;
+  }
+
+  .whatsapp-web-share-button {
+    display: inline;
+  }
+
+  @media (hover:none), (hover:on-demand) {
+    .whatsapp-share-button {
+      display: inline;
+    }
+
+    .whatsapp-web-share-button {
+      display: none;
+    }
   }
 </style>
