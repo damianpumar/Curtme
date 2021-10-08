@@ -22,7 +22,7 @@
 - [x] Modify sourceURL
 - [x] Password links
 - [x] Collect user agent language
-- [ ] Social media share buttons
+- [x] Social media share buttons
 - [ ] Link redirect expiration by date
 - [ ] Link redirect expiration by clicks
 - [ ] Link rotation (Change sourceURL after specific event)
