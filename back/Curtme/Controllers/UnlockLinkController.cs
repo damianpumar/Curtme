@@ -38,7 +38,7 @@ namespace Curtme.Controllers
         /// <response code="404">If linkId does not exist</response>
         [HttpPut]
         [Route("lock/{linkId}")]
-        public IActionResult Customize(String linkId, [FromBody] UpdatePasswordDTO updatePasswordDTO)
+        public IActionResult Customize(String linkId, [FromBody] UpdatePasswordDto updatePasswordDTO)
         {
             if (String.IsNullOrEmpty(linkId))
                 return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
@@ -91,7 +91,7 @@ namespace Curtme.Controllers
             if (link == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            return this.Ok(new GetLinkToUnlockInfoDTO(link));
+            return this.Ok(new GetLinkToUnlockInfoDto(link));
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Curtme.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult Unlock(String shortURL, [FromBody] LinkToUnlockDTO linkToUnlockDTO)
+        public IActionResult Unlock(String shortURL, [FromBody] LinkToUnlockDto linkToUnlockDTO)
         {
             if (String.IsNullOrEmpty(shortURL))
                 return this.BadRequest(new { error = Constants.SHORT_URL_REQUIRED_ERROR });
@@ -138,7 +138,7 @@ namespace Curtme.Controllers
 
             this.linkService.Visit(link, this.HttpContext.GetRequestInfo());
 
-            return this.Ok(new GetLinkUnlockedDTO(link));
+            return this.Ok(new GetLinkUnlockedDto(link));
         }
     }
 }

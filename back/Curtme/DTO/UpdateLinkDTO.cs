@@ -2,7 +2,7 @@ using System;
 
 namespace Curtme.Models
 {
-    public class UpdateLinkDTO : CreateLinkDTO
+    public class UpdateLinkDto : CreateLinkDto
     {
         public String ShortURL { get; set; }
 
@@ -19,8 +19,8 @@ namespace Curtme.Models
         public Boolean IsValidShortURL()
         {
             return !String.IsNullOrEmpty(this.ShortURL) &&
-                   this.ShortURL.Length >= ShortURLConstants.LengthUpdateMin &&
-                   this.ShortURL.Length <= ShortURLConstants.LengthUpdateMax &&
+                   this.ShortURL.Length >= ShortUrlConstants.LengthUpdateMin &&
+                   this.ShortURL.Length <= ShortUrlConstants.LengthUpdateMax &&
                    this.HasShortURLValidCharacters();
         }
 
@@ -28,7 +28,7 @@ namespace Curtme.Models
         {
             foreach (char character in this.ShortURL)
             {
-                if (!ShortURLConstants.validCharactersShortURL.Contains(character))
+                if (!ShortUrlConstants.ValidCharactersShortURL.Contains(character))
                     return false;
             }
 

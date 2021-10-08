@@ -40,7 +40,7 @@ namespace Curtme.Controllers
         [Route("/")]
         [ProducesResponseType(typeof(Link), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Create(CreateLinkDTO createLinkDTO)
+        public IActionResult Create(CreateLinkDto createLinkDTO)
         {
             if (!createLinkDTO.IsValid())
                 return this.BadRequest(new { error = Constants.NO_BODY_ERROR });
@@ -202,7 +202,7 @@ namespace Curtme.Controllers
         /// <response code="400">If sourceURL is not empty but if sourceURL is not a valid URL</response>
         [HttpPut]
         [Route("/{linkId}")]
-        public IActionResult Customize(String linkId, [FromBody] UpdateLinkDTO updateLinkDTO)
+        public IActionResult Customize(String linkId, [FromBody] UpdateLinkDto updateLinkDTO)
         {
             if (String.IsNullOrEmpty(linkId))
                 return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });

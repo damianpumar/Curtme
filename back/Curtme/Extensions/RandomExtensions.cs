@@ -10,7 +10,7 @@ namespace Curtme.Extensions
 
         public static string Create()
         {
-            return new string(Enumerable.Repeat(ShortURLConstants.validCharactersShortURL, ShortURLConstants.LengthCreation)
+            return new string(Enumerable.Repeat(ShortUrlConstants.ValidCharactersShortURL, ShortUrlConstants.LengthCreation)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }

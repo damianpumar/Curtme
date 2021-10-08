@@ -1,11 +1,11 @@
 using System;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Curtme.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -70,7 +70,7 @@ namespace Curtme.Extensions
 
             var attributes = actionDescriptor.MethodInfo.GetCustomAttributes<ServiceFilterAttribute>();
 
-            return attributes.Any(a=> a.ServiceType == typeof(T));
+            return attributes.Any(a => a.ServiceType == typeof(T));
         }
     }
 
@@ -78,11 +78,11 @@ namespace Curtme.Extensions
     {
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            foreach(var actionDescriptor in context.ApiDescriptions)
+            foreach (var actionDescriptor in context.ApiDescriptions)
             {
                 var shouldRemove = actionDescriptor.HasCustomAttribute<ClientIpCheckActionFilter>();
 
-                if(shouldRemove)
+                if (shouldRemove)
                 {
                     var key = "/" + actionDescriptor.RelativePath.TrimEnd('/');
                     swaggerDoc.Paths.Remove(key);

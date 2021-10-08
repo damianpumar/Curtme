@@ -2,7 +2,7 @@ using System;
 
 namespace Curtme.Extensions
 {
-    public static class URLExtensions
+    public static class UrlExtensions
     {
         public static Boolean IsValidURL(this String url)
         {

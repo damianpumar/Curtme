@@ -2,7 +2,7 @@ using System;
 
 namespace Curtme.Models
 {
-    public class UpdatePasswordDTO
+    public class UpdatePasswordDto
     {
         public String Password { get; set; }
     }

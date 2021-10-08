@@ -1,13 +1,13 @@
 namespace Curtme.Models
 {
-    public static class ShortURLConstants
+    public static class ShortUrlConstants
     {
-        public static int LengthCreation = 7;
+        public readonly static int LengthCreation = 7;
 
-        public static int LengthUpdateMin = ShortURLConstants.LengthCreation;
+        public readonly static int LengthUpdateMin = ShortUrlConstants.LengthCreation;
 
-        public static int LengthUpdateMax = 10;
+        public readonly static int LengthUpdateMax = 10;
 
-        public static string validCharactersShortURL = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public readonly static string ValidCharactersShortURL = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     }
 }

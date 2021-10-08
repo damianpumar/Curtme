@@ -2,9 +2,9 @@ using System;
 
 namespace Curtme.Models
 {
-    public class GetLinkUnlockedDTO
+    public class GetLinkUnlockedDto
     {
-        public GetLinkUnlockedDTO(Link link)
+        public GetLinkUnlockedDto(Link link)
         {
             this.SourceURL = link.SourceURL;
         }

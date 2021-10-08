@@ -2,9 +2,9 @@ using System;
 
 namespace Curtme.Models
 {
-    public class GetLinkToUnlockInfoDTO
+    public class GetLinkToUnlockInfoDto
     {
-        public GetLinkToUnlockInfoDTO(Link link)
+        public GetLinkToUnlockInfoDto(Link link)
         {
             this.ShortURL = link.ShortURL;
             this.Title = link.Title;
