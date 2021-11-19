@@ -8,19 +8,19 @@ namespace Curtme.Tests.Unit
         public class Method_GetDomainName_Should
         {
             [Fact]
-            public void Get_Null_If_Send_Null_As_Argument()
+            public void Get_Unknown_If_Send_Null_As_Argument()
             {
                 var domainName = UrlExtensions.GetDomainName(null);
 
-                Assert.Null(domainName);
+                Assert.Equal(domainName, "Unknown");
             }
 
             [Fact]
-            public void Get_Null_If_Send_Invalid_URL()
+            public void Get_Unknown_If_Send_Invalid_URL()
             {
                 var domainName = UrlExtensions.GetDomainName("zzz");
 
-                Assert.Null(domainName);
+                Assert.Equal(domainName, "Unknown");
             }
 
             [Fact]
@@ -37,6 +37,41 @@ namespace Curtme.Tests.Unit
                 var domainName = UrlExtensions.GetDomainName("https://www.mail.google.com.ar");
 
                 Assert.Equal("Mail.google.com.ar", domainName);
+            }
+        }
+
+        public class Method_IsValidURL_Should
+        {
+            [Fact]
+            public void True_if_is_a_valid_url()
+            {
+                var isValid = UrlExtensions.IsValidURL("https://www.mail.google.com.ar");
+
+                Assert.True(isValid);
+            }
+
+            [Fact]
+            public void False_if_is_a_not_valid_url()
+            {
+                var isValid = UrlExtensions.IsValidURL("https://fff");
+
+                Assert.False(isValid);
+            }
+
+            [Fact]
+            public void False_if_is_a_null()
+            {
+                var isValid = UrlExtensions.IsValidURL(null);
+
+                Assert.False(isValid);
+            }
+
+            [Fact]
+            public void False_if_is_an_empty_string()
+            {
+                var isValid = UrlExtensions.IsValidURL("");
+
+                Assert.False(isValid);
             }
         }
     }

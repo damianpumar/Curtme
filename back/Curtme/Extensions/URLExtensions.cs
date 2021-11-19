@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 
 namespace Curtme.Extensions
 {
@@ -6,11 +7,9 @@ namespace Curtme.Extensions
     {
         public static Boolean IsValidURL(this String url)
         {
-            return !String.IsNullOrEmpty(url)
-                    &&
-                    Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
-                    &&
-                    !uriResult.IsLoopback;
+
+            return !String.IsNullOrEmpty(url) &&
+                    Regex.IsMatch(url, @"^(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$");
         }
 
         public static String GetDomainName(this String referrerUrl)
