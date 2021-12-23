@@ -17,12 +17,18 @@
     URL_MANDATORY,
   } from "../../utils/resources.js";
   import Message from "../../components/Message.svelte";
-
+  import { isLoading } from "../../services/auth0/auth0.store";
   import { createNewLink } from "../../services/link/link-service";
 
   let longInputElement: HTMLElement;
   let sourceURL: string = null;
   let message: string = null;
+
+  isLoading.subscribe((newValue) => {
+    if (!newValue && !!sourceURL) {
+      createShortURL();
+    }
+  });
 
   const createShortURL = async () => {
     if (!sourceURL) {
@@ -56,7 +62,6 @@
 
     if (sourceURL) {
       clearLinkParameter();
-      createShortURL();
     } else {
       longInputElement.focus();
     }
