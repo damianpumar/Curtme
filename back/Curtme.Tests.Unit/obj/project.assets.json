@@ -3290,11 +3290,12 @@
       ]
     },
     "runtime.native.System.Net.Security/4.3.0": {
-      "sha512": "ARfgeRYF2AnYIcqEvy9VE0agN/3zexMMPtcegq1THpOMS63rIGMi706vCo6pbv9Xzw4qhdX1Gu1zyLZHj2WtLA==",
+      "sha512": "M2nN92ePS8BgQ2oi6Jj3PlTUzadYSIWLdZrHY1n1ZcW9o4wAQQ6W+aQ2lfq1ysZQfVCgDwY58alUdowrzezztg==",
       "type": "package",
       "path": "runtime.native.system.net.security/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -6512,11 +6513,12 @@
       ]
     },
     "System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "vOYy7Jv9KsG3ld2hLt0GoERd82SZi4BelrbXLwI9yFBYX7kpbvUCWYo4eyevk47cuJXZ9ZLVAryANcc7iY71aA==",
+      "sha512": "h4CEgOgv5PKVF/HwaHzJRiVboL2THYCou97zpmhjghx5frc7fIvlkY1jL+lnIQyChrJDMNEXS6r7byGif8Cy4w==",
       "type": "package",
       "path": "system.security.cryptography.openssl/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.6/System.Security.Cryptography.OpenSsl.dll",
@@ -7692,23 +7694,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\damian.alberto.exter\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\damia\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
+      "projectUniqueName": "C:\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
       "projectName": "Curtme.Tests.Unit",
-      "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
-      "packagesPath": "C:\\Users\\damian.alberto.exter\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\obj\\",
+      "projectPath": "C:\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
+      "packagesPath": "C:\\Users\\damia\\.nuget\\packages\\",
+      "outputPath": "C:\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\damian.alberto.exter\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\damia\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7716,14 +7714,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://www.myget.org/F/aidacanarias/auth/91440d25-96ec-4958-861c-c4cac6f1192c/api/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj": {
-              "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj"
+            "C:\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj": {
+              "projectPath": "C:\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj"
             }
           }
         }
@@ -7774,7 +7773,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

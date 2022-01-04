@@ -50,12 +50,12 @@
 </script>
 
 {#if !isDeleting}
-  <button class="icon" on:click={removeLink} alt="Delete">
+  <button class="icon" on:click={removeLink} title="Delete">
     <i class="fa fa-trash" />
   </button>
 {:else}
   <span class="deleting">{`Deleting in ${$currentTimer} seconds`}</span>
-  <button class="icon" on:click={cancelRemoveLink} alt="Cancel">
+  <button class="icon" on:click={cancelRemoveLink} title="Cancel">
     <i class="fa fa-times-circle" />
   </button>
 {/if}

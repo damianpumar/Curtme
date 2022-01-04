@@ -98,14 +98,14 @@
   >
     <i class="fa fa-save" />
   </button>
-  <button class="icon" on:click={closeEditable} alt="Cancel">
+  <button class="icon" on:click={closeEditable} title="Cancel">
     <i class="fa fa-times-circle" /></button
   >
 {:else}
-  <button class="icon" on:click={customizeShortURL} alt="Edit">
+  <button class="icon" on:click={customizeShortURL} title="Edit">
     <i class="fa fa-edit" />
   </button>
-  <button class="icon" on:click={copyClipboard} alt="Copy">
+  <button class="icon" on:click={copyClipboard} title="Copy">
     <i class="fa fa-copy" />
   </button>
   <div
@@ -116,23 +116,35 @@
   >
     <a
       target="_blank"
-      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(VISIT_LINK(link.shortURL))}%2F&amp;src=sdkpreparse`}
+      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        VISIT_LINK(link.shortURL)
+      )}%2F&amp;src=sdkpreparse`}
       class="fb-xfbml-parse-ignore share-button icon brands fa-facebook"
-    >&nbsp;</a>
+      >&nbsp;</a
+    >
   </div>
-  <a class="twitter-share-button share-button share-button-with-padding icon brands fa-twitter"
+  <a
+    class="twitter-share-button share-button share-button-with-padding icon brands fa-twitter"
     target="_blank"
-    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(VISIT_LINK(link.shortURL))}`}
-  >&nbsp;</a>
-  <a class="whatsapp-share-button share-button share-button-with-padding icon brands fa-whatsapp"
-    href={`whatsapp://send?text=${encodeURIComponent(VISIT_LINK(link.shortURL))}`}
+    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      VISIT_LINK(link.shortURL)
+    )}`}>&nbsp;</a
+  >
+  <a
+    class="whatsapp-share-button share-button share-button-with-padding icon brands fa-whatsapp"
+    href={`whatsapp://send?text=${encodeURIComponent(
+      VISIT_LINK(link.shortURL)
+    )}`}
     target="_blank"
-    data-action="share/whatsapp/share"
-  >&nbsp;</a>
-  <a class="whatsapp-web-share-button share-button share-button-with-padding icon brands fa-whatsapp"
-    href={`https://web.whatsapp.com/send?text=${encodeURIComponent(VISIT_LINK(link.shortURL))}`}
-    target="_blank"
-  >&nbsp;</a>
+    data-action="share/whatsapp/share">&nbsp;</a
+  >
+  <a
+    class="whatsapp-web-share-button share-button share-button-with-padding icon brands fa-whatsapp"
+    href={`https://web.whatsapp.com/send?text=${encodeURIComponent(
+      VISIT_LINK(link.shortURL)
+    )}`}
+    target="_blank">&nbsp;</a
+  >
 {/if}
 
 <style>
@@ -194,7 +206,7 @@
     display: inline;
   }
 
-  @media (hover:none), (hover:on-demand) {
+  @media (hover: none), (hover: on-demand) {
     .whatsapp-share-button {
       display: inline;
     }

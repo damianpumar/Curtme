@@ -4,7 +4,7 @@
         <name>Curtme</name>
     </assembly>
     <members>
-        <member name="M:Curtme.Controllers.LinkController.Create(Curtme.Models.CreateLinkDTO)">
+        <member name="M:Curtme.Controllers.LinkController.Create(Curtme.Models.CreateLinkDto)">
              <summary>
              Create your short link.
              </summary>
@@ -86,7 +86,7 @@
              <response code="200">Always</response>
              <response code="403">If user not logged in</response>
         </member>
-        <member name="M:Curtme.Controllers.LinkController.Customize(System.String,Curtme.Models.UpdateLinkDTO)">
+        <member name="M:Curtme.Controllers.LinkController.Customize(System.String,Curtme.Models.UpdateLinkDto)">
              <summary>
              The user can change the shortURL or sourceURL
              </summary>
@@ -141,7 +141,7 @@
              <response code="400">If short url is null</response>
              <response code="404">If does not exist a link with that id or if current link is not from this logged in user</response>
         </member>
-        <member name="M:Curtme.Controllers.UnlockLinkController.Customize(System.String,Curtme.Models.UpdatePasswordDTO)">
+        <member name="M:Curtme.Controllers.UnlockLinkController.Customize(System.String,Curtme.Models.UpdatePasswordDto)">
              <summary>
              The user can lock or unlock password
              The password used to lock this link is stored hashed with sha512.
@@ -178,7 +178,7 @@
              <response code="400">If short url is null</response>
              <response code="404">If does not exist a link with that shortURL</response>
         </member>
-        <member name="M:Curtme.Controllers.UnlockLinkController.Unlock(System.String,Curtme.Models.LinkToUnlockDTO)">
+        <member name="M:Curtme.Controllers.UnlockLinkController.Unlock(System.String,Curtme.Models.LinkToUnlockDto)">
              <summary>
              This endpoint provide longURL to redirect user.
              </summary>

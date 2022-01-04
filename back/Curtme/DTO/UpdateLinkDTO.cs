@@ -6,14 +6,26 @@ namespace Curtme.Models
     {
         public String ShortURL { get; set; }
 
+        public Boolean? ToggleVisibility { get; set; }
+
         public override Boolean IsValid()
         {
-            return !String.IsNullOrEmpty(this.ShortURL) || this.IsValidSourceURL();
+            return this.ShouldUpdateShortUrl() || this.ShouldUpdateSourceURL() || this.ShouldToggleVisibility();
         }
 
-        public Boolean IsValidSourceURL()
+        public Boolean ShouldToggleVisibility()
         {
-            return base.IsValid();
+            return this.ToggleVisibility.HasValue;
+        }
+
+        public Boolean ShouldUpdateSourceURL()
+        {
+            return !String.IsNullOrEmpty(this.SourceURL);
+        }
+
+        public Boolean ShouldUpdateShortUrl()
+        {
+            return !String.IsNullOrEmpty(this.ShortURL);
         }
 
         public Boolean IsValidShortURL()

@@ -14,6 +14,7 @@ namespace Curtme.Models
             this.Date = DateTime.UtcNow;
             this.Title = title;
             this.UserId = userId;
+            this.Visibility = Visibility.Private;
         }
 
         [BsonId]
@@ -46,5 +47,27 @@ namespace Curtme.Models
                 return !String.IsNullOrEmpty(this.Password);
             }
         }
+
+        [JsonIgnore]
+        public Visibility Visibility { get; private set; }
+
+        public Boolean IsPublic
+        {
+            get
+            {
+                return this.Visibility == Visibility.Public;
+            }
+        }
+
+        public void ToggleVisibility()
+        {
+            this.Visibility = this.IsPublic ? Visibility.Private : Visibility.Public;
+        }
+    }
+
+    public enum Visibility
+    {
+        Private,
+        Public
     }
 }

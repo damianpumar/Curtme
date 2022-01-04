@@ -13,6 +13,7 @@
   import LinkSourceURL from "./LinkSourceURL.svelte";
   import LinkShortURL from "./LinkShortURL.svelte";
   import { useDelete } from "../../utils/use-event";
+  import LinkVisibility from "./LinkVisibility.svelte";
 
   export let link: LinkModel;
   let message: string = null;
@@ -39,6 +40,7 @@
           on:delete={dispatchDelete}
         />
         <LinkLock {link} on:message={handleMessage} />
+        <LinkVisibility {link} on:message={handleMessage} />
       </p>
       <div>
         <LinkSourceURL {link} on:message={handleMessage} />

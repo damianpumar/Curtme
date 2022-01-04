@@ -48,7 +48,7 @@ namespace Curtme.Controllers
 
             var link = this.linkService.GetById(linkId);
 
-            if (link == null || link.UserId != this.HttpContext.User.GetId())
+            if (link == null || (!link.IsPublic && link.UserId != this.HttpContext.User.GetId()))
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
             var details = this.linkDetailsService.GetDetails(linkId);
@@ -59,4 +59,5 @@ namespace Curtme.Controllers
             return this.Ok(details);
         }
     }
+
 }

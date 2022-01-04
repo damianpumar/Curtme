@@ -1,6 +1,6 @@
 <script lang="ts">
   import { tick } from "svelte";
-  import { lockLink } from "../../services/api-service";
+  import { changeVisibility, lockLink } from "../../services/api-service";
   import {
     INTERNET_CONNECTION,
     LINK_CUSTOMIZED,
@@ -64,14 +64,14 @@
     placeholder={SET_PASSWORD_PLACEHOLDER}
     on:keydown={(event) => isEnterKeyDown(event) && saveNewPassword()}
   />
-  <button class="icon" on:click={saveNewPassword} alt="Save">
+  <button class="icon" on:click={saveNewPassword} title="Save">
     <i class="fa fa-save" />
   </button>
-  <button class="icon" on:click={cleanUpPasswordVariables} alt="Cancel">
+  <button class="icon" on:click={cleanUpPasswordVariables} title="Cancel">
     <i class="fa fa-times-circle" />
   </button>
 {:else}
-  <button class="icon" on:click={setNewPassword} alt="Customise Password">
+  <button class="icon" on:click={setNewPassword} title="Customise Password">
     <i class={link.hasPassword ? "fa fa-lock" : "fa fa-lock-open"} />
   </button>
 {/if}

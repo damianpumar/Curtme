@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj": {}
+    "C:\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj": {}
   },
   "projects": {
-    "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj": {
+    "C:\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
+        "projectUniqueName": "C:\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
         "projectName": "Curtme.Tests.Unit",
-        "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
-        "packagesPath": "C:\\Users\\damian.alberto.exter\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\obj\\",
+        "projectPath": "C:\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\Curtme.Tests.Unit.csproj",
+        "packagesPath": "C:\\Users\\damia\\.nuget\\packages\\",
+        "outputPath": "C:\\Projects\\Curtme\\back\\Curtme.Tests.Unit\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\damian.alberto.exter\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\damia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,14 +22,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/F/aidacanarias/auth/91440d25-96ec-4958-861c-c4cac6f1192c/api/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj": {
-                "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj"
+              "C:\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj": {
+                "projectPath": "C:\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj"
               }
             }
           }
@@ -83,24 +81,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj": {
+    "C:\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj",
+        "projectUniqueName": "C:\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj",
         "projectName": "Curtme",
-        "projectPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj",
-        "packagesPath": "C:\\Users\\damian.alberto.exter\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\damian.alberto.exter\\Projects\\Curtme\\back\\Curtme\\obj\\",
+        "projectPath": "C:\\Projects\\Curtme\\back\\Curtme\\Curtme.csproj",
+        "packagesPath": "C:\\Users\\damia\\.nuget\\packages\\",
+        "outputPath": "C:\\Projects\\Curtme\\back\\Curtme\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\damian.alberto.exter\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\damia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -108,7 +103,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/F/aidacanarias/auth/91440d25-96ec-4958-861c-c4cac6f1192c/api/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
@@ -169,7 +165,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

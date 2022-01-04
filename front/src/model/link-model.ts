@@ -6,6 +6,7 @@ export interface LinkModel {
   title: string;
   visited: number;
   hasPassword: boolean;
+  isPublic: boolean;
 }
 
 export interface LinkDetailModel {

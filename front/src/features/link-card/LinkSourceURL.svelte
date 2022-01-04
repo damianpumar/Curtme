@@ -91,11 +91,11 @@
     >
       <i class="fa fa-save" />
     </button>
-    <button class="icon" on:click={closeEditable} alt="Cancel">
+    <button class="icon" on:click={closeEditable} title="Cancel">
       <i class="fa fa-times-circle" />
     </button>
   {:else}
-    <button class="icon" on:click={customizeSourceURL} alt="Edit"
+    <button class="icon" on:click={customizeSourceURL} title="Edit"
       ><i class="fa fa-edit" /></button
     >
   {/if}

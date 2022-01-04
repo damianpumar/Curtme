@@ -113,7 +113,7 @@ namespace Curtme.Controllers
         {
             var links = this.linkService.GetByIds(ids);
 
-            if (links.Any(link => link.UserId != this.HttpContext.User.GetId()))
+            if (links.Any(link => !link.IsPublic && link.UserId != this.HttpContext.User.GetId()))
             {
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
             }
@@ -215,7 +215,7 @@ namespace Curtme.Controllers
             if (linkIn == null)
                 return this.NotFound(new { error = Constants.NOT_FOUND_LINK_ERROR });
 
-            if (linkIn.ShortURL != updateLinkDTO.ShortURL)
+            if (updateLinkDTO.ShouldUpdateShortUrl() && linkIn.ShortURL != updateLinkDTO.ShortURL)
             {
                 if (!updateLinkDTO.IsValidShortURL())
                     return this.BadRequest(new { error = $"{updateLinkDTO.ShortURL} {Constants.SHORT_URL_INVALID}" });
@@ -226,7 +226,7 @@ namespace Curtme.Controllers
                 linkIn.ShortURL = updateLinkDTO.ShortURL;
             }
 
-            if (updateLinkDTO.IsValidSourceURL() && linkIn.SourceURL != updateLinkDTO.SourceURL)
+            if (updateLinkDTO.ShouldUpdateSourceURL() && linkIn.SourceURL != updateLinkDTO.SourceURL)
             {
                 if (!updateLinkDTO.IsValidURL())
                     return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
@@ -236,6 +236,11 @@ namespace Curtme.Controllers
 
                 linkIn.SourceURL = updateLinkDTO.SourceURL;
                 linkIn.Title = updateLinkDTO.GetTitle();
+            }
+
+            if (updateLinkDTO.ShouldToggleVisibility())
+            {
+                linkIn.ToggleVisibility();
             }
 
             this.linkService.Update(linkIn);

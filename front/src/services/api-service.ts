@@ -109,6 +109,22 @@ export async function customizeLink(link: LinkModel) {
   }
 }
 
+export async function changeVisibility(link: LinkModel) {
+  const data = {
+    toggleVisibility: true,
+  };
+
+  try {
+    return await fetch(CUSTOMIZE(link.id), {
+      method: "PUT",
+      headers: buildHeader(),
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    return defaultResponse();
+  }
+}
+
 export async function lockLink(linkId: string, newPassword: string) {
   const data = {
     password: newPassword,

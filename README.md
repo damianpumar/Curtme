@@ -38,7 +38,7 @@
 - [x] Chart of clicks on a short link by country
 - [ ] Chart of clicks on a short link by language
 - [ ] Reset analytics for your short link
-- [ ] Share link stat with public url
+- [x] Share link stat with public url
 - [ ] Add select language dropdown (EN, ES)
 
 ## :mag: API Documentation
