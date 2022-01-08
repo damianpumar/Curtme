@@ -50,15 +50,4 @@
   button:hover {
     color: #ff6232;
   }
-
-  input[type="text"] {
-    height: unset !important;
-    line-height: normal !important;
-    margin-right: 5px;
-    width: 80%;
-  }
-
-  .small-input {
-    width: 30% !important;
-  }
 </style>
