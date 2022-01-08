@@ -2,6 +2,7 @@
   import { tick } from "svelte";
   import { changeVisibility, lockLink } from "../../services/api-service";
   import {
+    ERROR,
     INTERNET_CONNECTION,
     LINK_CUSTOMIZED,
     SET_PASSWORD_PLACEHOLDER,
@@ -41,7 +42,7 @@
         link = await response.json();
       } else {
         const data = await response.json();
-        dispatchMessage(data.error);
+        dispatchMessage(ERROR(data.error));
       }
     } catch (error) {
       dispatchMessage(INTERNET_CONNECTION);
@@ -71,7 +72,7 @@
     <i class="fa fa-times-circle" />
   </button>
 {:else}
-  <button class="icon" on:click={setNewPassword} title="Customise Password">
+  <button class="icon" on:click={setNewPassword} title="Customize Password">
     <i class={link.hasPassword ? "fa fa-lock" : "fa fa-lock-open"} />
   </button>
 {/if}

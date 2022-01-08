@@ -1,4 +1,5 @@
 import { createEventDispatcher } from "svelte";
+import { toast } from "@zerodevx/svelte-toast";
 
 export const useDelete = () => {
   const dispatch = createEventDispatcher();
@@ -11,12 +12,8 @@ export const useDelete = () => {
 };
 
 export const useMessage = () => {
-  const dispatch = createEventDispatcher();
-
   const dispatchMessage = (message: string) => {
-    dispatch("message", {
-      message,
-    });
+    toast.push(message);
   };
 
   return dispatchMessage;

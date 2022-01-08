@@ -10,13 +10,13 @@
     COUNTRY,
     USER_IP,
     ISP,
+    LOADING,
   } from "../utils/resources";
   import { parseDateAndTime } from "../utils/date";
   import { GOOGLE_MAP_URL } from "../utils/config";
   import type { LinkDetailModel } from "../model/link-model";
 
   export let details: LinkDetailModel[];
-  export let message: string;
 
   const createGoogleMapsLink = (detail: LinkDetailModel) => {
     const parse = (value: string) => value.replace(" ", "+");
@@ -70,7 +70,7 @@
         {:else}
           <tr>
             <td colspan="100">
-              <h5 class="text-center">{message}</h5>
+              <h5 class="text-center">{LOADING}</h5>
             </td>
           </tr>
         {/each}

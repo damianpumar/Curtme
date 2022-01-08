@@ -15,14 +15,16 @@
     INTERNET_CONNECTION,
     URL_INVALID,
     URL_MANDATORY,
+    LINK_CREATED,
+    ERROR,
   } from "../../utils/resources.js";
-  import Message from "../../components/Message.svelte";
   import { isLoading } from "../../services/auth0/auth0.store";
   import { createNewLink } from "../../services/link/link-service";
+  import { useMessage } from "../../utils/use-event";
 
   let longInputElement: HTMLElement;
   let sourceURL: string = null;
-  let message: string = null;
+  const dispatchMessage = useMessage();
 
   isLoading.subscribe((newValue) => {
     if (!newValue && !!sourceURL) {
@@ -32,12 +34,12 @@
 
   const createShortURL = async () => {
     if (!sourceURL) {
-      message = URL_MANDATORY;
+      dispatchMessage(URL_MANDATORY);
       return;
     }
 
     if (!validURL(sourceURL)) {
-      message = URL_INVALID;
+      dispatchMessage(URL_INVALID);
       return;
     }
 
@@ -48,12 +50,13 @@
 
       if (response.ok) {
         sourceURL = null;
+        dispatchMessage(LINK_CREATED);
       } else {
         const data = await response.json();
-        message = data.error;
+        dispatchMessage(ERROR(data.error));
       }
     } catch (exception) {
-      message = INTERNET_CONNECTION;
+      dispatchMessage(INTERNET_CONNECTION);
     }
   };
 
@@ -82,7 +85,6 @@
         on:keydown={(event) => isEnterKeyDown(event) && createShortURL()}
       />
     </div>
-    <Message bind:message />
   </div>
   <div class="row">
     <div class="col-12 col-12-mobilep">

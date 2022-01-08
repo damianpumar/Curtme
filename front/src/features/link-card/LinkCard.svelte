@@ -5,7 +5,6 @@
   import { getDateParsed } from "../../utils/date";
   import { CLICK, CLICKS } from "../../utils/resources.js";
   import { RouteConfig } from "../../utils/routeConfig";
-  import Message from "../../components/Message.svelte";
   import type { LinkModel } from "../../model/link-model";
 
   import LinkDelete from "./LinkDelete.svelte";
@@ -16,13 +15,8 @@
   import LinkVisibility from "./LinkVisibility.svelte";
 
   export let link: LinkModel;
-  let message: string = null;
 
   const dispatchDelete = useDelete();
-
-  const handleMessage = (event: CustomEvent) => {
-    message = event.detail.message;
-  };
 </script>
 
 {#if link}
@@ -34,27 +28,22 @@
       <p class="date-link">{getDateParsed(link)}</p>
       <p class="title-link">
         {link.title}
-        <LinkDelete
-          {link}
-          on:message={handleMessage}
-          on:delete={dispatchDelete}
-        />
-        <LinkLock {link} on:message={handleMessage} />
-        <LinkVisibility {link} on:message={handleMessage} />
+        <LinkDelete {link} on:delete={dispatchDelete} />
+        <LinkLock {link} />
+        <LinkVisibility {link} />
       </p>
       <div>
-        <LinkSourceURL {link} on:message={handleMessage} />
+        <LinkSourceURL {link} />
       </div>
 
       <div class="row">
-        <LinkShortURL {link} on:message={handleMessage} />
+        <LinkShortURL {link} />
         <div class="visited-link">
           <a href={`${RouteConfig.LINK_PATH}${link.id}`} use:routeLink>
             <span>{link.visited} {link.visited === 1 ? CLICK : CLICKS}</span>
           </a>
         </div>
       </div>
-      <Message bind:message />
     </div>
   </section>
 {/if}

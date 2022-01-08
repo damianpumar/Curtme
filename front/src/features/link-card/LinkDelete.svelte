@@ -3,7 +3,11 @@
   import { remove } from "../../services/api-service";
   import { useTimer } from "../../utils/use-timer";
   import { removeStoredLink } from "../../services/link/link.store";
-  import { INTERNET_CONNECTION } from "../../utils/resources";
+  import {
+    ERROR,
+    INTERNET_CONNECTION,
+    LINK_DELETED,
+  } from "../../utils/resources";
   import { currentAction, ACTION } from "./link.store";
   import { useDelete, useMessage } from "../../utils/use-event";
   export let link: LinkModel = null;
@@ -36,11 +40,12 @@
       const response = await remove(link);
 
       if (response.ok) {
+        dispatchMessage(LINK_DELETED);
         dispatchDelete();
         removeStoredLink(link);
       } else {
         const data = await response.json();
-        dispatchMessage(data.error);
+        dispatchMessage(ERROR(data.error));
       }
     } catch (error) {
       cancelRemoveLink();

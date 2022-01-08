@@ -4,6 +4,7 @@
   import type { LinkModel } from "../../model/link-model";
   import { customizeLink } from "../../services/api-service";
   import {
+    ERROR,
     INTERNET_CONNECTION,
     LINK_CUSTOMIZED,
     URL_INVALID,
@@ -41,7 +42,7 @@
         link = await response.json();
       } else {
         const data = await response.json();
-        dispatchMessage(data.error);
+        dispatchMessage(ERROR(data.error));
       }
     } catch (error) {
       dispatchMessage(INTERNET_CONNECTION);

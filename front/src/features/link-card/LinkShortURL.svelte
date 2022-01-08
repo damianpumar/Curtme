@@ -6,7 +6,12 @@
   import { VISIT_LINK } from "../../utils/config";
   import { customizeLink } from "../../services/api-service";
   import { scale } from "svelte/transition";
-  import { INTERNET_CONNECTION, LINK_CUSTOMIZED } from "../../utils/resources";
+  import {
+    ERROR,
+    INTERNET_CONNECTION,
+    LINK_COPIED,
+    LINK_CUSTOMIZED,
+  } from "../../utils/resources";
   import { currentAction, ACTION } from "./link.store";
   import { useMessage } from "../../utils/use-event";
 
@@ -30,6 +35,7 @@
 
   function copyClipboard() {
     copy(link);
+    dispatchMessage(LINK_COPIED);
 
     if (!animationLink) {
       animationLink = create_in_transition(linkSectionContainer, scale, {
@@ -47,7 +53,7 @@
     shortURLInput.focus();
   };
 
-  function closeEditable() {
+  const closeEditable = () => {
     currentAction.set(ACTION.NONE);
 
     if (currentEditingShortURL) {
@@ -56,7 +62,7 @@
 
     currentEditingShortURL = null;
     isModifyingShortURL = false;
-  }
+  };
 
   const saveUpdatedLink = async () => {
     try {
@@ -67,7 +73,7 @@
         link = await response.json();
       } else {
         const data = await response.json();
-        dispatchMessage(data.error);
+        dispatchMessage(ERROR(data.error));
       }
     } catch (error) {
       dispatchMessage(INTERNET_CONNECTION);

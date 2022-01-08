@@ -3,11 +3,12 @@
   import { push } from "svelte-spa-router";
   import LinkStats from "../features/LinkStats.svelte";
   import LinkCard from "../features/link-card/LinkCard.svelte";
-  import { BACK } from "../utils/resources";
+  import { BACK, ERROR } from "../utils/resources";
   import { RouteConfig } from "../utils/routeConfig";
   import { getLinkDetail, getLinks } from "../services/api-service";
   import { initialized } from "../services/auth0/auth0.store";
   import type { LinkDetailModel, LinkModel } from "../model/link-model";
+  import { useMessage } from "../utils/use-event";
 
   interface Params {
     id: string;
@@ -17,13 +18,14 @@
 
   let link: LinkModel = null;
   let details: LinkDetailModel[];
-  let message: string;
 
   let mounted: boolean = false;
   $: if ($initialized && mounted) {
     loadLink(params.id);
     loadLinkDetail(params.id);
   }
+
+  const dispatchMessage = useMessage();
 
   onMount(() => {
     mounted = true;
@@ -46,7 +48,7 @@
     if (response.ok) {
       details = data;
     } else {
-      message = data.error;
+      dispatchMessage(ERROR(data.error));
     }
   };
 
@@ -60,7 +62,7 @@
     <button on:click={goBack}>{BACK}</button>
   </div>
   <LinkCard {link} on:delete={goBack} />
-  <LinkStats {details} {message} />
+  <LinkStats {details} />
 </div>
 
 <style>
