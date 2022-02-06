@@ -24,9 +24,9 @@ namespace Curtme.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT /linkId
+        ///     PUT /AAA123/lock (short URL)
         ///     {
-        ///        linkId
+        ///        password: xxx or empty if you want to remove restriction
         ///     }
         ///
         /// </remarks>
@@ -37,7 +37,7 @@ namespace Curtme.Controllers
         /// <response code="400">If linkId is empty</response>
         /// <response code="404">If linkId does not exist</response>
         [HttpPut]
-        [Route("lock/{linkId}")]
+        [Route("/{linkId}/lock")]
         public IActionResult Customize(String linkId, [FromBody] UpdatePasswordDto updatePasswordDTO)
         {
             if (String.IsNullOrEmpty(linkId))
@@ -68,7 +68,7 @@ namespace Curtme.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET unlock/AAA123 (short URL)
+        ///     GET /AAA123/unlock (short URL)
         ///
         /// </remarks>
         /// <param name="shortURL"></param>
@@ -77,7 +77,7 @@ namespace Curtme.Controllers
         /// <response code="400">If short url is null</response>
         /// <response code="404">If does not exist a link with that shortURL</response>
         [HttpGet]
-        [Route("unlock/{shortURL}")]
+        [Route("/{shortURL}/unlock")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -100,7 +100,7 @@ namespace Curtme.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET unlock/AAA123 (short URL)
+        ///     POST /AAA123/unlock (short URL)
         ///     {
         ///        password: xxx
         ///     }
@@ -115,7 +115,7 @@ namespace Curtme.Controllers
         /// <response code="400">If password is null</response>
         /// <response code="401">If password do not match with link password</response>
         [HttpPost]
-        [Route("unlock/{shortURL}")]
+        [Route("/{shortURL}/unlock")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

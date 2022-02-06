@@ -1,16 +1,17 @@
 <script>
+  import { link } from "svelte-spa-router";
   import { blur } from "svelte/transition";
   import { createAuth } from "../services/auth0";
   import { AUTH0 } from "../utils/config";
+  import { RouteConfig } from "../utils/routeConfig";
 
-  const { isAuthenticated, isLoading, login, logout, userInfo } = createAuth(
-    AUTH0
-  );
+  const { isAuthenticated, isLoading, login, logout, userInfo } =
+    createAuth(AUTH0);
 </script>
 
 <header>
   <h1>
-    <a href="/">Curtme</a>
+    <a href={RouteConfig.HOME_PATH} use:link>Curtme</a>
   </h1>
   {#if !$isLoading}
     <nav>

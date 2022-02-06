@@ -7,6 +7,9 @@
   import Cloud from "../components/Cloud.svelte";
   import Header from "../components/Header.svelte";
   import Footer from "../components/Footer.svelte";
+  import NotificationToaster from "../components/NotificationToaster.svelte";
+  import CookiesPolicy from "./CookiesPolicy.svelte";
+  import TermsOfService from "./TermsOfService.svelte";
 
   const routes = {
     "/": Home,
@@ -14,8 +17,14 @@
     "/link/:id": LinkDetail,
 
     "/unlock/:shortURL": Unlock,
+
+    "/cookies-policy": CookiesPolicy,
+
+    "/terms-of-service": TermsOfService,
   };
 </script>
+
+<NotificationToaster />
 
 <Cloud />
 

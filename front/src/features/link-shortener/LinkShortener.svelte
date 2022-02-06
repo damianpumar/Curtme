@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { link } from "svelte-spa-router";
   import {
     validURL,
     getSourceURLFromParameter,
@@ -84,6 +85,8 @@
         bind:this={longInputElement}
         on:keydown={(event) => isEnterKeyDown(event) && createShortURL()}
       />
+      By using our service you accept the
+      <a href="/terms-of-service" use:link>Terms of service</a>.
     </div>
   </div>
   <div class="row">
@@ -94,6 +97,12 @@
 </section>
 
 <style>
+  a {
+    color: unset;
+  }
+  a:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.5);
+  }
   section {
     color: #fff;
     padding: 12em 0 1em 0;

@@ -7,7 +7,6 @@ namespace Curtme.Extensions
     {
         public static Boolean IsValidURL(this String url)
         {
-
             return !String.IsNullOrEmpty(url) &&
                     Regex.IsMatch(url, @"^(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$");
         }

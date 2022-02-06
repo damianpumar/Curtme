@@ -6,6 +6,7 @@ namespace Curtme.Models
         public const string NO_BODY_ERROR = "You must send http body, please check our documentation www.curtme.org/developer";
         public const string INVALID_URL_ERROR = "Invalid URL.";
         public const string SOURCE_URL_IS_ALREADY_SHORTENED_URL = "The source URL is already a shortened url.";
+        public const string SOURCE_URL_UNSAFE = "This source URL is unsafe, please read our terms and conditions.";
         public const string SHORT_URL_REQUIRED_ERROR = "shortURL is required";
         public const string LINK_ID_REQUIRED_ERROR = "linkId is required";
         public const string NOT_FOUND_LINK_DETAILS_ERROR = "This link has not visited yet.";

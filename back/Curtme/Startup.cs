@@ -32,19 +32,19 @@ namespace Curtme
 
             services.AddSingleton<MongoDBService>();
 
+            services.AddScoped<SafeBrowsingService>();
+
             services.AddScoped<GeoLocationService>();
 
             services.AddScoped<LinkService>();
 
             services.AddScoped<LinkDetailsService>();
 
-            services.AddScoped<UserService>();
-
             services.AddControllers();
 
             services.AddSwagger();
 
-            services.AddAuth0();
+            // services.AddAuth0();
 
             services.AddFilters();
         }
@@ -70,9 +70,9 @@ namespace Curtme
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            // app.UseAuthentication();
 
-            app.UseAuthorization();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

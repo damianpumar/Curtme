@@ -78,16 +78,7 @@ namespace Curtme.Extensions
     {
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            foreach (var actionDescriptor in context.ApiDescriptions)
-            {
-                var shouldRemove = actionDescriptor.HasCustomAttribute<ClientIpCheckActionFilter>();
 
-                if (shouldRemove)
-                {
-                    var key = "/" + actionDescriptor.RelativePath.TrimEnd('/');
-                    swaggerDoc.Paths.Remove(key);
-                }
-            }
         }
     }
 }

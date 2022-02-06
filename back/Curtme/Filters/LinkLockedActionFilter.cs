@@ -10,13 +10,13 @@ namespace Curtme.Filters
 {
     public class LinkLockedActionFilter : ActionFilterAttribute
     {
-        private readonly IConfiguration configuration;
+        private readonly string baseURL;
 
         private readonly LinkService linkService;
 
         public LinkLockedActionFilter(IConfiguration configuration, LinkService linkService)
         {
-            this.configuration = configuration;
+            this.baseURL = configuration["FrontEnd:URL"];
 
             this.linkService = linkService;
         }
@@ -40,8 +40,6 @@ namespace Curtme.Filters
 
         private String GetRedirectURL(Link link)
         {
-            var baseURL = this.configuration["FrontEnd:URL"];
-
             return $"{baseURL}/#/unlock/{link.ShortURL}";
         }
     }

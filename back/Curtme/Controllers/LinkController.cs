@@ -40,6 +40,7 @@ namespace Curtme.Controllers
         [Route("/")]
         [ProducesResponseType(typeof(Link), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ServiceFilter(typeof(SafeBrowsingActionFilter))]
         public IActionResult Create(CreateLinkDto createLinkDTO)
         {
             if (!createLinkDTO.IsValid())
@@ -76,7 +77,6 @@ namespace Curtme.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ServiceFilter(typeof(LinkLockedActionFilter))]
-
         public IActionResult Visit(String shortURL)
         {
             if (String.IsNullOrEmpty(shortURL))
@@ -202,6 +202,7 @@ namespace Curtme.Controllers
         /// <response code="400">If sourceURL is not empty but if sourceURL is not a valid URL</response>
         [HttpPut]
         [Route("/{linkId}")]
+        [ServiceFilter(typeof(SafeBrowsingActionFilter))]
         public IActionResult Customize(String linkId, [FromBody] UpdateLinkDto updateLinkDTO)
         {
             if (String.IsNullOrEmpty(linkId))

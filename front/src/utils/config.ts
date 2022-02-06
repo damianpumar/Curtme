@@ -4,10 +4,10 @@ export const GET_LINKS_BY_IDS = `${BASE_URL}links-by-id`;
 export const GET_USER_LINKS = `${BASE_URL}links`;
 export const SYNC_LINKS = `${BASE_URL}sync`;
 export const CUSTOMIZE = (linkId: string) => `${BASE_URL}${linkId}`;
-export const GET_DETAIL = (linkId: string) => `${BASE_URL}details/${linkId}`;
+export const GET_DETAIL = (linkId: string) => `${BASE_URL}${linkId}/details`;
 export const UNLOCK_LINK = (shortURL: string) =>
-  `${BASE_URL}unlock/${shortURL}`;
-export const LOCK_LINK = (linkId: string) => `${BASE_URL}lock/${linkId}`;
+  `${BASE_URL}${shortURL}/unlock`;
+export const LOCK_LINK = (linkId: string) => `${BASE_URL}${linkId}/lock`;
 
 export const GOOGLE_MAP_URL =
   "https://www.google.com/maps/search/?api=1&query=";

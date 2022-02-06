@@ -28,7 +28,7 @@ namespace Curtme.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /details/linkId
+        ///     GET /linkId/details
         ///
         /// </remarks>
         /// <param name="linkId"></param>
@@ -37,7 +37,7 @@ namespace Curtme.Controllers
         /// <response code="400">If short url is null</response>
         /// <response code="404">If does not exist a link with that id or if current link is not from this logged in user</response>
         [HttpGet]
-        [Route("/details/{linkId}")]
+        [Route("/{linkId}/details")]
         [ProducesResponseType(StatusCodes.Status302Found)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

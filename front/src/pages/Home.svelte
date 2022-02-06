@@ -1,6 +1,6 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
-  import { gaLoad } from "../utils/ga";
+  import { onDestroy } from "svelte";
+
   import { orderedLinks } from "../services/link/link.store";
 
   import LinkShortener from "../features/link-shortener/LinkShortener.svelte";
@@ -13,10 +13,6 @@
     if (isInitialized) {
       loadLinks();
     }
-  });
-
-  onMount(() => {
-    gaLoad();
   });
 
   onDestroy(unsubscribe);
