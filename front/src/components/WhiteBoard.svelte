@@ -6,7 +6,7 @@
   const cookies = useCookies();
 
   onMount(() => {
-    cookies.unload();
+    cookies.hide();
   });
 
   onDestroy(() => {

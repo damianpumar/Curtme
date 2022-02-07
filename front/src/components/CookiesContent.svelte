@@ -1,27 +1,17 @@
 <script lang="ts">
-  import { toast } from "@zerodevx/svelte-toast";
   import { link } from "svelte-spa-router";
   import { gaLoad } from "../utils/ga";
+  import { useCookies } from "../utils/use-cookies";
 
-  export let toastId;
-
-  const closeToast = (accepted: Boolean) => {
-    toast.pop(toastId);
-    localStorage.setItem(
-      "cookies",
-      JSON.stringify({
-        accepted,
-      })
-    );
-  };
+  const cookies = useCookies();
 
   const accepted = () => {
-    closeToast(true);
+    cookies.close(true);
 
     gaLoad();
   };
 
-  const declined = () => closeToast(false);
+  const declined = () => cookies.close(false);
 </script>
 
 <div>

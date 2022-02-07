@@ -1,14 +1,16 @@
-// @ts-nocheck
 import { toast } from "@zerodevx/svelte-toast";
 import { gaLoad } from "./ga";
 import CookiesContent from "../components/CookiesContent.svelte";
 
+const COOKIES_KEY = "cookies";
+
+let toastId = 0;
+
 export const useCookies = () => {
   const load = () => {
-    const cookies = JSON.parse(localStorage.getItem("cookies"));
+    const cookies = JSON.parse(localStorage.getItem(COOKIES_KEY));
     if (!cookies) {
-      toast.push({
-        id: "cookies-toast",
+      toastId = toast.push({
         target: "cookies-toast",
         component: {
           src: CookiesContent,
@@ -22,12 +24,24 @@ export const useCookies = () => {
     if (cookies.accepted) gaLoad();
   };
 
-  const unload = () => {
-    toast.pop();
+  const close = (accepted: Boolean) => {
+    hide();
+
+    localStorage.setItem(
+      COOKIES_KEY,
+      JSON.stringify({
+        accepted,
+      })
+    );
+  };
+
+  const hide = () => {
+    toast.pop(toastId);
   };
 
   return {
     load,
-    unload,
+    close,
+    hide,
   };
 };
