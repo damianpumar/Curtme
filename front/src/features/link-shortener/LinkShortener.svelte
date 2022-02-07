@@ -100,9 +100,6 @@
   a {
     color: unset;
   }
-  a:hover {
-    border-bottom-color: rgba(255, 255, 255, 0.5);
-  }
   section {
     color: #fff;
     padding: 12em 0 1em 0;

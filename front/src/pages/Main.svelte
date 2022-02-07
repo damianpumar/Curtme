@@ -10,6 +10,7 @@
   import NotificationToaster from "../components/NotificationToaster.svelte";
   import CookiesPolicy from "./CookiesPolicy.svelte";
   import TermsOfService from "./TermsOfService.svelte";
+  import NotificationCookiesToaster from "../components/NotificationCookiesToaster.svelte";
 
   const routes = {
     "/": Home,
@@ -25,6 +26,7 @@
 </script>
 
 <NotificationToaster />
+<NotificationCookiesToaster />
 
 <Cloud />
 
