@@ -1,14 +1,15 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
-  import { push } from "svelte-spa-router";
+  import { onMount } from "svelte";
   import LinkStats from "../features/LinkStats.svelte";
   import LinkCard from "../features/link-card/LinkCard.svelte";
-  import { BACK, ERROR } from "../utils/resources";
-  import { RouteConfig } from "../utils/routeConfig";
+  import { ERROR } from "../utils/resources";
   import { getLinkDetail, getLinks } from "../services/api-service";
   import { initialized } from "../services/auth0/auth0.store";
   import type { LinkDetailModel, LinkModel } from "../model/link-model";
   import { useMessage } from "../utils/use-event";
+  import { push } from "svelte-spa-router";
+  import { RouteConfig } from "../utils/routeConfig";
+  import BackButton from "../components/BackButton.svelte";
 
   interface Params {
     id: string;
@@ -57,10 +58,8 @@
   };
 </script>
 
-<div class:link>
-  <div class="col-12 col-12-mobilep">
-    <button on:click={goBack}>{BACK}</button>
-  </div>
+<div class="link">
+  <BackButton />
   <LinkCard {link} on:delete={goBack} />
   <LinkStats {details} />
 </div>
@@ -68,13 +67,5 @@
 <style>
   .link {
     margin-top: 10%;
-  }
-
-  button {
-    background-color: transparent;
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
-    color: #fff;
-    width: 6em;
-    margin-left: calc(4%);
   }
 </style>

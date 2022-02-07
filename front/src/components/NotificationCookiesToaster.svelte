@@ -1,25 +1,12 @@
 <script>
   import { SvelteToast, toast } from "@zerodevx/svelte-toast";
   import { onMount } from "svelte";
-  import { gaLoad } from "../utils/ga";
-  import CookiesContent from "./CookiesContent.svelte";
+  import { useCookies } from "../utils/use-cookies";
+
+  const cookies = useCookies();
 
   onMount(() => {
-    const cookies = JSON.parse(localStorage.getItem("cookies"));
-    if (!cookies) {
-      toast.push({
-        id: "cookies-toast",
-        target: "cookies-toast",
-        component: {
-          src: CookiesContent,
-        },
-        dismissable: false,
-      });
-
-      return;
-    }
-
-    if (cookies.accepted) gaLoad();
+    cookies.load();
   });
 </script>
 
@@ -46,7 +33,6 @@
   @media screen and (max-width: 480px) {
     .wrap {
       --toastContainerLeft: 0;
-      --toastContainerTop: 20vh;
       --toastContainerRight: 0.5em;
       --toastWidth: 100%;
     }

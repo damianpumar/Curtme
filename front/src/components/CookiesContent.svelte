@@ -34,7 +34,16 @@
   <a href="/cookies-policy" use:link> Cookies Policy. </a>
   <p />
   <div>
-    <button on:click={declined}>DECLINE</button>
-    <button on:click={accepted}>ACCEPT</button>
+    <button class="red" on:click={declined}>DECLINE</button>
+    <button class="green" on:click={accepted}>ACCEPT</button>
   </div>
 </div>
+
+<style>
+  .green {
+    background-color: green;
+  }
+  .red {
+    background-color: red;
+  }
+</style>
