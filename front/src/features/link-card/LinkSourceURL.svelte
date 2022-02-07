@@ -2,7 +2,7 @@
   import { tick } from "svelte";
   import { isEnterKeyDown } from "../../utils/keyboard";
   import type { LinkModel } from "../../model/link-model";
-  import { customizeLink } from "../../services/api-service";
+  import { customizeSourceUrl } from "../../services/api-service";
   import {
     ERROR,
     INTERNET_CONNECTION,
@@ -12,6 +12,7 @@
   import { validURL } from "../../utils/url";
   import { currentAction, ACTION } from "./link.store";
   import { useMessage } from "../../utils/use-event";
+  import { updateLink } from "../../services/link/link.store";
 
   export let link: LinkModel = null;
   let isModifyingSourceURL: boolean = false;
@@ -35,11 +36,12 @@
     }
 
     try {
-      const response = await customizeLink(link);
+      const response = await customizeSourceUrl(link);
       if (response.ok) {
         closeEditable();
         dispatchMessage(LINK_CUSTOMIZED);
         link = await response.json();
+        updateLink(link);
       } else {
         const data = await response.json();
         dispatchMessage(ERROR(data.error));

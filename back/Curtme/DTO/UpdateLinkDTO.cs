@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Curtme.Models
 {
@@ -8,14 +10,14 @@ namespace Curtme.Models
 
         public Boolean? ToggleVisibility { get; set; }
 
-        public override Boolean IsValid()
+        public new Boolean IsValid()
         {
             return this.ShouldUpdateShortUrl() || this.ShouldUpdateSourceURL() || this.ShouldToggleVisibility();
         }
 
         public Boolean ShouldToggleVisibility()
         {
-            return this.ToggleVisibility.HasValue;
+            return this.ToggleVisibility.HasValue && this.ToggleVisibility.Value;
         }
 
         public Boolean ShouldUpdateSourceURL()
@@ -45,6 +47,18 @@ namespace Curtme.Models
             }
 
             return true;
+        }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (!this.IsValid())
+                yield return new ValidationResult(Constants.NO_BODY_ERROR);
+
+            else if (this.ShouldUpdateSourceURL() && !this.IsValidURL())
+                yield return new ValidationResult(Constants.INVALID_URL_ERROR);
+
+            else if (this.ShouldUpdateShortUrl() && !this.IsValidShortURL())
+                yield return new ValidationResult($"{this.ShortURL} {Constants.SHORT_URL_INVALID}");
         }
     }
 }

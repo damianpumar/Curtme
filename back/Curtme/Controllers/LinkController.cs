@@ -35,7 +35,10 @@ namespace Curtme.Controllers
         /// <param name="createLinkDTO"></param>
         /// <returns>A newly shorted link</returns>
         /// <response code="200">Returns the newly shorted link</response>
-        /// <response code="400">If the sourceURL is null or empty or if sourceURL is not a valid URL</response>
+        /// <response code="400">If the sourceURL is null/empty</response>
+        /// <response code="400">If sourceURL is not a valid URL</response>
+        /// <response code="400">If sourceURL is a recursive</response>
+        /// <response code="400">If sourceURL is unsafe</response>
         [HttpPost]
         [Route("/")]
         [ProducesResponseType(typeof(Link), StatusCodes.Status200OK)]
@@ -43,15 +46,6 @@ namespace Curtme.Controllers
         [ServiceFilter(typeof(SafeBrowsingActionFilter))]
         public IActionResult Create(CreateLinkDto createLinkDTO)
         {
-            if (!createLinkDTO.IsValid())
-                return this.BadRequest(new { error = Constants.NO_BODY_ERROR });
-
-            if (!createLinkDTO.IsValidURL())
-                return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
-
-            if (createLinkDTO.SourceURL.IsRecursiveURL(this.HttpContext))
-                return this.BadRequest(new { error = Constants.SOURCE_URL_IS_ALREADY_SHORTENED_URL });
-
             var link = this.linkService.Create(createLinkDTO.SourceURL, createLinkDTO.GetTitle(), this.HttpContext.User.GetId());
 
             return this.Ok(link);
@@ -200,6 +194,7 @@ namespace Curtme.Controllers
         /// <response code="400">If sourceURL is empty and shortURL is empty</response>
         /// <response code="400">If shortURL is not empty but shortURL was assigned</response>
         /// <response code="400">If sourceURL is not empty but if sourceURL is not a valid URL</response>
+        /// <response code="400">If sourceURL is unsafe</response>
         [HttpPut]
         [Route("/{linkId}")]
         [ServiceFilter(typeof(SafeBrowsingActionFilter))]
@@ -208,9 +203,6 @@ namespace Curtme.Controllers
             if (String.IsNullOrEmpty(linkId))
                 return this.BadRequest(new { error = Constants.LINK_ID_REQUIRED_ERROR });
 
-            if (!updateLinkDTO.IsValid())
-                return this.BadRequest(new { error = Constants.NO_BODY_ERROR });
-
             var linkIn = this.linkService.GetById(linkId);
 
             if (linkIn == null)
@@ -218,9 +210,6 @@ namespace Curtme.Controllers
 
             if (updateLinkDTO.ShouldUpdateShortUrl() && linkIn.ShortURL != updateLinkDTO.ShortURL)
             {
-                if (!updateLinkDTO.IsValidShortURL())
-                    return this.BadRequest(new { error = $"{updateLinkDTO.ShortURL} {Constants.SHORT_URL_INVALID}" });
-
                 if (this.linkService.ExistByShortURL(updateLinkDTO.ShortURL))
                     return this.BadRequest(new { error = $"{updateLinkDTO.ShortURL} {Constants.LINK_ALREADY_EXIST}" });
 
@@ -229,13 +218,8 @@ namespace Curtme.Controllers
 
             if (updateLinkDTO.ShouldUpdateSourceURL() && linkIn.SourceURL != updateLinkDTO.SourceURL)
             {
-                if (!updateLinkDTO.IsValidURL())
-                    return this.BadRequest(new { error = Constants.INVALID_URL_ERROR });
-
-                if (updateLinkDTO.SourceURL.IsRecursiveURL(this.HttpContext))
-                    return this.BadRequest(new { error = Constants.SOURCE_URL_IS_ALREADY_SHORTENED_URL });
-
                 linkIn.SourceURL = updateLinkDTO.SourceURL;
+
                 linkIn.Title = updateLinkDTO.GetTitle();
             }
 

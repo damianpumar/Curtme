@@ -22,3 +22,12 @@ export const saveNewLink = (newLink: LinkModel) =>
 
 export const initializeLinks = (storedLinks: LinkModel[]) =>
   links.set(storedLinks);
+
+export const updateLink = (link: LinkModel) => {
+  links.update((linksValue) => {
+    const index = linksValue.findIndex((l) => l.id === link.id);
+    if (index !== -1) linksValue[index] = link;
+
+    return linksValue;
+  });
+};

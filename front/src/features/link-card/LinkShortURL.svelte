@@ -4,7 +4,7 @@
   import { copy } from "../../utils/clipboard";
   import { isEnterKeyDown } from "../../utils/keyboard";
   import { VISIT_LINK } from "../../utils/config";
-  import { customizeLink } from "../../services/api-service";
+  import { customizeShortUrl } from "../../services/api-service";
   import { scale } from "svelte/transition";
   import {
     ERROR,
@@ -14,6 +14,7 @@
   } from "../../utils/resources";
   import { currentAction, ACTION } from "./link.store";
   import { useMessage } from "../../utils/use-event";
+  import { updateLink } from "../../services/link/link.store";
 
   export let link: LinkModel = null;
 
@@ -66,11 +67,12 @@
 
   const saveUpdatedLink = async () => {
     try {
-      const response = await customizeLink(link);
+      const response = await customizeShortUrl(link);
       if (response.ok) {
         closeEditable();
         dispatchMessage(LINK_CUSTOMIZED);
         link = await response.json();
+        updateLink(link);
       } else {
         const data = await response.json();
         dispatchMessage(ERROR(data.error));

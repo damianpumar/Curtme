@@ -1,48 +1,41 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
+using Curtme.Extensions;
 using Curtme.Models;
 using Curtme.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Configuration;
 
 namespace Curtme.Filters
 {
     public class SafeBrowsingActionFilter : ActionFilterAttribute
     {
-        private readonly string baseURL;
-
         private readonly SafeBrowsingService safeBrowsingService;
 
-        public SafeBrowsingActionFilter(IConfiguration configuration, SafeBrowsingService safeBrowsingService)
+        public SafeBrowsingActionFilter(SafeBrowsingService safeBrowsingService)
         {
-            this.baseURL = configuration["FrontEnd:URL"];
-
             this.safeBrowsingService = safeBrowsingService;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (context.ActionArguments.Any())
-            {
-                var linkDTO = context.ActionArguments.Last().Value as CreateLinkDto;
+            var linkDTO = context.GetArgumentOfType<CreateLinkDto>();
 
-                if (linkDTO != null && linkDTO.IsValid() && linkDTO.IsValidURL())
+            if (linkDTO != null && linkDTO.IsValid())
+            {
+                if (linkDTO.SourceURL.IsRecursiveURL(context.HttpContext))
+                {
+                    context.Result = new BadRequestObjectResult(new { error = Constants.SOURCE_URL_IS_ALREADY_SHORTENED_URL });
+                }
+                else
                 {
                     var isSafeUrl = await this.safeBrowsingService.IsSafeUrl(linkDTO.SourceURL);
 
                     if (!isSafeUrl)
-                        context.Result = new RedirectResult(this.GetRedirectURL(linkDTO.SourceURL));
+                        context.Result = new BadRequestObjectResult(new { error = Constants.SOURCE_URL_UNSAFE });
                 }
             }
 
             await base.OnActionExecutionAsync(context, next);
-        }
-
-        private String GetRedirectURL(string sourceURL)
-        {
-            return $"{baseURL}/#/unsafe/{sourceURL}";
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Curtme.Services
 
                     var resultContent = await response.Content.ReadAsStringAsync();
 
-                    return resultContent.Contains(url);
+                    return !resultContent.Contains(url);
                 }
                 catch (Exception)
                 {
@@ -55,8 +55,10 @@ namespace Curtme.Services
             return new SafeBrowsingRequest(urls);
         }
 
+        [JsonProperty("client")]
         public SafeBrowsingClientRequest Client { get; }
 
+        [JsonProperty("threatInfo")]
         public ThreatInfoRequest ThreatInfo { get; }
 
         public StringContent ToJson()
@@ -72,9 +74,16 @@ namespace Curtme.Services
             this.ThreatEntries = urls.Select(url => new UrlRequest(url)).ToArray();
         }
 
+        [JsonProperty("threatTypes")]
         public string[] ThreatTypes => new string[] { "MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "POTENTIALLY_HARMFUL_APPLICATION" };
+
+        [JsonProperty("platformTypes")]
         public string[] PlatformTypes => new string[] { "ANY_PLATFORM" };
+
+        [JsonProperty("threatEntryTypes")]
         public string[] ThreatEntryTypes => new string[] { "URL" };
+
+        [JsonProperty("threatEntries")]
         public UrlRequest[] ThreatEntries { get; }
     }
 
@@ -85,12 +94,16 @@ namespace Curtme.Services
             this.Url = url;
         }
 
+        [JsonProperty("url")]
         public string Url { get; }
     }
 
     public class SafeBrowsingClientRequest
     {
+        [JsonProperty("clientId")]
         public string ClientId => "Curtme.org";
+
+        [JsonProperty("clientVersion")]
         public string ClientVersion => "1.0.0";
     }
 }

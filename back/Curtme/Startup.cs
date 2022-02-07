@@ -40,7 +40,7 @@ namespace Curtme
 
             services.AddScoped<LinkDetailsService>();
 
-            services.AddControllers();
+            services.AddControllers().AddCustomValidatorResponse();
 
             services.AddSwagger();
 

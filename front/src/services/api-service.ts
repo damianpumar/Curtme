@@ -92,9 +92,24 @@ export async function remove(link: LinkModel) {
   }
 }
 
-export async function customizeLink(link: LinkModel) {
+export async function customizeSourceUrl(link: LinkModel) {
   const data = {
     sourceURL: link.sourceURL,
+  };
+
+  try {
+    return await fetch(CUSTOMIZE(link.id), {
+      method: "PUT",
+      headers: buildHeader(),
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    return defaultResponse();
+  }
+}
+
+export async function customizeShortUrl(link: LinkModel) {
+  const data = {
     shortURL: link.shortURL,
   };
 

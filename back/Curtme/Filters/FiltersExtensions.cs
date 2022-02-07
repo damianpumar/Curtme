@@ -19,11 +19,9 @@ namespace Curtme.Filters
 
             services.AddScoped<SafeBrowsingActionFilter>(container =>
            {
-               var configuration = container.GetRequiredService<IConfiguration>();
-
                var safeBrowsingService = container.GetRequiredService<SafeBrowsingService>();
 
-               return new SafeBrowsingActionFilter(configuration, safeBrowsingService);
+               return new SafeBrowsingActionFilter(safeBrowsingService);
            });
         }
     }

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { toast } from "@zerodevx/svelte-toast";
   import { changeVisibility } from "../../services/api-service";
   import {
     ERROR,
@@ -8,6 +7,7 @@
   } from "../../utils/resources";
   import type { LinkModel } from "../../model/link-model";
   import { useMessage } from "../../utils/use-event";
+  import { updateLink } from "../../services/link/link.store";
 
   export let link: LinkModel = null;
 
@@ -18,8 +18,9 @@
       const response = await changeVisibility(link);
       if (response.ok) {
         link = await response.json();
-
         dispatchMessage(LINK_TOGGLING(link.isPublic));
+
+        updateLink(link);
       } else {
         const data = await response.json();
         dispatchMessage(ERROR(data.error));
