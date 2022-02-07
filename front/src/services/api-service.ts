@@ -57,7 +57,7 @@ export async function getUserLinks() {
 
 export async function getLinks(linkIds: string[]) {
   try {
-    var url = new URL(GET_LINKS_BY_IDS);
+    const url = new URL(GET_LINKS_BY_IDS);
     linkIds.forEach((id) => url.searchParams.append("ids", id));
 
     return await fetch(url.toString(), {
@@ -92,13 +92,9 @@ export async function remove(link: LinkModel) {
   }
 }
 
-export async function customizeSourceUrl(link: LinkModel) {
-  const data = {
-    sourceURL: link.sourceURL,
-  };
-
+async function customize(id: string, data: any) {
   try {
-    return await fetch(CUSTOMIZE(link.id), {
+    return await fetch(CUSTOMIZE(id), {
       method: "PUT",
       headers: buildHeader(),
       body: JSON.stringify(data),
@@ -106,6 +102,14 @@ export async function customizeSourceUrl(link: LinkModel) {
   } catch (error) {
     return defaultResponse();
   }
+}
+
+export async function customizeSourceUrl(link: LinkModel) {
+  const data = {
+    sourceURL: link.sourceURL,
+  };
+
+  return await customize(link.id, data);
 }
 
 export async function customizeShortUrl(link: LinkModel) {
@@ -113,15 +117,7 @@ export async function customizeShortUrl(link: LinkModel) {
     shortURL: link.shortURL,
   };
 
-  try {
-    return await fetch(CUSTOMIZE(link.id), {
-      method: "PUT",
-      headers: buildHeader(),
-      body: JSON.stringify(data),
-    });
-  } catch (error) {
-    return defaultResponse();
-  }
+  return await customize(link.id, data);
 }
 
 export async function changeVisibility(link: LinkModel) {
@@ -129,15 +125,7 @@ export async function changeVisibility(link: LinkModel) {
     toggleVisibility: true,
   };
 
-  try {
-    return await fetch(CUSTOMIZE(link.id), {
-      method: "PUT",
-      headers: buildHeader(),
-      body: JSON.stringify(data),
-    });
-  } catch (error) {
-    return defaultResponse();
-  }
+  return await customize(link.id, data);
 }
 
 export async function lockLink(linkId: string, newPassword: string) {
