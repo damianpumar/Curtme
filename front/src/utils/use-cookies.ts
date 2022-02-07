@@ -4,7 +4,7 @@ import CookiesContent from "../components/CookiesContent.svelte";
 
 const COOKIES_KEY = "cookies";
 
-let toastId = 0;
+let toastId;
 
 export const useCookies = () => {
   const load = () => {
@@ -36,7 +36,9 @@ export const useCookies = () => {
   };
 
   const hide = () => {
-    toast.pop(toastId);
+    if (toastId) {
+      toastId = toast.pop(toastId);
+    }
   };
 
   return {
