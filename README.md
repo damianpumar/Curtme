@@ -8,6 +8,7 @@
 
 ## :pencil: Pending requirements
 
+- [x] Add safe browsing by google
 - [x] Validate if sourceURL is a website
 - [x] Website for end users
 - [x] Show clicks on the fronted
