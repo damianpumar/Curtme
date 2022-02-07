@@ -102,7 +102,7 @@
   }
   section {
     color: #fff;
-    padding: 12em 0 1em 0;
+    padding: 5em 0 1em 0;
     text-align: center;
   }
 

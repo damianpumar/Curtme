@@ -51,7 +51,7 @@
 
 <style>
   footer {
-    padding: 4em 0 6em 0;
+    padding: 4em 0 0 0;
     text-align: center;
   }
 
