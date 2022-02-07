@@ -44,7 +44,7 @@ namespace Curtme
 
             services.AddSwagger();
 
-            // services.AddAuth0();
+            services.AddAuth0();
 
             services.AddFilters();
         }
@@ -70,9 +70,9 @@ namespace Curtme
 
             app.UseRouting();
 
-            // app.UseAuthentication();
+            app.UseAuthentication();
 
-            // app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
