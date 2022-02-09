@@ -33,7 +33,9 @@ namespace Curtme.Extensions
 
         public static Boolean IsRecursiveURL(this String url, HttpContext context)
         {
-            return Uri.TryCreate(url, UriKind.Absolute, out var uriResult) &&
+            var urlToProcess = url.Replace("www.", "");
+
+            return Uri.TryCreate(urlToProcess, UriKind.Absolute, out var uriResult) &&
                    uriResult.Authority == context.GetAbsoluteUri().Authority;
         }
 
@@ -41,7 +43,7 @@ namespace Curtme.Extensions
         {
             UriBuilder uriBuilder = new UriBuilder();
             uriBuilder.Scheme = context.Request.Scheme;
-            uriBuilder.Host = context.Request.Host.Host;
+            uriBuilder.Host = context.Request.Host.Host.Replace("www.", "");
             uriBuilder.Path = context.Request.Path.ToString();
             uriBuilder.Query = context.Request.QueryString.ToString();
 
