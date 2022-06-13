@@ -26,35 +26,45 @@ const createAuth = (config: Auth0Config) => {
   let intervalId: number = null;
 
   onMount(async () => {
-    auth0Client = await createAuth0Client(config);
+    try {
+      await createClient();
 
-    const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(window.location.search);
 
-    if (params.has("error")) {
-      authError.set(new Error(params.get("error_description")));
+      if (params.has("error")) {
+        authError.set(new Error(params.get("error_description")));
+      }
+
+      if (params.has("code")) {
+        await auth0Client.handleRedirectCallback();
+        window.history.replaceState({}, document.title, "/");
+        authError.set(null);
+      }
+
+      const isUserAuthenticated = await auth0Client.isAuthenticated();
+      isAuthenticated.set(isUserAuthenticated);
+
+      if (isUserAuthenticated) {
+        gaEventUserLoggedLogin();
+
+        userInfo.set(await auth0Client.getUser());
+
+        const token = await auth0Client.getTokenSilently();
+        authToken.set(token);
+
+        intervalId = setInterval(async () => {
+          authToken.set(await auth0Client.getTokenSilently());
+        }, refreshRate);
+      }
+    } catch (error) {
+      console.error(error);
+      localStorage.clear();
+
+      await createClient();
+
+      login();
     }
 
-    if (params.has("code")) {
-      await auth0Client.handleRedirectCallback();
-      window.history.replaceState({}, document.title, "/");
-      authError.set(null);
-    }
-
-    const isUserAuthenticated = await auth0Client.isAuthenticated();
-    isAuthenticated.set(isUserAuthenticated);
-
-    if (isUserAuthenticated) {
-      gaEventUserLoggedLogin();
-
-      userInfo.set(await auth0Client.getUser());
-
-      const token = await auth0Client.getTokenSilently();
-      authToken.set(token);
-
-      intervalId = setInterval(async () => {
-        authToken.set(await auth0Client.getTokenSilently());
-      }, refreshRate);
-    }
     isLoading.set(false);
     initialized.set(true);
 
@@ -63,10 +73,14 @@ const createAuth = (config: Auth0Config) => {
     };
   });
 
-  const login = async (redirectPage) => {
+  const createClient = async () => {
+    auth0Client = await createAuth0Client(config);
+  };
+
+  const login = async (redirectPage = window.location.origin) => {
     gaEventUserClickLogin();
     await auth0Client.loginWithRedirect({
-      redirect_uri: redirectPage || window.location.origin,
+      redirect_uri: redirectPage,
       prompt: "login",
     });
   };
